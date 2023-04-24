@@ -19,7 +19,7 @@ import vn.edu.stu.luanvantotnghiep.model.Token;
 import vn.edu.stu.luanvantotnghiep.security.JwtUtil;
 
 @RestController
-@CrossOrigin
+@CrossOrigin(maxAge = 3600)
 @RequestMapping("/")
 public class CustomerController {
     @Autowired
