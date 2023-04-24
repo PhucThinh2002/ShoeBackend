@@ -12,7 +12,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer>{
     @Query(value = "SELECT * FROM customer WHERE username = :username and active = 1", nativeQuery = true)
     Customer findByUsername(@Param("username") String username);
 
-    @Query(value = "SELECT * FROM customer WHERE activated = 1", nativeQuery = true)
+    @Query(value = "SELECT * FROM customer WHERE active = 1", nativeQuery = true)
     List<Customer> findCustomerActivated();
 
     @Query(value = "SELECT * FROM customer WHERE id = :id and active = 1", nativeQuery = true)
