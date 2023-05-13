@@ -1,6 +1,7 @@
 package vn.edu.stu.luanvantotnghiep.model;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -51,6 +52,8 @@ public class Customer{
     @ManyToOne
     @JoinColumn(name="role", nullable=false, insertable = true, updatable = true)
     private Role role;
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<DonDatHang> donDatHangs;
 
     public Customer() {
     }

@@ -54,7 +54,7 @@ public class CustomerService {
 
     public Customer createCusomer(Customer customer) {
         Role roleCustomer = new Role();
-        roleCustomer = gRoleRepository.findByRoleKey("ROLE_ADMIN");
+        roleCustomer = gRoleRepository.findByRoleKey("ROLE_CUSTOMER");
         Customer newCus = new Customer();
         Optional<Province> province = gProvinceRepository.findById(customer.getProvince().getId());
         Optional<District> district = gDistrictRepository.findById(customer.getDistrict().getId());

@@ -1,0 +1,49 @@
+package vn.edu.stu.luanvantotnghiep.model;
+
+import java.util.Date;
+import java.util.List;
+
+import javax.persistence.*;
+
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+
+@Entity
+@Table(name = "san_pham")
+public class SanPham {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+    @Column(name = "ten_san_pham")
+    private String tenSanPham;
+    @Column(name = "hinh_anh")
+    private String hinhAnh;
+    @Column(name = "gia")
+    private double gia;
+    @Column(name = "mo_ta")
+    private String moTa;
+    @Column(name = "trang_thai")
+    private Integer trangThai;
+    @Column(name = "thong_so")
+    private String thongSo;
+    @Column(name = "so_luong_ton")
+    private Integer soLuongTon;
+    @Column(name = "bao_hanh")
+    private Integer baoHanh;
+    @Column(name = "create_date")
+    @CreatedDate
+    private Date createDate;
+    @Column(name = "update_date")
+    @LastModifiedDate
+    private Date updateDate;
+    @JoinColumn(name = "loai_san_pham", referencedColumnName = "id")
+    @ManyToOne
+    private LoaiSanPham loaiSanPham;
+    @JoinColumn(name = "nha_san_xuat", referencedColumnName = "id")
+    @ManyToOne
+    private NhaSanXuat nhaSanXuat;
+    @OneToMany(mappedBy = "sanPham", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ChiTietPhieuNhapHang> chiTietPhieuNhapHang;
+    @OneToMany(mappedBy = "sanPham", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ChiTietDonDatHang> chiTietDonDatHangs;
+}
