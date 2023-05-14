@@ -8,6 +8,6 @@ import vn.edu.stu.luanvantotnghiep.model.District;
 
 
 public interface DistrictRepository extends JpaRepository<District, Long>{
-    @Query(value = "SELECT d FROM disrtict d WHERE d.province = :province", nativeQuery = true)
+    @Query(value = "SELECT d FROM district d WHERE d.province = :province", nativeQuery = true)
     List<District> findByProvince(@Param("province") int province);
 }
