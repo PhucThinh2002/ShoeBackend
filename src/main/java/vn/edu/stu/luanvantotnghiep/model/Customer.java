@@ -9,7 +9,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 @Entity
-@Table(name = "customer")
+@Table(name = "users")
 public class Customer{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,19 +41,15 @@ public class Customer{
     @ManyToOne
     @JoinColumn(name="province", nullable=false, insertable = true, updatable = true)
     private Province province;
-    //@Column(name = "DISTRICT_ID")
-    @ManyToOne
-    @JoinColumn(name="district", nullable=false, insertable = true, updatable = true)
-    private District district;
-    //@Column(name = "WARD_ID")
-    @ManyToOne
-    @JoinColumn(name="ward", nullable=false, insertable = true, updatable = true)
-    private Ward ward;
     @ManyToOne
     @JoinColumn(name="role", nullable=false, insertable = true, updatable = true)
     private Role role;
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<DonDatHang> donDatHangs;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<HoaDon> hoaDons;
+    @OneToMany(mappedBy = "quanLy", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PhieuNhapHang> phieuNhapHangs;
+    @OneToMany(mappedBy = "quanLy", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<BaiViet> baiViets;
 
     public Customer() {
     }
@@ -74,8 +70,6 @@ public class Customer{
         this.updatedAt = updatedAt;
         this.active = active;
         this.province = province;
-        this.district = district;
-        this.ward = ward;
         this.role = role;
     }
 
@@ -179,22 +173,6 @@ public class Customer{
 
     public void setProvince(Province province) {
         this.province = province;
-    }
-
-    public District getDistrict() {
-        return district;
-    }
-
-    public void setDistrict(District district) {
-        this.district = district;
-    }
-
-    public Ward getWard() {
-        return ward;
-    }
-
-    public void setWard(Ward ward) {
-        this.ward = ward;
     }
 
     public Role getRole() {

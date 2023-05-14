@@ -19,6 +19,8 @@ public class ChiTietPhieuNhapHang {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(name = "seri", length = 50)
+    private String seri;
     @Column(name = "gia_nhap")
     private Double giaNhap;
     @Column(name = "so_luong")

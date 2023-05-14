@@ -16,8 +16,8 @@ public class SanPham {
     private Integer id;
     @Column(name = "ten_san_pham")
     private String tenSanPham;
-    @Column(name = "hinh_anh")
-    private String hinhAnh;
+    @OneToMany(mappedBy = "sanPham", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<HinhAnh> hinhAnhs;
     @Column(name = "gia")
     private double gia;
     @Column(name = "mo_ta")
@@ -36,14 +36,14 @@ public class SanPham {
     @Column(name = "update_date")
     @LastModifiedDate
     private Date updateDate;
-    @JoinColumn(name = "loai_san_pham", referencedColumnName = "id")
+    @JoinColumn(name = "danh_muc", referencedColumnName = "id")
     @ManyToOne
-    private LoaiSanPham loaiSanPham;
+    private LoaiSanPham danhMuc;
     @JoinColumn(name = "nha_san_xuat", referencedColumnName = "id")
     @ManyToOne
     private NhaSanXuat nhaSanXuat;
     @OneToMany(mappedBy = "sanPham", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ChiTietPhieuNhapHang> chiTietPhieuNhapHang;
     @OneToMany(mappedBy = "sanPham", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ChiTietDonDatHang> chiTietDonDatHangs;
+    private List<ChiTietHoaDon> chiTietDonDatHangs;
 }

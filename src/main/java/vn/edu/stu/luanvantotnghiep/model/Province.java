@@ -18,8 +18,6 @@ public class Province {
     @Column(name = "CODE")
     private String code;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "id")
-    private Set<Ward> wards;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "id")
     private Set<District> districts;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "id")
     private Set<Customer> customers;

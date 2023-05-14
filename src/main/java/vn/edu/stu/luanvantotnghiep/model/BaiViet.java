@@ -1,36 +1,38 @@
 package vn.edu.stu.luanvantotnghiep.model;
 
 import java.util.Date;
-import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 @Entity
-@Table(name = "danh_muc")
-public class LoaiSanPham {
+@Table(name = "bai_viet")
+public class BaiViet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(name = "ten_danh_muc")
-    private String tenDanhMuc;
-    @Column(name = "mo_ta")
-    private String moTa;
+    @Column(name = "tieu_de")
+    private String tieuDe;
+    @Column(name = "noi_dung")
+    @Type(type = "text")
+    private String noiDung;
     @Column(name = "create_date")
     @CreatedDate
     private Date createDate;
     @Column(name = "update_date")
     @LastModifiedDate
     private Date updateDate;
-    @OneToMany(mappedBy = "danhMuc", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<SanPham> sanPhams;
+    @JoinColumn(name = "quan_ly", referencedColumnName = "id")
+    @ManyToOne
+    private Customer quanLy;
 }

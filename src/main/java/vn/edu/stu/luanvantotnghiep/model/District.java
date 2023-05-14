@@ -12,10 +12,10 @@ public class District {
     @Column(name = "ID")
     private Long id;
 
-    @Column(name = "NAME")
+    @Column(name = "NAME", length = 50)
     private String name;
 
-    @Column(name = "PREFIX")
+    @Column(name = "PREFIX", length = 50)
     private String prefix;
 
     //@Column(name = "PROVINCE_ID")
@@ -24,8 +24,6 @@ public class District {
     private Province province;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "id")
     private Set<Ward> wards;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "id")
-    private Set<Customer> customers;
 
     
     public District() {

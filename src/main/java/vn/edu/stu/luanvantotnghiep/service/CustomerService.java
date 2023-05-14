@@ -7,15 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import vn.edu.stu.luanvantotnghiep.model.Customer;
-import vn.edu.stu.luanvantotnghiep.model.District;
 import vn.edu.stu.luanvantotnghiep.model.Province;
 import vn.edu.stu.luanvantotnghiep.model.Role;
-import vn.edu.stu.luanvantotnghiep.model.Ward;
 import vn.edu.stu.luanvantotnghiep.repository.CustomerRepository;
-import vn.edu.stu.luanvantotnghiep.repository.DistrictRepository;
 import vn.edu.stu.luanvantotnghiep.repository.ProvinceRepository;
 import vn.edu.stu.luanvantotnghiep.repository.RoleRepository;
-import vn.edu.stu.luanvantotnghiep.repository.WardRepository;
 
 @Service
 public class CustomerService {
@@ -25,10 +21,6 @@ public class CustomerService {
     private RoleRepository gRoleRepository;
     @Autowired
     private ProvinceRepository gProvinceRepository;
-    @Autowired
-    private DistrictRepository gDistrictRepository;
-    @Autowired
-    private WardRepository gWardRepository;
 
     public List<Customer> findAllCustmer() {
         List<Customer> lstCustomer = new ArrayList<Customer>();
@@ -57,8 +49,6 @@ public class CustomerService {
         roleCustomer = gRoleRepository.findByRoleKey("ROLE_CUSTOMER");
         Customer newCus = new Customer();
         Optional<Province> province = gProvinceRepository.findById(customer.getProvince().getId());
-        Optional<District> district = gDistrictRepository.findById(customer.getDistrict().getId());
-        Optional<Ward> ward = gWardRepository.findById(customer.getWard().getId());
         newCus.setHoTenLot(customer.getHoTenLot());
         newCus.setTen(customer.getTen());
         newCus.setNgaySinh(customer.getNgaySinh());
@@ -68,8 +58,6 @@ public class CustomerService {
         newCus.setUsername(customer.getUsername());
         newCus.setPassword(new BCryptPasswordEncoder().encode(customer.getPassword()));
         newCus.setProvince(province.get());
-        newCus.setDistrict(district.get());
-        newCus.setWard(ward.get());
         newCus.setRole(roleCustomer);
         newCus.setCreatedAt(new Date());
         newCus.setActive(1);
@@ -94,8 +82,6 @@ public class CustomerService {
             newCus.setUsername(customer.getUsername());
             newCus.setPassword(new BCryptPasswordEncoder().encode(customer.getPassword()));
             newCus.setProvince(customer.getProvince());
-            newCus.setDistrict(customer.getDistrict());
-            newCus.setWard(customer.getWard());
             newCus.setCreatedAt(new Date());
             newCus.setActive(1);
             return gCustomerRepository.save(newCus);

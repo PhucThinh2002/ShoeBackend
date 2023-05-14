@@ -1,7 +1,5 @@
 package vn.edu.stu.luanvantotnghiep.model;
 
-import java.util.Set;
-
 import javax.persistence.*;
 
 @Entity
@@ -12,23 +10,16 @@ public class Ward {
     @Column(name = "ID")
     private Long id;
 
-    @Column(name = "NAME")
+    @Column(name = "NAME", length = 50)
     private String name;
 
-    @Column(name = "PREFIX")
+    @Column(name = "PREFIX", length = 50)
     private String prefix;
-
-    //@Column(name = "PROVINCE_ID")
-    @ManyToOne
-    @JoinColumn(name="province", nullable=false, insertable = false, updatable = false)
-    private Province province;
 
     //@Column(name = "DISTRICT_ID")
     @ManyToOne
     @JoinColumn(name="district", nullable=false, insertable = false, updatable = false)
     private District district;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "id")
-    private Set<Customer> customers;
 
     public Ward() {
     }
@@ -37,7 +28,6 @@ public class Ward {
         this.id = id;
         this.name = name;
         this.prefix = prefix;
-        this.province = province;
         this.district = district;
     }
 
@@ -63,14 +53,6 @@ public class Ward {
 
     public void setPrefix(String prefix) {
         this.prefix = prefix;
-    }
-
-    public Province getProvince() {
-        return province;
-    }
-
-    public void setProvince(Province province) {
-        this.province = province;
     }
 
     public District getDistrict() {
