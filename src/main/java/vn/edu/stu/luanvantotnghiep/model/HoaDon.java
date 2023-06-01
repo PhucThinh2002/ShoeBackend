@@ -23,20 +23,22 @@ public class HoaDon {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(name = "trang_thai")
+    @Column(name = "trang_thai", length = 2)
     private Integer trangThai;
     @Column(name = "tong_tien")
     private Double tongTien;
-    @Column(name = "trang_thai_thanh_toan")
+    @Column(name = "trang_thai_thanh_toan", length = 2)
     private Integer trangThaiThanhToan;
-    @Column(name = "ten_khach_hang")
+    @Column(name = "ten_khach_hang", length = 100)
     private String tenKhachHang;
-    @Column(name = "dia_chi")
+    @Column(name = "dia_chi", length = 100)
     private String diaChi;
-    @Column(name = "so_dien_thoai")
+    @Column(name = "so_dien_thoai", length = 15)
     private String soDienThoai;
     @Column(name = "ghi_chu")
     private String ghiChu;
+    @Column(name = "istragop", length = 1)
+    private Boolean isTraGop;
     @OneToMany(mappedBy = "hoaDon", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TraGop> traGops;
     @Column(name = "create_date")
@@ -47,10 +49,103 @@ public class HoaDon {
     private Date updateDate;
     @OneToMany(mappedBy = "hoaDon", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ChiTietHoaDon> chiTietHoaDons;
-    @JoinColumn(name = "user", referencedColumnName = "id")
+    @JoinColumn(name = "khach_hang_id", referencedColumnName = "id")
     @ManyToOne
     private Customer user;
-    @JoinColumn(name = "quan_ly", referencedColumnName = "id")
+    @JoinColumn(name = "quan_ly_id", referencedColumnName = "id")
     @ManyToOne
     private Customer quanLy;
+    public HoaDon() {
+    }
+    public Integer getId() {
+        return id;
+    }
+    public void setId(Integer id) {
+        this.id = id;
+    }
+    public Integer getTrangThai() {
+        return trangThai;
+    }
+    public void setTrangThai(Integer trangThai) {
+        this.trangThai = trangThai;
+    }
+    public Double getTongTien() {
+        return tongTien;
+    }
+    public void setTongTien(Double tongTien) {
+        this.tongTien = tongTien;
+    }
+    public Integer getTrangThaiThanhToan() {
+        return trangThaiThanhToan;
+    }
+    public void setTrangThaiThanhToan(Integer trangThaiThanhToan) {
+        this.trangThaiThanhToan = trangThaiThanhToan;
+    }
+    public String getTenKhachHang() {
+        return tenKhachHang;
+    }
+    public void setTenKhachHang(String tenKhachHang) {
+        this.tenKhachHang = tenKhachHang;
+    }
+    public String getDiaChi() {
+        return diaChi;
+    }
+    public void setDiaChi(String diaChi) {
+        this.diaChi = diaChi;
+    }
+    public String getSoDienThoai() {
+        return soDienThoai;
+    }
+    public void setSoDienThoai(String soDienThoai) {
+        this.soDienThoai = soDienThoai;
+    }
+    public String getGhiChu() {
+        return ghiChu;
+    }
+    public void setGhiChu(String ghiChu) {
+        this.ghiChu = ghiChu;
+    }
+    public Boolean getIsTraGop() {
+        return isTraGop;
+    }
+    public void setIsTraGop(Boolean isTraGop) {
+        this.isTraGop = isTraGop;
+    }
+    public List<TraGop> getTraGops() {
+        return traGops;
+    }
+    public void setTraGops(List<TraGop> traGops) {
+        this.traGops = traGops;
+    }
+    public Date getCreateDate() {
+        return createDate;
+    }
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
+    }
+    public List<ChiTietHoaDon> getChiTietHoaDons() {
+        return chiTietHoaDons;
+    }
+    public void setChiTietHoaDons(List<ChiTietHoaDon> chiTietHoaDons) {
+        this.chiTietHoaDons = chiTietHoaDons;
+    }
+    public Customer getUser() {
+        return user;
+    }
+    public void setUser(Customer user) {
+        this.user = user;
+    }
+    public Customer getQuanLy() {
+        return quanLy;
+    }
+    public void setQuanLy(Customer quanLy) {
+        this.quanLy = quanLy;
+    }
+    
 }

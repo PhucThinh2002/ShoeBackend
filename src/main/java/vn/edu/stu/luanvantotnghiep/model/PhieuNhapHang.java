@@ -34,7 +34,7 @@ public class PhieuNhapHang {
     @JoinColumn(name = "nha_cung_cap", referencedColumnName = "id")
     @ManyToOne
     private NhaCungCap nhaCungCap;
-    @JoinColumn(name = "quan_ly", referencedColumnName = "id")
+    @JoinColumn(name = "quan_ly_id", referencedColumnName = "id")
     @ManyToOne
     private Customer quanLy;
     @OneToMany(mappedBy = "phieuNhapHang", cascade = CascadeType.ALL, orphanRemoval = true)

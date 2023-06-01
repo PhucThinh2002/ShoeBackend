@@ -21,7 +21,7 @@ public class NhaSanXuat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(name = "ten_nha_san_xuat")
+    @Column(name = "ten_nha_san_xuat", length = 100)
     private String tenNhaSanXuat;
     @Column(name = "mo_ta")
     private String moTa;

@@ -19,10 +19,50 @@ public class ChiTietHoaDon {
     private Integer soLuong;
     @Column(name = "gia")
     private Double gia;
-    @JoinColumn(name = "san_pham", referencedColumnName = "id")
+    @JoinColumn(name = "san_pham_id", referencedColumnName = "id")
     @ManyToOne
     private SanPham sanPham;
-    @JoinColumn(name = "hoaDon", referencedColumnName = "id")
+    @JoinColumn(name = "hoa_don_id", referencedColumnName = "id")
     @ManyToOne
     private HoaDon hoaDon;
+    public ChiTietHoaDon() {
+    }
+    public ChiTietHoaDon(Integer id, Integer soLuong, Double gia, SanPham sanPham, HoaDon hoaDon) {
+        this.id = id;
+        this.soLuong = soLuong;
+        this.gia = gia;
+        this.sanPham = sanPham;
+        this.hoaDon = hoaDon;
+    }
+    public Integer getId() {
+        return id;
+    }
+    public void setId(Integer id) {
+        this.id = id;
+    }
+    public Integer getSoLuong() {
+        return soLuong;
+    }
+    public void setSoLuong(Integer soLuong) {
+        this.soLuong = soLuong;
+    }
+    public Double getGia() {
+        return gia;
+    }
+    public void setGia(Double gia) {
+        this.gia = gia;
+    }
+    public SanPham getSanPham() {
+        return sanPham;
+    }
+    public void setSanPham(SanPham sanPham) {
+        this.sanPham = sanPham;
+    }
+    public HoaDon getHoaDon() {
+        return hoaDon;
+    }
+    public void setHoaDon(HoaDon hoaDon) {
+        this.hoaDon = hoaDon;
+    }
+    
 }

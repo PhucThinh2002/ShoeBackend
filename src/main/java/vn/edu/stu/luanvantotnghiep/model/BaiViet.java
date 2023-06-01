@@ -32,7 +32,54 @@ public class BaiViet {
     @Column(name = "update_date")
     @LastModifiedDate
     private Date updateDate;
-    @JoinColumn(name = "quan_ly", referencedColumnName = "id")
+    @JoinColumn(name = "quan_ly_id", referencedColumnName = "id")
     @ManyToOne
     private Customer quanLy;
+    public BaiViet() {
+    }
+    public BaiViet(Integer id, String tieuDe, String noiDung, Date createDate, Date updateDate, Customer quanLy) {
+        this.id = id;
+        this.tieuDe = tieuDe;
+        this.noiDung = noiDung;
+        this.createDate = createDate;
+        this.updateDate = updateDate;
+        this.quanLy = quanLy;
+    }
+    public Integer getId() {
+        return id;
+    }
+    public void setId(Integer id) {
+        this.id = id;
+    }
+    public String getTieuDe() {
+        return tieuDe;
+    }
+    public void setTieuDe(String tieuDe) {
+        this.tieuDe = tieuDe;
+    }
+    public String getNoiDung() {
+        return noiDung;
+    }
+    public void setNoiDung(String noiDung) {
+        this.noiDung = noiDung;
+    }
+    public Date getCreateDate() {
+        return createDate;
+    }
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
+    }
+    public Customer getQuanLy() {
+        return quanLy;
+    }
+    public void setQuanLy(Customer quanLy) {
+        this.quanLy = quanLy;
+    }
+    
 }

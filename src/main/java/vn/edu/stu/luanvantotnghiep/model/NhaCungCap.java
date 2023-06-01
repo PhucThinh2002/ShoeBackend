@@ -22,14 +22,14 @@ public class NhaCungCap {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(name = "ten_nha_cung_cap")
+    @Column(name = "ten_nha_cung_cap", length = 100)
     private String tenNhaCungCap;
     @Column(name = "dia_chi")
     private String diaChi;
-    @Column(name = "email")
+    @Column(name = "email", length = 100)
     @Email
     private String email;
-    @Column(name = "so_dien_thoai")
+    @Column(name = "so_dien_thoai", length = 15)
     private String soDienThoai;
     @Column(name = "create_date")
     @CreatedDate

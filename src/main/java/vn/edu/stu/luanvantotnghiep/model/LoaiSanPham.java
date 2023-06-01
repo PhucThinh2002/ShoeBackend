@@ -21,7 +21,7 @@ public class LoaiSanPham {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(name = "ten_danh_muc")
+    @Column(name = "ten_danh_muc", length = 100)
     private String tenDanhMuc;
     @Column(name = "mo_ta")
     private String moTa;
@@ -33,4 +33,52 @@ public class LoaiSanPham {
     private Date updateDate;
     @OneToMany(mappedBy = "danhMuc", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SanPham> sanPhams;
+    public LoaiSanPham() {
+    }
+    public LoaiSanPham(Integer id, String tenDanhMuc, String moTa, Date createDate, Date updateDate,
+            List<SanPham> sanPhams) {
+        this.id = id;
+        this.tenDanhMuc = tenDanhMuc;
+        this.moTa = moTa;
+        this.createDate = createDate;
+        this.updateDate = updateDate;
+        this.sanPhams = sanPhams;
+    }
+    public Integer getId() {
+        return id;
+    }
+    public void setId(Integer id) {
+        this.id = id;
+    }
+    public String getTenDanhMuc() {
+        return tenDanhMuc;
+    }
+    public void setTenDanhMuc(String tenDanhMuc) {
+        this.tenDanhMuc = tenDanhMuc;
+    }
+    public String getMoTa() {
+        return moTa;
+    }
+    public void setMoTa(String moTa) {
+        this.moTa = moTa;
+    }
+    public Date getCreateDate() {
+        return createDate;
+    }
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
+    }
+    public List<SanPham> getSanPhams() {
+        return sanPhams;
+    }
+    public void setSanPhams(List<SanPham> sanPhams) {
+        this.sanPhams = sanPhams;
+    }
+    
 }

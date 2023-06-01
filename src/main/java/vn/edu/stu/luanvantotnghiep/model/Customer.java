@@ -14,25 +14,24 @@ public class Customer{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(name = "HO_TEN_LOT")
+    @Column(name = "HO_TEN_LOT", length = 50)
     private String hoTenLot;
-    @Column(name = "TEN")
+    @Column(name = "TEN", length = 50)
     private String ten;
     @Column(name = "NGAY_SINH")
     private Date ngaySinh;
-    @Column(name = "SO_DIEN_THOAI")
+    @Column(name = "SO_DIEN_THOAI", length = 15)
     private String soDienThoai;
-    @Column(name = "EMAIL")
+    @Column(name = "EMAIL", length = 100)
     private String email;
     @Column(name = "DIA_CHI")
     private String diaChi;
-    @Column(name = "USERNAME")
+    @Column(name = "USERNAME", length = 50)
     private String username;
     @Column(name = "PASSWORD")
     private String password;
     @CreatedDate
     private Date createdAt;
-
     @LastModifiedDate
     private Date updatedAt;
     @Column(name = "ACTIVE", length = 1)
