@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.persistence.*;
 
-import org.hibernate.mapping.Set;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -25,8 +24,24 @@ public class SanPham {
     private String moTa;
     @Column(name = "trang_thai", length = 2)
     private Integer trangThai;
-    @Column(name = "thong_so")
-    private String thongSo;
+     @Column(name = "cpu")
+    private String cpu;
+     @Column(name = "ram")
+    private String ram;
+     @Column(name = "o_cung")
+    private String oCung;
+     @Column(name = "man_hinh")
+    private String manHinh;
+     @Column(name = "card_man_hinh")
+    private String cardManHinh;
+     @Column(name = "he_dieu_hanh")
+    private String heDieuHanh;
+     @Column(name = "thiet_ke")
+    private String thietKe;
+     @Column(name = "kich_thuoc_khoi_luong")
+    private String kichThuocKhoiLuong;
+     @Column(name = "nam_ra_mat")
+    private String namRaMat;
     @Column(name = "so_luong_ton")
     private Integer soLuongTon;
     @Column(name = "bao_hanh", length = 100)
