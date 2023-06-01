@@ -35,6 +35,8 @@ public class BaiViet {
     @JoinColumn(name = "quan_ly_id", referencedColumnName = "id")
     @ManyToOne
     private Customer quanLy;
+    @Column(name = "active", length = 1)
+    private Integer active;
     public BaiViet() {
     }
     public BaiViet(Integer id, String tieuDe, String noiDung, Date createDate, Date updateDate, Customer quanLy) {
