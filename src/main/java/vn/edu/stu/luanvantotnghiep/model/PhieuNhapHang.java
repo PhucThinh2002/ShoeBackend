@@ -39,6 +39,8 @@ public class PhieuNhapHang {
     private Customer quanLy;
     @OneToMany(mappedBy = "phieuNhapHang", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ChiTietPhieuNhapHang> ChiTietPhieuNhapHang;
+    @Column(name = "active", length = 1)
+    private Integer active;
     public PhieuNhapHang() {
     }
     public PhieuNhapHang(Integer id, Double tongTien, Date createDate, Date updateDate) {
@@ -71,5 +73,30 @@ public class PhieuNhapHang {
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
     }
+    public NhaCungCap getNhaCungCap() {
+        return nhaCungCap;
+    }
+    public void setNhaCungCap(NhaCungCap nhaCungCap) {
+        this.nhaCungCap = nhaCungCap;
+    }
+    public Customer getQuanLy() {
+        return quanLy;
+    }
+    public void setQuanLy(Customer quanLy) {
+        this.quanLy = quanLy;
+    }
+    public List<ChiTietPhieuNhapHang> getChiTietPhieuNhapHang() {
+        return ChiTietPhieuNhapHang;
+    }
+    public void setChiTietPhieuNhapHang(List<ChiTietPhieuNhapHang> chiTietPhieuNhapHang) {
+        ChiTietPhieuNhapHang = chiTietPhieuNhapHang;
+    }
+    public Integer getActive() {
+        return active;
+    }
+    public void setActive(Integer active) {
+        this.active = active;
+    }
+    
     
 }

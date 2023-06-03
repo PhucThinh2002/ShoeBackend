@@ -1,5 +1,6 @@
 package vn.edu.stu.luanvantotnghiep.service.Impl;
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,32 +18,36 @@ public class BaiVietServiceImpl implements IBaiVietService{
 
     @Override
     public List<BaiViet> findAll() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findAll'");
+        return baiVietRepository.findAll();
     }
 
     @Override
     public Optional<BaiViet> findById(Integer id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findById'");
+        return baiVietRepository.findById(id);
     }
 
     @Override
     public BaiViet create(BaiViet baiViet) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'create'");
+        baiViet.setCreateDate(Calendar.getInstance().getTime());
+        return baiVietRepository.save(baiViet);
     }
 
     @Override
     public BaiViet update(BaiViet baiViet) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+        baiViet.setUpdateDate(Calendar.getInstance().getTime());
+        baiViet.setActive(1);
+        return baiVietRepository.save(baiViet);
     }
 
     @Override
     public BaiViet delete(Integer id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
+        Optional<BaiViet> result = baiVietRepository.findById(id);
+        if(result.isPresent()){
+            BaiViet baiViet = result.get();
+            baiViet.setActive(0);
+            return baiVietRepository.save(baiViet);
+        }
+        return null;
     }
 
 }

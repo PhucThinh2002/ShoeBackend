@@ -83,5 +83,12 @@ public class BaiViet {
     public void setQuanLy(Customer quanLy) {
         this.quanLy = quanLy;
     }
+    public Integer getActive() {
+        return active;
+    }
+    public void setActive(Integer active) {
+        this.active = active;
+    }
+    
     
 }

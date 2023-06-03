@@ -29,7 +29,7 @@ public class ProvinceController {
         return lstProvince;
     }
     @GetMapping("/district/{provinceid}")
-    public List<District> getDistrictByProvince(@PathVariable("provinceid") int province){
+    public List<District> getDistrictByProvince(@PathVariable("provinceid") Long province){
         List<District> lstDistrict = new ArrayList<District>();
         districtRepo.findByProvince(province).forEach(lstDistrict::add);
         return lstDistrict;

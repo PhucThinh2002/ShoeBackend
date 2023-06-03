@@ -33,6 +33,8 @@ public class LoaiSanPham {
     private Date updateDate;
     @OneToMany(mappedBy = "danhMuc", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SanPham> sanPhams;
+    @Column(name = "active", length = 1)
+    private Integer active;
     public LoaiSanPham() {
     }
     public LoaiSanPham(Integer id, String tenDanhMuc, String moTa, Date createDate, Date updateDate,
@@ -80,5 +82,12 @@ public class LoaiSanPham {
     public void setSanPhams(List<SanPham> sanPhams) {
         this.sanPhams = sanPhams;
     }
+    public Integer getActive() {
+        return active;
+    }
+    public void setActive(Integer active) {
+        this.active = active;
+    }
+    
     
 }

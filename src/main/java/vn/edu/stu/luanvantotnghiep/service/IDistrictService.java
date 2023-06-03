@@ -7,8 +7,9 @@ import vn.edu.stu.luanvantotnghiep.model.District;
 
 public interface IDistrictService {
     List<District> findAll();
-    Optional<District> findById(Integer id);
+    Optional<District> findById(Long id);
     District create(District district);
     District update(District district);
-    District delete(Integer id);
+    District delete(Long id);
+    List<District> findByProvinceID(Long provinceid);
 }

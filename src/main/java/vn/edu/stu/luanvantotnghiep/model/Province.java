@@ -4,8 +4,6 @@ import java.util.Set;
 
 import javax.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
 @Entity
 @Table(name ="province")
 public class Province {
@@ -20,10 +18,8 @@ public class Province {
     @Column(name = "CODE")
     private String code;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "id")
-    @JsonBackReference
     private Set<District> districts;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "id")
-    @JsonBackReference
     private Set<Customer> customers;
     public Long getId() {
         return id;

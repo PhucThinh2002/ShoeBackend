@@ -17,7 +17,7 @@ public class TraGop {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @JoinColumn(name = "hoa_don", referencedColumnName = "id")
+    @JoinColumn(name = "hoa_don_id", referencedColumnName = "id")
     @ManyToOne
     private HoaDon hoaDon;
     @Column(name = "so_tien_hang_thang")

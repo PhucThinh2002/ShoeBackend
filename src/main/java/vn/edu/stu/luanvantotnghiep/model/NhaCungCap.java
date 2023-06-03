@@ -39,6 +39,8 @@ public class NhaCungCap {
     private Date updateDate;
     @OneToMany(mappedBy = "nhaCungCap", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PhieuNhapHang> phieuNhapHangs;
+    @Column(name = "active", length = 1)
+    private Integer active;
     public NhaCungCap() {
     }
     public NhaCungCap(Integer id, String tenNhaCungCap, String diaChi, @Email String email, String soDienThoai,
@@ -93,5 +95,18 @@ public class NhaCungCap {
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
     }
+    public List<PhieuNhapHang> getPhieuNhapHangs() {
+        return phieuNhapHangs;
+    }
+    public void setPhieuNhapHangs(List<PhieuNhapHang> phieuNhapHangs) {
+        this.phieuNhapHangs = phieuNhapHangs;
+    }
+    public Integer getActive() {
+        return active;
+    }
+    public void setActive(Integer active) {
+        this.active = active;
+    }
+    
     
 }
