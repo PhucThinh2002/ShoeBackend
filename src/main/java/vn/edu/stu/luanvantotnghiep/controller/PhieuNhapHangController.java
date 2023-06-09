@@ -1,5 +1,6 @@
 package vn.edu.stu.luanvantotnghiep.controller;
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,9 +15,14 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import vn.edu.stu.luanvantotnghiep.model.ChiTietPhieuNhapHang;
 import vn.edu.stu.luanvantotnghiep.model.FormatApi;
+import vn.edu.stu.luanvantotnghiep.model.ModelPhieuNhapHang;
 import vn.edu.stu.luanvantotnghiep.model.NhaCungCap;
 import vn.edu.stu.luanvantotnghiep.model.PhieuNhapHang;
+import vn.edu.stu.luanvantotnghiep.model.SanPham;
+import vn.edu.stu.luanvantotnghiep.repository.ChiTietPhieuNhapHangRepository;
+import vn.edu.stu.luanvantotnghiep.repository.SanPhamRepository;
 import vn.edu.stu.luanvantotnghiep.service.INhaCungCapService;
 import vn.edu.stu.luanvantotnghiep.service.IPhieuNhapHangService;
 
@@ -27,6 +33,10 @@ public class PhieuNhapHangController {
     private IPhieuNhapHangService phieuNhapHangService;
     @Autowired
     private INhaCungCapService nhaCungCapService;
+    @Autowired
+    private SanPhamRepository sanPhamRepository;
+    @Autowired
+    private ChiTietPhieuNhapHangRepository chiTietPhieuNhapHangRepository;;
     @GetMapping("/phieunhaphang")
     public FormatApi findAllNhacungcap(){
         List<PhieuNhapHang> lst = phieuNhapHangService.findAll();
@@ -62,13 +72,22 @@ public class PhieuNhapHangController {
         }
     }
     @PostMapping("/phieunhaphang")
-    public FormatApi createNhacungcap(@RequestBody PhieuNhapHang phieuNhapHang){
+    public FormatApi createNhacungcap(@RequestBody ModelPhieuNhapHang phieuNhapHang){
         PhieuNhapHang result = new PhieuNhapHang();
-        Optional<NhaCungCap> nhaCungCap = nhaCungCapService.findById(phieuNhapHang.getNhaCungCap().getId());
+        Optional<NhaCungCap> nhaCungCap = nhaCungCapService.findById(phieuNhapHang.getNhaCungCap());
         result.setNhaCungCap(nhaCungCap.get());
-        result.setChiTietPhieuNhapHang(phieuNhapHang.getChiTietPhieuNhapHang());
         result.setTongTien(phieuNhapHang.getTongTien());
+        result.setCreateDate(Calendar.getInstance().getTime());
+        result.setActive(1);
         PhieuNhapHang save = phieuNhapHangService.create(result);
+        for(ChiTietPhieuNhapHang c : phieuNhapHang.getChiTietPhieuNhapHang()){
+            c.setPhieuNhapHang(save);
+            Optional<SanPham> sanPham = sanPhamRepository.findById(c.getSanPham().getId());
+            c.setSanPham(sanPham.get());
+            c = chiTietPhieuNhapHangRepository.save(c);
+            sanPham.get().setSoLuongTon(sanPham.get().getSoLuongTon() + c.getSoLuong());
+            sanPhamRepository.save(sanPham.get());
+        }
         if(save != null){
             FormatApi format = new FormatApi();
             format.setData(save);

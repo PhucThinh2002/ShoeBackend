@@ -29,8 +29,8 @@ public class NhaCungCapController {
         if (lst.isEmpty()) {
             FormatApi result = new FormatApi();
             result.setData(lst);
-            result.setMessage("Không có dữ liệu cho bài viết");
-            result.setStatus(HttpStatus.OK);
+            result.setMessage("Không có dữ liệu cho nhà cung cấp");
+            result.setStatus(HttpStatus.NO_CONTENT);
             return result;
         } else {
             FormatApi result = new FormatApi();
@@ -46,14 +46,14 @@ public class NhaCungCapController {
         if (data.isPresent()) {
             FormatApi result = new FormatApi();
             result.setData(data);
-            result.setMessage("Không có dữ liệu cho bài viết có id = " + id);
+            result.setMessage("Thành công!");
             result.setStatus(HttpStatus.OK);
             return result;
         } else {
             FormatApi result = new FormatApi();
             result.setData(data);
-            result.setMessage("Thành công!");
-            result.setStatus(HttpStatus.OK);
+            result.setMessage("Không có dữ liệu cho nhà cung cấp có id = " + id);
+            result.setStatus(HttpStatus.NO_CONTENT);
             return result;
         }
     }
@@ -79,24 +79,19 @@ public class NhaCungCapController {
             return format;
         }
     }
-    @PutMapping("/nhacungcap")
-    public FormatApi updateNhacungcap(@RequestBody NhaCungCap nhaCungCap){
-        Optional<NhaCungCap> data = nhacungcapService.findById(nhaCungCap.getId());
-        if(data.isPresent()){
-            data.get().setTenNhaCungCap(nhaCungCap.getTenNhaCungCap());
-            data.get().setDiaChi(nhaCungCap.getDiaChi());
-            data.get().setEmail(nhaCungCap.getEmail());
-            data.get().setSoDienThoai(nhaCungCap.getSoDienThoai());
-            NhaCungCap save = nhacungcapService.update(data.get());
+    @PutMapping("/nhacungcap/{id}")
+    public FormatApi updateNhacungcap(@PathVariable("id") Integer id, @RequestBody NhaCungCap nhaCungCap){
+        NhaCungCap save = nhacungcapService.update(id, nhaCungCap);
+        if(save != null){
             FormatApi format = new FormatApi();
             format.setData(save);
-            format.setMessage("Sửa nhà cung cấp có id ="+ nhaCungCap.getId() +" thành công!");
+            format.setMessage("Sửa nhà cung cấp có id = "+ nhaCungCap.getId() +" thành công!");
             format.setStatus(HttpStatus.OK);
             return format;
         } else{
             FormatApi format = new FormatApi();
-            format.setData(data);
-            format.setMessage("Sửa nhà cung cấp có id ="+ nhaCungCap.getId() +" không thành công!");
+            format.setData(save);
+            format.setMessage("Sửa nhà cung cấp có id =" + nhaCungCap.getId() +" không thành công!");
             format.setStatus(HttpStatus.OK);
             return format;
         }

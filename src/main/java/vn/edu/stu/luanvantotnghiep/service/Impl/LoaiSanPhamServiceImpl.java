@@ -34,9 +34,16 @@ public class LoaiSanPhamServiceImpl implements ILoaiSanPhamService{
     }
 
     @Override
-    public LoaiSanPham update(LoaiSanPham loaiSanPham) {
-        loaiSanPham.setUpdateDate(Calendar.getInstance().getTime());
-        return loaiSanPhamRepository.save(loaiSanPham);
+    public LoaiSanPham update(Integer id,LoaiSanPham loaiSanPham) {
+        Optional<LoaiSanPham> data = loaiSanPhamRepository.findById(id);
+        if(data.isPresent()){
+            data.get().setMoTa(loaiSanPham.getMoTa());
+            data.get().setTenDanhMuc(loaiSanPham.getTenDanhMuc());;
+            data.get().setUpdateDate(Calendar.getInstance().getTime());
+            return loaiSanPhamRepository.save(data.get());
+        }else{
+            return null;
+        }
     }
 
     @Override

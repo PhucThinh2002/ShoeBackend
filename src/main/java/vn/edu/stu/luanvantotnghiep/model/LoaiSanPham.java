@@ -15,6 +15,8 @@ import javax.persistence.Table;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "danh_muc")
 public class LoaiSanPham {
@@ -32,6 +34,7 @@ public class LoaiSanPham {
     @LastModifiedDate
     private Date updateDate;
     @OneToMany(mappedBy = "danhMuc", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<SanPham> sanPhams;
     @Column(name = "active", length = 1)
     private Integer active;

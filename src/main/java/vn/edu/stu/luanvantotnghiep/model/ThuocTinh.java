@@ -13,26 +13,22 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "hinh_anh")
-public class HinhAnh {
+@Table(name = "thuoc_tinh")
+public class ThuocTinh {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(name = "ten_hinh_anh")
-    private String tenHinhAnh;
-    @Column(name = "kich_thuoc")
-    private Long kichThuoc;
-    @Column(name = "path")
-    private String path;
-    @JoinColumn(name = "banner_id", referencedColumnName = "id")
-    @ManyToOne
-    @JsonIgnore
-    private Banner banner;
+    @Column(name = "ten_thuoc_tinh", length = 50)
+    private String tenThuocTinh;
+    @Column(name = "gia_tri_thuoc_tinh", length = 50)
+    private String giaTriThuocTinh;
+    @Column(name = "loai", length = 1)
+    private Integer loai;
     @JoinColumn(name = "san_pham_id", referencedColumnName = "id")
     @ManyToOne
     @JsonBackReference
     private SanPham sanPham;
-    public HinhAnh() {
+    public ThuocTinh() {
     }
     public Integer getId() {
         return id;
@@ -40,29 +36,23 @@ public class HinhAnh {
     public void setId(Integer id) {
         this.id = id;
     }
-    public String getTenHinhAnh() {
-        return tenHinhAnh;
+    public String getTenThuocTinh() {
+        return tenThuocTinh;
     }
-    public void setTenHinhAnh(String tenHinhAnh) {
-        this.tenHinhAnh = tenHinhAnh;
+    public void setTenThuocTinh(String tenThuocTinh) {
+        this.tenThuocTinh = tenThuocTinh;
     }
-    public Long getKichThuoc() {
-        return kichThuoc;
+    public String getGiaTriThuocTinh() {
+        return giaTriThuocTinh;
     }
-    public void setKichThuoc(Long kichThuoc) {
-        this.kichThuoc = kichThuoc;
+    public void setGiaTriThuocTinh(String giaTriThuocTinh) {
+        this.giaTriThuocTinh = giaTriThuocTinh;
     }
-    public String getPath() {
-        return path;
+    public Integer getLoai() {
+        return loai;
     }
-    public void setPath(String path) {
-        this.path = path;
-    }
-    public Banner getBanner() {
-        return banner;
-    }
-    public void setBanner(Banner banner) {
-        this.banner = banner;
+    public void setLoai(Integer loai) {
+        this.loai = loai;
     }
     public SanPham getSanPham() {
         return sanPham;

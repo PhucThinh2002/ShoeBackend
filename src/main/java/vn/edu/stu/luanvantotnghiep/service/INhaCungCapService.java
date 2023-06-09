@@ -9,6 +9,6 @@ public interface INhaCungCapService {
     List<NhaCungCap> findAll();
     Optional<NhaCungCap> findById(Integer id);
     NhaCungCap create(NhaCungCap nhaCungCap);
-    NhaCungCap update(NhaCungCap nhaCungCap);
+    NhaCungCap update(Integer id, NhaCungCap nhaCungCap);
     NhaCungCap delete(Integer id);
 }

@@ -9,6 +9,6 @@ public interface IHoaDonService {
     List<HoaDon> findAll();
     Optional<HoaDon> findById(Integer id);
     HoaDon create(HoaDon hoaDon);
-    HoaDon update(HoaDon hoaDon);
+    HoaDon update(Integer id, HoaDon hoaDon);
     HoaDon delete(Integer id);
 }

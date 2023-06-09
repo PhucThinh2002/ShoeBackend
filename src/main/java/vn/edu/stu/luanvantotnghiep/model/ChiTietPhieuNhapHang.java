@@ -9,6 +9,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name = "chi_tiet_phieu_nhap_hang")
 public class ChiTietPhieuNhapHang {
@@ -23,9 +27,11 @@ public class ChiTietPhieuNhapHang {
     private Integer soLuong;
     @JoinColumn(name = "phieu_nhap_hang_id", referencedColumnName = "id")
     @ManyToOne
+    @JsonIgnore
     private PhieuNhapHang phieuNhapHang;
     @JoinColumn(name = "san_pham_id", referencedColumnName = "id")
     @ManyToOne
+    @JsonBackReference
     private SanPham sanPham;
     public ChiTietPhieuNhapHang() {
     }
@@ -52,5 +58,24 @@ public class ChiTietPhieuNhapHang {
     public void setSoLuong(Integer soLuong) {
         this.soLuong = soLuong;
     }
+    public String getSeri() {
+        return seri;
+    }
+    public void setSeri(String seri) {
+        this.seri = seri;
+    }
+    public PhieuNhapHang getPhieuNhapHang() {
+        return phieuNhapHang;
+    }
+    public void setPhieuNhapHang(PhieuNhapHang phieuNhapHang) {
+        this.phieuNhapHang = phieuNhapHang;
+    }
+    public SanPham getSanPham() {
+        return sanPham;
+    }
+    public void setSanPham(SanPham sanPham) {
+        this.sanPham = sanPham;
+    }
+    
     
 }

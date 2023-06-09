@@ -9,6 +9,6 @@ public interface ILoaiSanPhamService {
     List<LoaiSanPham> findAll();
     Optional<LoaiSanPham> findById(Integer id);
     LoaiSanPham create(LoaiSanPham loaiSanPham);
-    LoaiSanPham update(LoaiSanPham loaiSanPham);
+    LoaiSanPham update(Integer id, LoaiSanPham loaiSanPham);
     LoaiSanPham delete(Integer id);
 }

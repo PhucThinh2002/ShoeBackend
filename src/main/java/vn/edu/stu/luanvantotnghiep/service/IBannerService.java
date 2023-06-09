@@ -9,6 +9,6 @@ public interface IBannerService {
     List<Banner> findAll();
     Optional<Banner> findById(Integer id);
     Banner create(Banner banner);
-    Banner update(Banner banner);
+    Banner update(Integer id, Banner banner);
     Banner delete(Integer id);
 }

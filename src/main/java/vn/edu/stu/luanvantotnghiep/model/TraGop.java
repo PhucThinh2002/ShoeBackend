@@ -30,17 +30,11 @@ public class TraGop {
     private Date dongTienDenNgay;
     @Column(name = "ngay_dong_tien")
     private Date ngayDongTien;
+    @Column(name = "phi_phat")
+    private Double phiPhat;
+    @Column(name = "trang_thai_phi_phat", length = 1)
+    private Integer trangThaiPhiPhat = 0;
     public TraGop() {
-    }
-    public TraGop(Integer id, HoaDon hoaDon, Double soTienHangThang, Boolean daBank, Date dongTienTuNgay,
-            Date dongTienDenNgay, Date ngayDongTien) {
-        this.id = id;
-        this.hoaDon = hoaDon;
-        this.soTienHangThang = soTienHangThang;
-        this.daBank = daBank;
-        this.dongTienTuNgay = dongTienTuNgay;
-        this.dongTienDenNgay = dongTienDenNgay;
-        this.ngayDongTien = ngayDongTien;
     }
     public Integer getId() {
         return id;
@@ -83,6 +77,18 @@ public class TraGop {
     }
     public void setNgayDongTien(Date ngayDongTien) {
         this.ngayDongTien = ngayDongTien;
+    }
+    public Double getPhiPhat() {
+        return phiPhat;
+    }
+    public void setPhiPhat(Double phiPhat) {
+        this.phiPhat = phiPhat;
+    }
+    public Integer getTrangThaiPhiPhat() {
+        return trangThaiPhiPhat;
+    }
+    public void setTrangThaiPhiPhat(Integer trangThaiPhiPhat) {
+        this.trangThaiPhiPhat = trangThaiPhiPhat;
     }
     
 }

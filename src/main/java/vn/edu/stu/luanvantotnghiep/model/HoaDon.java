@@ -27,6 +27,10 @@ public class HoaDon {
     private Integer trangThai;
     @Column(name = "tong_tien")
     private Double tongTien;
+    @Column(name = "so_tien_tra_gop")
+    private Double soTienTraGop;
+    @Column(name = "so_tien_tra_truoc")
+    private Double soTienTraTruoc;
     @Column(name = "trang_thai_thanh_toan", length = 2)
     private Integer trangThaiThanhToan;
     @Column(name = "ten_khach_hang", length = 100)
@@ -39,6 +43,8 @@ public class HoaDon {
     private String ghiChu;
     @Column(name = "istragop", length = 1)
     private Boolean isTraGop;
+    @Column(name = "so_thang_tra_gop", length = 2)
+    private Integer soThangTraGop;
     @OneToMany(mappedBy = "hoaDon", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TraGop> traGops;
     @Column(name = "create_date")
@@ -147,5 +153,24 @@ public class HoaDon {
     public void setQuanLy(Customer quanLy) {
         this.quanLy = quanLy;
     }
+    public Integer getSoThangTraGop() {
+        return soThangTraGop;
+    }
+    public void setSoThangTraGop(Integer soThangTraGop) {
+        this.soThangTraGop = soThangTraGop;
+    }
+    public Double getSoTienTraGop() {
+        return soTienTraGop;
+    }
+    public void setSoTienTraGop(Double soTienTraGop) {
+        this.soTienTraGop = soTienTraGop;
+    }
+    public Double getSoTienTraTruoc() {
+        return soTienTraTruoc;
+    }
+    public void setSoTienTraTruoc(Double soTienTraTruoc) {
+        this.soTienTraTruoc = soTienTraTruoc;
+    }
+    
     
 }

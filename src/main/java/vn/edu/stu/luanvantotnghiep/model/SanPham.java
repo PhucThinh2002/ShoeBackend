@@ -8,6 +8,10 @@ import javax.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name = "san_pham")
 public class SanPham {
@@ -17,32 +21,17 @@ public class SanPham {
     @Column(name = "ten_san_pham", length = 100)
     private String tenSanPham;
     @OneToMany(mappedBy = "sanPham", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<HinhAnh> hinhAnhs;
     @Column(name = "gia")
     private double gia;
     @Column(name = "mo_ta")
     private String moTa;
-    @Column(name = "trang_thai", length = 2)
+    @Column(name = "trang_thai", length = 1)
     private Integer trangThai;
-     @Column(name = "cpu")
-    private String cpu;
-     @Column(name = "ram")
-    private String ram;
-     @Column(name = "o_cung")
-    private String oCung;
-     @Column(name = "man_hinh")
-    private String manHinh;
-     @Column(name = "card_man_hinh")
-    private String cardManHinh;
-     @Column(name = "he_dieu_hanh")
-    private String heDieuHanh;
-     @Column(name = "thiet_ke")
-    private String thietKe;
-     @Column(name = "kich_thuoc_khoi_luong")
-    private String kichThuocKhoiLuong;
-     @Column(name = "nam_ra_mat")
+     @Column(name = "nam_ra_mat", length = 10)
     private String namRaMat;
-    @Column(name = "so_luong_ton")
+    @Column(name = "so_luong_ton", length = 5)
     private Integer soLuongTon;
     @Column(name = "bao_hanh", length = 100)
     private String baoHanh;
@@ -54,15 +43,127 @@ public class SanPham {
     private Date updateDate;
     @JoinColumn(name = "danh_muc", referencedColumnName = "id")
     @ManyToOne
+    @JsonIgnore
     private LoaiSanPham danhMuc;
     @JoinColumn(name = "nha_san_xuat", referencedColumnName = "id")
     @ManyToOne
+    @JsonIgnore
     private NhaSanXuat nhaSanXuat;
     @OneToMany(mappedBy = "sanPham", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<ChiTietPhieuNhapHang> chiTietPhieuNhapHang;
     @OneToMany(mappedBy = "sanPham", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<ChiTietHoaDon> chiTietDonDatHangs;
     @ManyToMany(mappedBy = "sanPham")
+    @JsonIgnore
     private List<KhuyenMai> khuyenMais;
+    @OneToMany(mappedBy = "sanPham", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<ThuocTinh> thuocTinhs;
+    public SanPham() {
+    }
+    public Integer getId() {
+        return id;
+    }
+    public void setId(Integer id) {
+        this.id = id;
+    }
+    public String getTenSanPham() {
+        return tenSanPham;
+    }
+    public void setTenSanPham(String tenSanPham) {
+        this.tenSanPham = tenSanPham;
+    }
+    public List<HinhAnh> getHinhAnhs() {
+        return hinhAnhs;
+    }
+    public void setHinhAnhs(List<HinhAnh> hinhAnhs) {
+        this.hinhAnhs = hinhAnhs;
+    }
+    public double getGia() {
+        return gia;
+    }
+    public void setGia(double gia) {
+        this.gia = gia;
+    }
+    public String getMoTa() {
+        return moTa;
+    }
+    public void setMoTa(String moTa) {
+        this.moTa = moTa;
+    }
+    public Integer getTrangThai() {
+        return trangThai;
+    }
+    public void setTrangThai(Integer trangThai) {
+        this.trangThai = trangThai;
+    }
+    public String getNamRaMat() {
+        return namRaMat;
+    }
+    public void setNamRaMat(String namRaMat) {
+        this.namRaMat = namRaMat;
+    }
+    public Integer getSoLuongTon() {
+        return soLuongTon;
+    }
+    public void setSoLuongTon(Integer soLuongTon) {
+        this.soLuongTon = soLuongTon;
+    }
+    public String getBaoHanh() {
+        return baoHanh;
+    }
+    public void setBaoHanh(String baoHanh) {
+        this.baoHanh = baoHanh;
+    }
+    public Date getCreateDate() {
+        return createDate;
+    }
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
+    }
+    public LoaiSanPham getDanhMuc() {
+        return danhMuc;
+    }
+    public void setDanhMuc(LoaiSanPham danhMuc) {
+        this.danhMuc = danhMuc;
+    }
+    public NhaSanXuat getNhaSanXuat() {
+        return nhaSanXuat;
+    }
+    public void setNhaSanXuat(NhaSanXuat nhaSanXuat) {
+        this.nhaSanXuat = nhaSanXuat;
+    }
+    public List<ChiTietPhieuNhapHang> getChiTietPhieuNhapHang() {
+        return chiTietPhieuNhapHang;
+    }
+    public void setChiTietPhieuNhapHang(List<ChiTietPhieuNhapHang> chiTietPhieuNhapHang) {
+        this.chiTietPhieuNhapHang = chiTietPhieuNhapHang;
+    }
+    public List<ChiTietHoaDon> getChiTietDonDatHangs() {
+        return chiTietDonDatHangs;
+    }
+    public void setChiTietDonDatHangs(List<ChiTietHoaDon> chiTietDonDatHangs) {
+        this.chiTietDonDatHangs = chiTietDonDatHangs;
+    }
+    public List<KhuyenMai> getKhuyenMais() {
+        return khuyenMais;
+    }
+    public void setKhuyenMais(List<KhuyenMai> khuyenMais) {
+        this.khuyenMais = khuyenMais;
+    }
+    public List<ThuocTinh> getThuocTinhs() {
+        return thuocTinhs;
+    }
+    public void setThuocTinhs(List<ThuocTinh> thuocTinhs) {
+        this.thuocTinhs = thuocTinhs;
+    }
 
 }

@@ -9,6 +9,6 @@ public interface IKhuyenMaiService {
     List<KhuyenMai> findAll();
     Optional<KhuyenMai> findById(Integer id);
     KhuyenMai create(KhuyenMai khuyenMai);
-    KhuyenMai update(KhuyenMai khuyenMai);
+    KhuyenMai update(Integer id, KhuyenMai khuyenMai);
     KhuyenMai delete(Integer id);
 }

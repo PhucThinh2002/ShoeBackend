@@ -34,9 +34,19 @@ public class NhaCungCapServiceImpl  implements INhaCungCapService{
     }
 
     @Override
-    public NhaCungCap update(NhaCungCap nhaCungCap) {
-        nhaCungCap.setUpdateDate(Calendar.getInstance().getTime());
-        return nhaCungCapRepository.save(nhaCungCap);
+    public NhaCungCap update(Integer id, NhaCungCap nhaCungCap) {
+        Optional<NhaCungCap> data = nhaCungCapRepository.findById(id);
+        if(data.isPresent()){
+            data.get().setDiaChi(nhaCungCap.getDiaChi());
+            data.get().setEmail(nhaCungCap.getEmail());
+            data.get().setTenNhaCungCap(nhaCungCap.getTenNhaCungCap());
+            data.get().setSoDienThoai(nhaCungCap.getSoDienThoai());
+            data.get().setUpdateDate(Calendar.getInstance().getTime());
+            return nhaCungCapRepository.save(data.get());
+        }else{
+            return null;
+        }
+        
     }
 
     @Override

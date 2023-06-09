@@ -34,8 +34,15 @@ public class BannerServiceImpl implements IBannerService{
     }
 
     @Override
-    public Banner update(Banner banner) {
-        return bannerRepository.save(banner);
+    public Banner update(Integer id, Banner banner) {
+        Optional<Banner> save = bannerRepository.findById(id);
+        if(save.isPresent()){
+            save.get().setTen(banner.getTen());
+            return bannerRepository.save(banner);
+        }else{
+            return null;
+        }
+        
     }
 
     @Override

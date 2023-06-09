@@ -28,15 +28,21 @@ public class BaiVietServiceImpl implements IBaiVietService{
 
     @Override
     public BaiViet create(BaiViet baiViet) {
-        baiViet.setCreateDate(Calendar.getInstance().getTime());
         return baiVietRepository.save(baiViet);
     }
 
     @Override
-    public BaiViet update(BaiViet baiViet) {
-        baiViet.setUpdateDate(Calendar.getInstance().getTime());
-        baiViet.setActive(1);
-        return baiVietRepository.save(baiViet);
+    public BaiViet update(Integer id, BaiViet baiViet) {
+        Optional<BaiViet> data = baiVietRepository.findById(id);
+        if(data.isPresent()){
+            data.get().setNoiDung(baiViet.getNoiDung());
+            data.get().setTieuDe(baiViet.getTieuDe());
+            data.get().setUpdateDate(Calendar.getInstance().getTime());
+            return baiVietRepository.save(data.get());
+        }else{
+            return null;
+        }
+        
     }
 
     @Override

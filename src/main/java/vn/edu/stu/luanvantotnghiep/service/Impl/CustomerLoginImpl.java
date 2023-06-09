@@ -1,6 +1,6 @@
 package vn.edu.stu.luanvantotnghiep.service.Impl;
-import java.util.Set;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import vn.edu.stu.luanvantotnghiep.service.CustomerLogin;
@@ -18,7 +18,7 @@ public class CustomerLoginImpl implements CustomerLogin{
         Customer customer = gCustomerRepository.findByUsername(username);
         UserPrincipal userPrincipal = new UserPrincipal();
         if (null != customer) {
-            Set<String> authorities = new HashSet<>();
+            List<String> authorities = new ArrayList<>();
             if (null != customer.getRole()) {
                 authorities.add(customer.getRole().getRoleKey());
                 customer.getRole().getPermissions().forEach(p -> authorities.add(p.getPermissionKey()));

@@ -9,6 +9,6 @@ public interface IBaiVietService {
     List<BaiViet> findAll();
     Optional<BaiViet> findById(Integer id);
     BaiViet create(BaiViet baiViet);
-    BaiViet update(BaiViet baiViet);
+    BaiViet update(Integer id, BaiViet baiViet);
     BaiViet delete(Integer id);
 }

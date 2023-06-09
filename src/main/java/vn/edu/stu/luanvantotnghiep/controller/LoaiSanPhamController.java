@@ -31,7 +31,7 @@ public class LoaiSanPhamController {
             FormatApi result = new FormatApi();
             result.setData(lst);
             result.setMessage("Không có dữ liệu cho loại sản phẩm");
-            result.setStatus(HttpStatus.OK);
+            result.setStatus(HttpStatus.NO_CONTENT);
             return result;
         } else {
             FormatApi result = new FormatApi();
@@ -47,15 +47,16 @@ public class LoaiSanPhamController {
         if (data.isPresent()) {
             FormatApi result = new FormatApi();
             result.setData(data);
-            result.setMessage("Không có dữ liệu cho loại sản phẩm có id = " + id);
+            result.setMessage("Thành công!");
             result.setStatus(HttpStatus.OK);
             return result;
         } else {
             FormatApi result = new FormatApi();
             result.setData(data);
-            result.setMessage("Thành công!");
-            result.setStatus(HttpStatus.OK);
+            result.setMessage("Không có dữ liệu cho loại sản phẩm có id = " + id);
+            result.setStatus(HttpStatus.NO_CONTENT);
             return result;
+            
         }
     }
     @PostMapping("/loaisanpham")
@@ -78,13 +79,14 @@ public class LoaiSanPhamController {
             return format;
         }
     }
-    @PutMapping("/loaisanpham")
-    public FormatApi updateLoaiSanPham(@RequestBody LoaiSanPham loaiSanPham){
-        Optional<LoaiSanPham> data = loaiSanPhamService.findById(loaiSanPham.getId());
-        if(data.isPresent()){
-            data.get().setMoTa(loaiSanPham.getMoTa());
-            data.get().setTenDanhMuc(loaiSanPham.getTenDanhMuc());
-            LoaiSanPham save = loaiSanPhamService.update(data.get());
+    @PutMapping("/loaisanpham/{id}")
+    public FormatApi updateLoaiSanPham(@PathVariable("id") Integer id, @RequestBody LoaiSanPham loaiSanPham){
+        LoaiSanPham save = loaiSanPhamService.update(id, loaiSanPham);
+        // Optional<LoaiSanPham> data = loaiSanPhamService.findById(id);
+        if(save != null){
+            // data.get().setMoTa(loaiSanPham.getMoTa());
+            // data.get().setTenDanhMuc(loaiSanPham.getTenDanhMuc());
+            
             FormatApi format = new FormatApi();
             format.setData(save);
             format.setMessage("Sửa loại sản phẩm có id ="+ loaiSanPham.getId() +" thành công!");
@@ -92,7 +94,7 @@ public class LoaiSanPhamController {
             return format;
         } else{
             FormatApi format = new FormatApi();
-            format.setData(data);
+            format.setData(save);
             format.setMessage("Sửa loại sản phẩm có id ="+ loaiSanPham.getId() +" không thành công!");
             format.setStatus(HttpStatus.OK);
             return format;

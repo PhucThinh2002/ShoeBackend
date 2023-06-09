@@ -1,5 +1,6 @@
 package vn.edu.stu.luanvantotnghiep.model;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -11,6 +12,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+
 @Entity
 @Table(name = "banner")
 public class Banner {
@@ -19,20 +23,18 @@ public class Banner {
     private Integer id;
     @Column(name = "ten")
     private String ten;
-    @Column(name = "trang_thai")
-    private Integer trangThai;
+    @Column(name = "create_date")
+    @CreatedDate
+    private Date createDate;
+    @Column(name = "update_date")
+    @LastModifiedDate
+    private Date updateDate;
     @Column(name = "hinh_anh")
     @OneToMany(mappedBy = "banner", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<HinhAnh> hinhAnh;
-    @Column(name = "hinh_anh", length = 1)
+    @Column(name = "trang_thai", length = 1)
     private Integer active;
     public Banner() {
-    }
-    public Banner(Integer id, String ten, Integer trangThai, List<HinhAnh> hinhAnh) {
-        this.id = id;
-        this.ten = ten;
-        this.trangThai = trangThai;
-        this.hinhAnh = hinhAnh;
     }
     public Integer getId() {
         return id;
@@ -46,12 +48,6 @@ public class Banner {
     public void setTen(String ten) {
         this.ten = ten;
     }
-    public Integer getTrangThai() {
-        return trangThai;
-    }
-    public void setTrangThai(Integer trangThai) {
-        this.trangThai = trangThai;
-    }
     public List<HinhAnh> getHinhAnh() {
         return hinhAnh;
     }
@@ -64,6 +60,19 @@ public class Banner {
     public void setActive(Integer active) {
         this.active = active;
     }
+    public Date getCreateDate() {
+        return createDate;
+    }
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
+    }
+    
     
     
 }

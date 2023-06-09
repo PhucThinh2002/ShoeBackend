@@ -15,6 +15,8 @@ import javax.persistence.Table;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "nha_san_xuat")
 public class NhaSanXuat {
@@ -32,7 +34,10 @@ public class NhaSanXuat {
     @LastModifiedDate
     private Date updateDate;
     @OneToMany(mappedBy = "nhaSanXuat", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<SanPham> sanPhams;
+    @Column(name = "trang_thai", length = 1)
+    private Integer active;
     public NhaSanXuat() {
     }
     public NhaSanXuat(Integer id, String tenNhaSanXuat, String moTa, Date createDate, Date updateDate) {
@@ -71,6 +76,18 @@ public class NhaSanXuat {
     }
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
+    }
+    public List<SanPham> getSanPhams() {
+        return sanPhams;
+    }
+    public void setSanPhams(List<SanPham> sanPhams) {
+        this.sanPhams = sanPhams;
+    }
+    public Integer getActive() {
+        return active;
+    }
+    public void setActive(Integer active) {
+        this.active = active;
     }
     
 }
