@@ -4,6 +4,8 @@ import java.util.Set;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "district")
 public class District {
@@ -21,6 +23,7 @@ public class District {
     //@Column(name = "PROVINCE_ID")
     @ManyToOne
     @JoinColumn(name="province", nullable=false, insertable = false, updatable = false)
+    @JsonIgnore
     private Province province;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "id")
     private Set<Ward> wards;

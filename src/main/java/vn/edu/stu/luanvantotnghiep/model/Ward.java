@@ -2,6 +2,8 @@ package vn.edu.stu.luanvantotnghiep.model;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "ward")
 public class Ward {
@@ -19,6 +21,7 @@ public class Ward {
     //@Column(name = "DISTRICT_ID")
     @ManyToOne
     @JoinColumn(name="district", nullable=false, insertable = false, updatable = false)
+    @JsonIgnore
     private District district;
 
     public Ward() {

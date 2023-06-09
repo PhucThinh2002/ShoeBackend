@@ -5,7 +5,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import vn.edu.stu.luanvantotnghiep.model.Ward;
+
+
 public interface WardRepository extends JpaRepository<Ward, Long>{
-    @Query(value = "SELECT * FROM ward WHERE district = :district", nativeQuery = true)
-    List<Ward> findByDistrict(@Param("distrcit")int district);
+    @Query(value = "SELECT * FROM ward WHERE district = :distrcitid", nativeQuery = true)
+    List<Ward> findDistrictById(@Param("distrcitid") Long district);
 }

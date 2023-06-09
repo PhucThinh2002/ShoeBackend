@@ -36,9 +36,9 @@ public class ProvinceController {
     }
 
     @GetMapping("/ward/{district}")
-    public List<Ward> getWardByDistrict(@PathVariable("district") int district){
+    public List<Ward> getWardByDistrict(@PathVariable("district") Long district){
         List<Ward> lstWard = new ArrayList<Ward>();
-        wardRepo.findByDistrict(district).forEach(lstWard::add);
+        wardRepo.findDistrictById(district).forEach(lstWard::add);
         return lstWard;
     }
 }
