@@ -7,6 +7,7 @@ import vn.edu.stu.luanvantotnghiep.model.Banner;
 
 public interface IBannerService {
     List<Banner> findAll();
+    List<Banner> findAllByActive();
     Optional<Banner> findById(Integer id);
     Banner create(Banner banner);
     Banner update(Integer id, Banner banner);

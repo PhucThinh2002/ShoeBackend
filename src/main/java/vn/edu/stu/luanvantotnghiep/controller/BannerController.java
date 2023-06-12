@@ -48,6 +48,23 @@ public class BannerController {
             return result;
         }
     }
+    @GetMapping("/banneractive")
+    public FormatApi findAllActive(){
+        List<Banner> lst = bannerService.findAllByActive();
+        if (lst.isEmpty()) {
+            FormatApi result = new FormatApi();
+            result.setData(lst);
+            result.setMessage("Không có dữ liệu cho bài viết");
+            result.setStatus(HttpStatus.OK);
+            return result;
+        } else {
+            FormatApi result = new FormatApi();
+            result.setData(lst);
+            result.setMessage("Thành công!");
+            result.setStatus(HttpStatus.OK);
+            return result;
+        }
+    }
     @GetMapping("/banner/{id}")
     public FormatApi findBaiVietByID(@PathVariable("id") Integer id) {
         Optional<Banner> data = bannerService.findById(id);

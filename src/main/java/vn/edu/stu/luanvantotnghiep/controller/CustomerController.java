@@ -37,7 +37,7 @@ public class CustomerController {
         return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
     }
     @GetMapping("/customer/{id}")
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CUSTOMER')")
     public ResponseEntity<Customer> getCustomerById(@PathVariable("id") int id){
         Customer cus = gCustomerService.findCustomerById(id);
         if(cus != null) return new ResponseEntity<>(cus, HttpStatus.OK);
@@ -52,6 +52,18 @@ public class CustomerController {
         } catch (Exception e) {
             return ResponseEntity.unprocessableEntity()
                     .body("Failed to Create specified Customer: " + e.getCause().getCause().getMessage());
+        }
+    }
+    @PostMapping("/admin/register")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    public ResponseEntity<?> createAdmin( @RequestBody Customer customer){
+        try {
+            Customer saveCus = gCustomerService.createAdmin(customer);
+            if(saveCus == null) return new ResponseEntity<>("Username của bạn đã tồn tại!", HttpStatus.PARTIAL_CONTENT);
+            return new ResponseEntity<>(saveCus, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return ResponseEntity.unprocessableEntity()
+                    .body("Failed to Create specified Admin: " + e.getCause().getCause().getMessage());
         }
     }
 

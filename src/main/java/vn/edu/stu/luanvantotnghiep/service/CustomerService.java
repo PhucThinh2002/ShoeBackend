@@ -69,6 +69,31 @@ public class CustomerService {
         }
     }
 
+    public Customer createAdmin(Customer customer) {
+        Role roleCustomer = new Role();
+        roleCustomer = gRoleRepository.findByRoleKey("ROLE_ADMIN");
+        Customer newCus = new Customer();
+        Optional<Province> province = gProvinceRepository.findById(customer.getProvince().getId());
+        newCus.setHoTenLot(customer.getHoTenLot());
+        newCus.setTen(customer.getTen());
+        newCus.setNgaySinh(customer.getNgaySinh());
+        newCus.setSoDienThoai(customer.getSoDienThoai());
+        newCus.setEmail(customer.getEmail());
+        newCus.setDiaChi(customer.getDiaChi());
+        newCus.setUsername(customer.getUsername());
+        newCus.setPassword(new BCryptPasswordEncoder().encode(customer.getPassword()));
+        newCus.setProvince(province.get());
+        newCus.setRole(roleCustomer);
+        newCus.setCreatedAt(new Date());
+        newCus.setActive(1);
+        Customer resultCus = gCustomerRepository.findByUsername(customer.getUsername());
+        if (resultCus != null) {
+            return null;
+        } else {
+            return gCustomerRepository.save(newCus);
+        }
+    }
+
     public Customer updateCusomer(Customer customer, int id) {
         Optional<Customer> resultCus = gCustomerRepository.findById(id);
         if (resultCus.isPresent()) {

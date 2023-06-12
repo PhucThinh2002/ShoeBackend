@@ -56,4 +56,9 @@ public class BaiVietServiceImpl implements IBaiVietService{
         return null;
     }
 
+    @Override
+    public List<BaiViet> findAllActive() {
+        return baiVietRepository.findAllBaiVietActive();
+    }
+
 }
