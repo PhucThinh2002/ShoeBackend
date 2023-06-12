@@ -8,8 +8,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import vn.edu.stu.luanvantotnghiep.model.Customer;
+import vn.edu.stu.luanvantotnghiep.model.FormatApi;
 
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import vn.edu.stu.luanvantotnghiep.service.CustomerService;
 import vn.edu.stu.luanvantotnghiep.service.CustomerLogin;
@@ -53,6 +56,32 @@ public class CustomerController {
             return ResponseEntity.unprocessableEntity()
                     .body("Failed to Create specified Customer: " + e.getCause().getCause().getMessage());
         }
+    }
+    @GetMapping("/getdatatotoken")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CUSTOMER')")
+    public FormatApi getUserByToken(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication == null || !authentication.isAuthenticated()){
+            FormatApi result = new FormatApi();
+            result.setMessage("No Authentication user not found!");
+            result.setStatus(HttpStatus.NOT_FOUND);
+            return result;
+        }
+        Customer cusResult = gCustomerService.findCustomerByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        if(cusResult !=null){
+            FormatApi result = new FormatApi();
+            result.setData(cusResult);
+            result.setMessage("Thành công!");
+            result.setStatus(HttpStatus.OK);
+            return result;
+        }else{
+            FormatApi result = new FormatApi();
+            result.setData(cusResult);
+            result.setMessage("Không có dữ liệu user!");
+            result.setStatus(HttpStatus.NOT_FOUND);
+            return result;
+        }
+        
     }
     @PostMapping("/admin/register")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
