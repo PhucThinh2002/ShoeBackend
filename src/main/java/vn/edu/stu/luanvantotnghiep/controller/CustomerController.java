@@ -69,11 +69,12 @@ public class CustomerController {
             data.setHoTenLot(customer.getHoTenLot());
             data.setEmail(customer.getEmail());
             data.setTen(customer.getTen());
-            data.setUsername(customer.getUsername() + "," + xa.getName() + "," + huyen.getName() + "," + thanhPho.getName());
+            data.setUsername(customer.getUsername());
             data.setPassword(customer.getPassword());
-            data.setDiaChi(customer.getDiaChi());
+            data.setDiaChi(customer.getDiaChi() + "," + xa.getName() + "," + huyen.getName() + "," + thanhPho.getName());
             data.setNgaySinh(customer.getNgaySinh());
             data.setSoDienThoai(customer.getSoDienThoai());
+            data.setProvince(thanhPho);
             Customer saveCus = gCustomerService.createCusomer(data);
             if(saveCus == null) return new ResponseEntity<>("Username của bạn đã tồn tại!", HttpStatus.PARTIAL_CONTENT);
             return new ResponseEntity<>(saveCus, HttpStatus.CREATED);
