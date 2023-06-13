@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import vn.edu.stu.luanvantotnghiep.model.FormatApi;
 import vn.edu.stu.luanvantotnghiep.model.KhuyenMai;
 import vn.edu.stu.luanvantotnghiep.model.LoaiSanPham;
+import vn.edu.stu.luanvantotnghiep.model.ModelSanPham;
 import vn.edu.stu.luanvantotnghiep.model.NhaSanXuat;
 import vn.edu.stu.luanvantotnghiep.model.SanPham;
 import vn.edu.stu.luanvantotnghiep.repository.KhuyenMaiRepository;
@@ -118,8 +119,15 @@ public class SanPhamController {
     }
     @PostMapping("/sanpham")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    public FormatApi createSanPham(@RequestBody SanPham sanPham){
-        SanPham save = sanPhamService.create(sanPham);
+    public FormatApi createSanPham(@RequestBody ModelSanPham sanPham){
+        SanPham data = new SanPham();
+        data.setTenSanPham(sanPham.getTenSanPham());
+        data.setGia(sanPham.getGia());
+        data.setMoTa(sanPham.getMoTa());
+        data.setSoLuongTon(sanPham.getSoLuongTon());
+        data.setBaoHanh(sanPham.getBaoHanh());
+        data.setThuocTinhs(sanPham.getThuocTinhs());
+        SanPham save = sanPhamService.create(data);
         save = setDanhMucToSanPham(save.getId(), sanPham.getDanhMuc().getId());
         save = setNhaSanXuatToSanPham(save.getId(), sanPham.getNhaSanXuat().getId());
         if(save != null){
