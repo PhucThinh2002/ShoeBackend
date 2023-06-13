@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,6 +25,7 @@ public class KhuyenMaiController {
     @Autowired
     private IKhuyenMaiService khuyenMaiService;
     @GetMapping("/khuyenmai")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public FormatApi findAllKhuyenMai() {
         List<KhuyenMai> lst = khuyenMaiService.findAll();
         if (lst.isEmpty()) {
@@ -42,6 +44,7 @@ public class KhuyenMaiController {
     }
 
     @GetMapping("/khuyenmai/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public FormatApi findKhuyenMaiByID(@PathVariable("id") Integer id) {
         Optional<KhuyenMai> data = khuyenMaiService.findById(id);
         if (data.isPresent()) {
@@ -59,6 +62,7 @@ public class KhuyenMaiController {
         }
     }
     @PostMapping("/khuyenmai")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public FormatApi createKhuyenMai(@RequestBody KhuyenMai khuyenMai){
         KhuyenMai result = new KhuyenMai();
         result.setActive(1);
@@ -83,6 +87,7 @@ public class KhuyenMaiController {
         }
     }
     @PutMapping("/khuyenmai/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public FormatApi updateKhuyenMai(@PathVariable("id") Integer id, @RequestBody KhuyenMai khuyenMai){
         KhuyenMai save = khuyenMaiService.update(id, khuyenMai);
         if(save != null){

@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import vn.edu.stu.luanvantotnghiep.model.FormatApi;
@@ -18,6 +19,7 @@ public class NhaSanXuatController {
     private INhaSanXuatService nhaSanXuatService;
 
     @GetMapping("/nhasanxuat")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public FormatApi findAllNhaSanXuat(){
         List<NhaSanXuat> lst = nhaSanXuatService.findAll();
         if (lst.isEmpty()) {
@@ -35,6 +37,7 @@ public class NhaSanXuatController {
         }
     }
     @GetMapping("/nhasanxuat/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public FormatApi findNhaSanXuatByID(@PathVariable("id") Integer id){
         Optional<NhaSanXuat> nhaSanXuat = nhaSanXuatService.findById(id);
         if (nhaSanXuat.isPresent()) {
@@ -52,6 +55,7 @@ public class NhaSanXuatController {
         }
     }
     @PostMapping("/nhasanxuat")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public FormatApi createNhacungcap(@RequestBody NhaSanXuat nhaSanXuat){
         NhaSanXuat result = new NhaSanXuat();
         result.setMoTa(nhaSanXuat.getMoTa());
@@ -72,6 +76,7 @@ public class NhaSanXuatController {
         }
     }
     @PutMapping("/nhasanxuat/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public FormatApi updateNhacungcap(@PathVariable("id") Integer id, @RequestBody NhaSanXuat nhaSanXuat){
         NhaSanXuat save = nhaSanXuatService.update(id, nhaSanXuat);
         if(save != null){
@@ -89,6 +94,7 @@ public class NhaSanXuatController {
         }
     }
     @DeleteMapping("/nhasanxuat/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public FormatApi deleteNhacungcap(@PathVariable("id") Integer id){
         NhaSanXuat delete = nhaSanXuatService.delete(id);
         if(delete != null){

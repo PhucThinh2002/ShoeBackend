@@ -6,6 +6,9 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,16 +17,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import vn.edu.stu.luanvantotnghiep.model.ChiTietHoaDon;
+import vn.edu.stu.luanvantotnghiep.model.Customer;
 import vn.edu.stu.luanvantotnghiep.model.FormatApi;
 import vn.edu.stu.luanvantotnghiep.model.HoaDon;
 import vn.edu.stu.luanvantotnghiep.model.ModelHoaDon;
 import vn.edu.stu.luanvantotnghiep.model.SanPham;
 import vn.edu.stu.luanvantotnghiep.model.TraGop;
 import vn.edu.stu.luanvantotnghiep.repository.ChiTietHoaDonRepository;
+import vn.edu.stu.luanvantotnghiep.repository.CustomerRepository;
+import vn.edu.stu.luanvantotnghiep.repository.HoaDonRepository;
 import vn.edu.stu.luanvantotnghiep.repository.SanPhamRepository;
 import vn.edu.stu.luanvantotnghiep.repository.TraGopRepository;
 import vn.edu.stu.luanvantotnghiep.service.IHoaDonService;
-import vn.edu.stu.luanvantotnghiep.service.ISanPhamService;
 
 @RestController
 @CrossOrigin(maxAge = 3600)
@@ -33,11 +38,16 @@ public class HoaDonController {
     @Autowired
     private SanPhamRepository sanPhamRepository;
     @Autowired
+    private HoaDonRepository hoaDonRepository;
+    @Autowired
+    private CustomerRepository customerRepository;
+    @Autowired
     private ChiTietHoaDonRepository chiTietHoaDonRepository;
     @Autowired
     private TraGopRepository traGopRepository;
 
     @GetMapping("/hoadon")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CUSTOMER')")
     public FormatApi findAllHoaDon(){
         List<HoaDon> lst = hoaDonService.findAll();
         if(!lst.isEmpty()){
@@ -49,6 +59,7 @@ public class HoaDonController {
         }
     }
     @GetMapping("/hoadon/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CUSTOMER')")
     public FormatApi findHoaDonByID(@PathVariable("id") Integer id) {
         Optional<HoaDon> data = hoaDonService.findById(id);
         if (data.isPresent()) {
@@ -66,6 +77,7 @@ public class HoaDonController {
         }
     }
     @PostMapping("/hoadon")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CUSTOMER')")
     public FormatApi createHoaDon(@RequestBody ModelHoaDon hoaDon){
         for(ChiTietHoaDon c : hoaDon.getChiTietHoaDons()){
             SanPham sanPham = sanPhamRepository.findById(c.getSanPham().getId()).get();
@@ -136,6 +148,26 @@ public class HoaDonController {
             return formatApi;
         }else{
             FormatApi formatApi = new FormatApi(HttpStatus.INTERNAL_SERVER_ERROR, "Tạo hóa đơn không thành công!", save);
+            return formatApi;
+        }
+    }
+    @GetMapping("/hoadonbykhachhang")
+    @PreAuthorize("hasAnyRole('ROLE_CUSTOMER')")
+    public FormatApi findHoaDonByKhachHang(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication == null || !authentication.isAuthenticated()){
+            FormatApi result = new FormatApi();
+            result.setMessage("No Authentication user not found!");
+            result.setStatus(HttpStatus.NOT_FOUND);
+            return result;
+        }
+        Customer cusResult = customerRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        List<HoaDon> lstHoaDon = hoaDonRepository.findAllHoaDonByKhachHang(cusResult.getId());
+        if(!lstHoaDon.isEmpty()){
+            FormatApi formatApi = new FormatApi(HttpStatus.OK, "Bạn có hóa đơn", lstHoaDon);
+            return formatApi;
+        }else{
+            FormatApi formatApi = new FormatApi(HttpStatus.NO_CONTENT, "Bạn chưa có hóa đơn nào!", lstHoaDon);
             return formatApi;
         }
     }

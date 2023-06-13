@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +25,7 @@ public class NhaCungCapController {
     @Autowired
     private INhaCungCapService nhacungcapService;
     @GetMapping("/nhacungcap")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public FormatApi findAllNhacungcap(){
         List<NhaCungCap> lst = nhacungcapService.findAll();
         if (lst.isEmpty()) {
@@ -41,6 +43,7 @@ public class NhaCungCapController {
         }
     }
     @GetMapping("/nhacungcap/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public FormatApi finNhacungcapByID(@PathVariable("id") Integer id) {
         Optional<NhaCungCap> data = nhacungcapService.findById(id);
         if (data.isPresent()) {
@@ -58,6 +61,7 @@ public class NhaCungCapController {
         }
     }
     @PostMapping("/nhacungcap")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public FormatApi createNhacungcap(@RequestBody NhaCungCap nhaCungCap){
         NhaCungCap result = new NhaCungCap();
         result.setTenNhaCungCap(nhaCungCap.getTenNhaCungCap());
@@ -80,6 +84,7 @@ public class NhaCungCapController {
         }
     }
     @PutMapping("/nhacungcap/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public FormatApi updateNhacungcap(@PathVariable("id") Integer id, @RequestBody NhaCungCap nhaCungCap){
         NhaCungCap save = nhacungcapService.update(id, nhaCungCap);
         if(save != null){
@@ -97,6 +102,7 @@ public class NhaCungCapController {
         }
     }
     @DeleteMapping("/nhacungcap/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public FormatApi deleteNhacungcap(@PathVariable("id") Integer id){
         NhaCungCap delete = nhacungcapService.delete(id);
         if(delete != null){

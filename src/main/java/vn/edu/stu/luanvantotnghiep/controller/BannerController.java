@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,6 +33,7 @@ public class BannerController {
     @Autowired
     private HinhAnhRepository hinhAnhRepository;
     @GetMapping("/banner")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public FormatApi findAll(){
         List<Banner> lst = bannerService.findAll();
         if (lst.isEmpty()) {
@@ -83,6 +85,7 @@ public class BannerController {
         }
     }
     @PostMapping("/banner")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public FormatApi createBaiViet(@RequestBody Banner banner) {
         Banner data = new Banner();
         data.setTen(banner.getTen());
@@ -105,6 +108,7 @@ public class BannerController {
         
     }
     @PutMapping("/banner/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public FormatApi UpdateBaiViet(@PathVariable("id") Integer id, @RequestBody Banner banner) {
         Banner save = bannerService.update(id,banner);
         if(save != null){
@@ -123,6 +127,7 @@ public class BannerController {
         
     }
     @DeleteMapping("/banner/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public FormatApi deleteLoaiSanPham(@PathVariable("id") Integer id){
         Banner delete = bannerService.delete(id);
         if(delete != null){
@@ -140,6 +145,7 @@ public class BannerController {
         }
     }
     @PostMapping("/setimagetobanner")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public FormatApi setImageToBanner(@RequestParam("hinhAnh") Integer hinhAnh, @RequestParam("banner") Integer banner){
         Optional<Banner> dataB = bannerRepository.findById(banner);
         Optional<HinhAnh> dataH = hinhAnhRepository.findById(hinhAnh);

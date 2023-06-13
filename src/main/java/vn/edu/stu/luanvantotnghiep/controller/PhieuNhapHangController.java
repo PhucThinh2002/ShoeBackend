@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,6 +39,7 @@ public class PhieuNhapHangController {
     @Autowired
     private ChiTietPhieuNhapHangRepository chiTietPhieuNhapHangRepository;;
     @GetMapping("/phieunhaphang")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public FormatApi findAllNhacungcap(){
         List<PhieuNhapHang> lst = phieuNhapHangService.findAll();
         if (lst.isEmpty()) {
@@ -55,6 +57,7 @@ public class PhieuNhapHangController {
         }
     }
     @GetMapping("/phieunhaphang/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public FormatApi finNhacungcapByID(@PathVariable("id") Integer id) {
         Optional<PhieuNhapHang> data = phieuNhapHangService.findById(id);
         if (data.isPresent()) {
@@ -72,6 +75,7 @@ public class PhieuNhapHangController {
         }
     }
     @PostMapping("/phieunhaphang")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public FormatApi createNhacungcap(@RequestBody ModelPhieuNhapHang phieuNhapHang){
         PhieuNhapHang result = new PhieuNhapHang();
         Optional<NhaCungCap> nhaCungCap = nhaCungCapService.findById(phieuNhapHang.getNhaCungCap());
@@ -103,6 +107,7 @@ public class PhieuNhapHangController {
         }
     }
     @PutMapping("/phieunhaphang")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public FormatApi updateNhacungcap(@RequestBody PhieuNhapHang phieuNhapHang){
         Optional<PhieuNhapHang> data = phieuNhapHangService.findById(phieuNhapHang.getId());
         if(data.isPresent()){
@@ -125,6 +130,7 @@ public class PhieuNhapHangController {
         }
     }
     @DeleteMapping("/phieunhaphang/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public FormatApi deleteNhacungcap(@PathVariable("id") Integer id){
         PhieuNhapHang delete = phieuNhapHangService.delete(id);
         if(delete != null){

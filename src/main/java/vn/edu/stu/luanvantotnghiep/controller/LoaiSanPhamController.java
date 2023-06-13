@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +26,7 @@ public class LoaiSanPhamController {
     private ILoaiSanPhamService loaiSanPhamService;
 
     @GetMapping("/loaisanpham")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public FormatApi findAllLoaiSanPham(){
         List<LoaiSanPham> lst = loaiSanPhamService.findAll();
         if (lst.isEmpty()) {
@@ -42,6 +44,7 @@ public class LoaiSanPhamController {
         }
     }
     @GetMapping("/loaisanpham/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public FormatApi finLoaiSanPhamByID(@PathVariable("id") Integer id) {
         Optional<LoaiSanPham> data = loaiSanPhamService.findById(id);
         if (data.isPresent()) {
@@ -60,6 +63,7 @@ public class LoaiSanPhamController {
         }
     }
     @PostMapping("/loaisanpham")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public FormatApi createLoaiSanPham(@RequestBody LoaiSanPham loaiSanPham){
         LoaiSanPham result = new LoaiSanPham();
         result.setTenDanhMuc(loaiSanPham.getTenDanhMuc());
@@ -80,6 +84,7 @@ public class LoaiSanPhamController {
         }
     }
     @PutMapping("/loaisanpham/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public FormatApi updateLoaiSanPham(@PathVariable("id") Integer id, @RequestBody LoaiSanPham loaiSanPham){
         LoaiSanPham save = loaiSanPhamService.update(id, loaiSanPham);
         // Optional<LoaiSanPham> data = loaiSanPhamService.findById(id);
@@ -101,6 +106,7 @@ public class LoaiSanPhamController {
         }
     }
     @DeleteMapping("/loaisanpham/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public FormatApi deleteLoaiSanPham(@PathVariable("id") Integer id){
         LoaiSanPham delete = loaiSanPhamService.delete(id);
         if(delete != null){

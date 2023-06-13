@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,6 +40,7 @@ public class SanPhamController {
     @Autowired
     private KhuyenMaiRepository khuyenMaiRepository;
     @GetMapping("/sanpham")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public FormatApi findAllSanPham(){
         List<SanPham> lstSanPham = sanPhamService.findAll();
         if(lstSanPham.size() > 0){
@@ -59,11 +61,19 @@ public class SanPhamController {
     public FormatApi findSanPhamByID(@PathVariable("id") Integer id){
         Optional<SanPham> sanPham = sanPhamService.findById(id);
         if(sanPham.isPresent()){
-            FormatApi result = new FormatApi();
-            result.setData(sanPham);
-            result.setMessage("Thành công!");
-            result.setStatus(HttpStatus.OK);
-            return result;
+            if(sanPham.get().getTrangThai() == 1){
+                FormatApi result = new FormatApi();
+                result.setData(sanPham);
+                result.setMessage("Thành công!");
+                result.setStatus(HttpStatus.OK);
+                return result;
+            }else{
+                FormatApi result = new FormatApi();
+                result.setData(sanPham);
+                result.setMessage("Không có dữ liệu sản phẩm có id = " + id);
+                result.setStatus(HttpStatus.NO_CONTENT);
+                return result;
+            }   
         }else{
             FormatApi result = new FormatApi();
             result.setData(sanPham);
@@ -72,9 +82,46 @@ public class SanPhamController {
             return result;
         }
     }
+    @GetMapping("/sanpham/danhmuc/{id}")
+    public FormatApi findSanPhamByDanhMuc(@PathVariable("id") Integer id){
+        List<SanPham> lstSanPham = sanPhamRepository.findSanPhamByDanhMucActive(id);
+        if(!lstSanPham.isEmpty()){
+            FormatApi result = new FormatApi();
+            result.setData(lstSanPham);
+            result.setMessage("Thành công!");
+            result.setStatus(HttpStatus.OK);
+            return result;
+        }else{
+            FormatApi result = new FormatApi();
+            result.setData(lstSanPham);
+            result.setMessage("Không có dữ liệu sản phẩm có danh mục này");
+            result.setStatus(HttpStatus.NO_CONTENT);
+            return result;
+        }
+    }
+    @GetMapping("/sanpham/nhasanxuat/{id}")
+    public FormatApi findSanPhamByNhaSanXuat(@PathVariable("id") Integer id){
+        List<SanPham> lstSanPham = sanPhamRepository.findSanPhamByNhaSanXuatActive(id);
+        if(!lstSanPham.isEmpty()){
+            FormatApi result = new FormatApi();
+            result.setData(lstSanPham);
+            result.setMessage("Thành công!");
+            result.setStatus(HttpStatus.OK);
+            return result;
+        }else{
+            FormatApi result = new FormatApi();
+            result.setData(lstSanPham);
+            result.setMessage("Không có dữ liệu sản phẩm có id = " + id);
+            result.setStatus(HttpStatus.NO_CONTENT);
+            return result;
+        }
+    }
     @PostMapping("/sanpham")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public FormatApi createSanPham(@RequestBody SanPham sanPham){
         SanPham save = sanPhamService.create(sanPham);
+        save = setDanhMucToSanPham(save.getId(), sanPham.getDanhMuc().getId());
+        save = setNhaSanXuatToSanPham(save.getId(), sanPham.getNhaSanXuat().getId());
         if(save != null){
             FormatApi result = new FormatApi();
             result.setData(save);
@@ -91,6 +138,7 @@ public class SanPhamController {
         }
     }
     @PostMapping("/setdanhmuctosanpham")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public SanPham setDanhMucToSanPham(@RequestParam("sanPham") Integer sanPham, @RequestParam("danhMuc") Integer danhMuc){
         Optional<SanPham> dataSanPham = sanPhamRepository.findById(sanPham);
         Optional<LoaiSanPham> dataLoaiSanPham = loaiSanPhamRepository.findById(danhMuc);
@@ -98,6 +146,7 @@ public class SanPhamController {
         return sanPhamRepository.save(dataSanPham.get());
     }
     @PostMapping("/setnhasanxuattosanpham")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public SanPham setNhaSanXuatToSanPham(@RequestParam("sanPham") Integer sanPham, @RequestParam("nhaSanXuat") Integer nhaSanXuat){
         Optional<SanPham> dataSanPham = sanPhamRepository.findById(sanPham);
         Optional<NhaSanXuat> dataNhaSanXuat = nhaSanXuatRepository.findById(nhaSanXuat);
@@ -105,6 +154,7 @@ public class SanPhamController {
         return sanPhamRepository.save(dataSanPham.get());
     }
     @PostMapping("/setkhuyenmaitosanpham")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public SanPham setKhuyenMaiToSanPham(@RequestParam("sanPham") Integer sanPham, @RequestParam("khuyenMai") Integer khuyenMai){
         Optional<SanPham> dataSanPham = sanPhamRepository.findById(sanPham);
         Optional<KhuyenMai> dataKhuyenMai = khuyenMaiRepository.findById(khuyenMai);
