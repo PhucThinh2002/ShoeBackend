@@ -78,7 +78,7 @@ public class HinhAnhController {
         return new ResponseEntity<>(save, HttpStatus.OK);
     }
 
-    @GetMapping("/{filename}")
+    @GetMapping("/getimage/{filename}")
     public ResponseEntity<byte[]> getImage(@PathVariable String filename) throws IOException {
         String uploadDir = fileStorageConfig.getUploadDir();
         Path imagePath = Path.of(uploadDir, filename);
