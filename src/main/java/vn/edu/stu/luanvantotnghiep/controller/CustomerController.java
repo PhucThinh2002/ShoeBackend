@@ -8,7 +8,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import vn.edu.stu.luanvantotnghiep.model.Customer;
+import vn.edu.stu.luanvantotnghiep.model.District;
 import vn.edu.stu.luanvantotnghiep.model.FormatApi;
+import vn.edu.stu.luanvantotnghiep.model.ModelUser;
+import vn.edu.stu.luanvantotnghiep.model.Province;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -19,6 +22,10 @@ import vn.edu.stu.luanvantotnghiep.service.CustomerLogin;
 import vn.edu.stu.luanvantotnghiep.service.TokenService;
 import vn.edu.stu.luanvantotnghiep.security.UserPrincipal;
 import vn.edu.stu.luanvantotnghiep.model.Token;
+import vn.edu.stu.luanvantotnghiep.model.Ward;
+import vn.edu.stu.luanvantotnghiep.repository.DistrictRepository;
+import vn.edu.stu.luanvantotnghiep.repository.ProvinceRepository;
+import vn.edu.stu.luanvantotnghiep.repository.WardRepository;
 import vn.edu.stu.luanvantotnghiep.security.JwtUtil;
 
 @RestController
@@ -31,6 +38,12 @@ public class CustomerController {
     private CustomerLogin gCustomerLogin;
     @Autowired
     private TokenService gTokenService;
+    @Autowired
+    private ProvinceRepository provinceRepository;
+    @Autowired
+    private DistrictRepository districtRepository;
+    @Autowired
+    private WardRepository wardRepository;
 
     @GetMapping("/customer")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
@@ -47,9 +60,21 @@ public class CustomerController {
         return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
     }
     @PostMapping("/customer/register")
-    public ResponseEntity<?> createCustomer( @RequestBody Customer customer){
+    public ResponseEntity<?> createCustomer( @RequestBody ModelUser customer){
         try {
-            Customer saveCus = gCustomerService.createCusomer(customer);
+            Province thanhPho = provinceRepository.findById(customer.getProvince()).get();
+            District huyen = districtRepository.findById(customer.getDistrict()).get();
+            Ward xa = wardRepository.findById(customer.getWard()).get();
+            Customer data = new Customer();
+            data.setHoTenLot(customer.getHoTenLot());
+            data.setEmail(customer.getEmail());
+            data.setTen(customer.getTen());
+            data.setUsername(customer.getUsername() + "," + xa.getName() + "," + huyen.getName() + "," + thanhPho.getName());
+            data.setPassword(customer.getPassword());
+            data.setDiaChi(customer.getDiaChi());
+            data.setNgaySinh(customer.getNgaySinh());
+            data.setSoDienThoai(customer.getSoDienThoai());
+            Customer saveCus = gCustomerService.createCusomer(data);
             if(saveCus == null) return new ResponseEntity<>("Username của bạn đã tồn tại!", HttpStatus.PARTIAL_CONTENT);
             return new ResponseEntity<>(saveCus, HttpStatus.CREATED);
         } catch (Exception e) {
