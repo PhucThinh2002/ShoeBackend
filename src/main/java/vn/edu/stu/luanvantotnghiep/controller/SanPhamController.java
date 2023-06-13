@@ -69,14 +69,14 @@ public class SanPhamController {
                 return result;
             }else{
                 FormatApi result = new FormatApi();
-                result.setData(sanPham);
+                result.setData(null);
                 result.setMessage("Không có dữ liệu sản phẩm có id = " + id);
                 result.setStatus(HttpStatus.NO_CONTENT);
                 return result;
             }   
         }else{
             FormatApi result = new FormatApi();
-            result.setData(sanPham);
+            result.setData(null);
             result.setMessage("Không có dữ liệu sản phẩm có id = " + id);
             result.setStatus(HttpStatus.NO_CONTENT);
             return result;
