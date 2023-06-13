@@ -48,7 +48,6 @@ public class CustomerService {
         Role roleCustomer = new Role();
         roleCustomer = gRoleRepository.findByRoleKey("ROLE_CUSTOMER");
         Customer newCus = new Customer();
-        Optional<Province> province = gProvinceRepository.findById(customer.getProvince().getId());
         newCus.setHoTenLot(customer.getHoTenLot());
         newCus.setTen(customer.getTen());
         newCus.setNgaySinh(customer.getNgaySinh());
@@ -57,9 +56,9 @@ public class CustomerService {
         newCus.setDiaChi(customer.getDiaChi());
         newCus.setUsername(customer.getUsername());
         newCus.setPassword(new BCryptPasswordEncoder().encode(customer.getPassword()));
-        newCus.setProvince(province.get());
         newCus.setRole(roleCustomer);
         newCus.setCreatedAt(new Date());
+        newCus.setProvince(customer.getProvince());
         newCus.setActive(1);
         Customer resultCus = gCustomerRepository.findByUsername(customer.getUsername());
         if (resultCus != null) {
