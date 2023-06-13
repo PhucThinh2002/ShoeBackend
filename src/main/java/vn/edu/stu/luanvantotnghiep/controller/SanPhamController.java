@@ -116,6 +116,23 @@ public class SanPhamController {
             return result;
         }
     }
+    @GetMapping("/sanphamactive")
+    public FormatApi findSanPhamActive(){
+        List<SanPham> lstSanPham = sanPhamRepository.findSanPhamActive();
+        if(!lstSanPham.isEmpty()){
+            FormatApi result = new FormatApi();
+            result.setData(lstSanPham);
+            result.setMessage("Thành công!");
+            result.setStatus(HttpStatus.OK);
+            return result;
+        }else{
+            FormatApi result = new FormatApi();
+            result.setData(lstSanPham);
+            result.setMessage("Không có dữ liệu sản phẩm");
+            result.setStatus(HttpStatus.NO_CONTENT);
+            return result;
+        }
+    }
     @PostMapping("/sanpham")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public FormatApi createSanPham(@RequestBody ModelSanPham sanPham){
@@ -126,6 +143,7 @@ public class SanPhamController {
         data.setSoLuongTon(sanPham.getSoLuongTon());
         data.setBaoHanh(sanPham.getBaoHanh());
         data.setThuocTinhs(sanPham.getThuocTinhs());
+        data.setNamRaMat(sanPham.getNamRaMat());
         SanPham save = sanPhamService.create(data);
         save = setDanhMucToSanPham(save.getId(), sanPham.getDanhMuc().getId());
         save = setNhaSanXuatToSanPham(save.getId(), sanPham.getNhaSanXuat().getId());

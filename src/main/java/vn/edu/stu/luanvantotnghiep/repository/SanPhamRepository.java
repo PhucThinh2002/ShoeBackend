@@ -13,4 +13,6 @@ public interface SanPhamRepository extends JpaRepository<SanPham, Integer>{
     List<SanPham> findSanPhamByDanhMucActive(@Param("danhmuc") Integer danhMuc);
     @Query(value = "select * from san_pham where trang_thai = 1 and nha_san_xuat = :nhasanxuat", nativeQuery = true)
     List<SanPham> findSanPhamByNhaSanXuatActive(@Param("nhasanxuat") Integer nhaSanXuat);
+    @Query(value = "select * from san_pham where trang_thai = 1", nativeQuery = true)
+    List<SanPham> findSanPhamActive();
 }
