@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import vn.edu.stu.luanvantotnghiep.model.SanPham;
@@ -20,10 +23,6 @@ public class SanPhamServicImpl implements ISanPhamService{
     @Autowired
     private ThuocTinhRepository thuocTinhRepository;
 
-    @Override
-    public List<SanPham> findAll() {
-        return sanPhamRepository.findAll();
-    }
 
     @Override
     public Optional<SanPham> findById(Integer id) {
@@ -52,5 +51,17 @@ public class SanPhamServicImpl implements ISanPhamService{
     public SanPham delete(Integer id) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'delete'");
+    }
+
+    @Override
+    public Page<SanPham> findAll(Integer limit, Integer currentpage) {
+        PageRequest pageable = PageRequest.of(limit, currentpage);
+        return sanPhamRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<SanPham> findSanPhamActive(Integer limit, Integer currentpage) {
+         PageRequest pageable = PageRequest.of(currentpage, limit);
+        return sanPhamRepository.findSanPhamActive(pageable);
     }
 }

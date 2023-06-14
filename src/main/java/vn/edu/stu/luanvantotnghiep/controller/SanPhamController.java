@@ -4,8 +4,10 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import vn.edu.stu.luanvantotnghiep.model.FormatApi;
+import vn.edu.stu.luanvantotnghiep.model.FormatApiSanPham;
 import vn.edu.stu.luanvantotnghiep.model.KhuyenMai;
 import vn.edu.stu.luanvantotnghiep.model.LoaiSanPham;
 import vn.edu.stu.luanvantotnghiep.model.ModelSanPham;
@@ -41,9 +44,9 @@ public class SanPhamController {
     private KhuyenMaiRepository khuyenMaiRepository;
     @GetMapping("/sanpham")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    public FormatApi findAllSanPham(){
-        List<SanPham> lstSanPham = sanPhamService.findAll();
-        if(lstSanPham.size() > 0){
+    public FormatApi findAllSanPham(@RequestParam(defaultValue = "10") Integer limit, @RequestParam(defaultValue = "10") Integer currentpage){
+        Page<SanPham> lstSanPham = sanPhamService.findAll(limit, currentpage);
+        if(lstSanPham.getSize() > 0){
             FormatApi result = new FormatApi();
             result.setData(lstSanPham);
             result.setMessage("Thành công!");
@@ -117,17 +120,19 @@ public class SanPhamController {
         }
     }
     @GetMapping("/sanphamactive")
-    public FormatApi findSanPhamActive(){
-        List<SanPham> lstSanPham = sanPhamRepository.findSanPhamActive();
-        if(!lstSanPham.isEmpty()){
-            FormatApi result = new FormatApi();
-            result.setData(lstSanPham);
+    public FormatApiSanPham findSanPhamActive(@RequestParam(defaultValue = "10") Integer currentpage, @RequestParam(defaultValue = "10") Integer limit){
+        Page<SanPham> lstSanPham = sanPhamService.findSanPhamActive(limit, currentpage);
+        if(lstSanPham.getSize() > 0){
+            FormatApiSanPham result = new FormatApiSanPham();
+            result.setData(lstSanPham.getContent());
             result.setMessage("Thành công!");
             result.setStatus(HttpStatus.OK);
+            result.setCurrentpage(currentpage);
+            result.setTotalPage(lstSanPham.getTotalPages());
             return result;
         }else{
-            FormatApi result = new FormatApi();
-            result.setData(lstSanPham);
+            FormatApiSanPham result = new FormatApiSanPham();
+            result.setData(lstSanPham.getContent());
             result.setMessage("Không có dữ liệu sản phẩm");
             result.setStatus(HttpStatus.NO_CONTENT);
             return result;
