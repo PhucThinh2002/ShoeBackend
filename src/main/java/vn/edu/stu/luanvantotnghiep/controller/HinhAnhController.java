@@ -61,6 +61,7 @@ public class HinhAnhController {
 
     @PostMapping("/image")
     public ResponseEntity<HinhAnh> uploadImage(@RequestParam("hinhAnh") MultipartFile hinhAnh) throws IOException {
+        String linkServer = "https://luanvantotnghiep-production.up.railway.app/getimage/";
         String uploadDir = fileStorageConfig.getUploadDir();
         File directory = new File(uploadDir);
 
@@ -71,8 +72,8 @@ public class HinhAnhController {
         Files.copy(hinhAnh.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
         HinhAnh save = new HinhAnh();
         save.setKichThuoc(hinhAnh.getSize());
-        save.setPath(uploadDir);
         save.setTenHinhAnh(hinhAnh.getOriginalFilename());
+        save.setPath(linkServer + hinhAnh.getOriginalFilename());
         save = hinhAnhRepository.save(save);
 
         return new ResponseEntity<>(save, HttpStatus.OK);
