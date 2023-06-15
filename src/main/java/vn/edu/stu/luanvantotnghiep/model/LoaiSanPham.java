@@ -36,7 +36,7 @@ public class LoaiSanPham {
     @LastModifiedDate
     private Date updateDate;
     @OneToMany(mappedBy = "danhMuc", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonBackReference
+    @JsonManagedReference
     private List<SanPham> sanPhams;
     @Column(name = "active", length = 1)
     private Integer active;

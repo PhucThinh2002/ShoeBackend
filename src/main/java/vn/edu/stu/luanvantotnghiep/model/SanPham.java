@@ -43,7 +43,7 @@ public class SanPham {
     private Date updateDate;
     @JoinColumn(name = "danh_muc", referencedColumnName = "id")
     @ManyToOne
-    @JsonManagedReference
+    @JsonBackReference
     private LoaiSanPham danhMuc;
     @JoinColumn(name = "nha_san_xuat", referencedColumnName = "id")
     @ManyToOne
