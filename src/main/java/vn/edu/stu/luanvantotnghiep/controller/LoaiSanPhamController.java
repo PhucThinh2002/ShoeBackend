@@ -26,7 +26,7 @@ public class LoaiSanPhamController {
     private ILoaiSanPhamService loaiSanPhamService;
 
     @GetMapping("/loaisanpham")
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    // @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public FormatApi findAllLoaiSanPham(){
         List<LoaiSanPham> lst = loaiSanPhamService.findAll();
         if (lst.isEmpty()) {
@@ -44,7 +44,7 @@ public class LoaiSanPhamController {
         }
     }
     @GetMapping("/loaisanpham/{id}")
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    // @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public FormatApi finLoaiSanPhamByID(@PathVariable("id") Integer id) {
         Optional<LoaiSanPham> data = loaiSanPhamService.findById(id);
         if (data.isPresent()) {

@@ -19,7 +19,7 @@ public class NhaSanXuatController {
     private INhaSanXuatService nhaSanXuatService;
 
     @GetMapping("/nhasanxuat")
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    // @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public FormatApi findAllNhaSanXuat(){
         List<NhaSanXuat> lst = nhaSanXuatService.findAll();
         if (lst.isEmpty()) {
@@ -37,7 +37,7 @@ public class NhaSanXuatController {
         }
     }
     @GetMapping("/nhasanxuat/{id}")
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    // @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public FormatApi findNhaSanXuatByID(@PathVariable("id") Integer id){
         Optional<NhaSanXuat> nhaSanXuat = nhaSanXuatService.findById(id);
         if (nhaSanXuat.isPresent()) {
