@@ -1,20 +1,24 @@
-package vn.edu.stu.luanvantotnghiep.service;
+package vn.edu.stu.luanvantotnghiep.service.Impl;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+
 import vn.edu.stu.luanvantotnghiep.model.Customer;
 import vn.edu.stu.luanvantotnghiep.model.Province;
 import vn.edu.stu.luanvantotnghiep.model.Role;
 import vn.edu.stu.luanvantotnghiep.repository.CustomerRepository;
 import vn.edu.stu.luanvantotnghiep.repository.ProvinceRepository;
 import vn.edu.stu.luanvantotnghiep.repository.RoleRepository;
+import vn.edu.stu.luanvantotnghiep.service.ICustomerService;
 
 @Service
-public class CustomerService {
+public class CustomerServiceImpl implements ICustomerService{
     @Autowired
     private CustomerRepository gCustomerRepository;
     @Autowired

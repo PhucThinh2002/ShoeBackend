@@ -17,15 +17,15 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import vn.edu.stu.luanvantotnghiep.service.CustomerService;
+import vn.edu.stu.luanvantotnghiep.service.ICustomerService;
+import vn.edu.stu.luanvantotnghiep.service.IDistrictService;
+import vn.edu.stu.luanvantotnghiep.service.IProvinceService;
+import vn.edu.stu.luanvantotnghiep.service.IWardService;
 import vn.edu.stu.luanvantotnghiep.service.CustomerLogin;
 import vn.edu.stu.luanvantotnghiep.service.TokenService;
 import vn.edu.stu.luanvantotnghiep.security.UserPrincipal;
 import vn.edu.stu.luanvantotnghiep.model.Token;
 import vn.edu.stu.luanvantotnghiep.model.Ward;
-import vn.edu.stu.luanvantotnghiep.repository.DistrictRepository;
-import vn.edu.stu.luanvantotnghiep.repository.ProvinceRepository;
-import vn.edu.stu.luanvantotnghiep.repository.WardRepository;
 import vn.edu.stu.luanvantotnghiep.security.JwtUtil;
 
 @RestController
@@ -33,17 +33,17 @@ import vn.edu.stu.luanvantotnghiep.security.JwtUtil;
 @RequestMapping("/")
 public class CustomerController {
     @Autowired
-    private CustomerService gCustomerService;
+    private ICustomerService gCustomerService;
     @Autowired
     private CustomerLogin gCustomerLogin;
     @Autowired
     private TokenService gTokenService;
     @Autowired
-    private ProvinceRepository provinceRepository;
+    private IProvinceService provinceService;
     @Autowired
-    private DistrictRepository districtRepository;
+    private IDistrictService districtService;
     @Autowired
-    private WardRepository wardRepository;
+    private IWardService wardService;
 
     @GetMapping("/customer")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
@@ -62,9 +62,9 @@ public class CustomerController {
     @PostMapping("/customer/register")
     public ResponseEntity<?> createCustomer( @RequestBody ModelUser customer){
         try {
-            Province thanhPho = provinceRepository.findById(customer.getProvince()).get();
-            District huyen = districtRepository.findById(customer.getDistrict()).get();
-            Ward xa = wardRepository.findById(customer.getWard()).get();
+            Province thanhPho = provinceService.findById(customer.getProvince()).get();
+            District huyen = districtService.findById(customer.getDistrict()).get();
+            Ward xa = wardService.findById(customer.getWard()).get();
             Customer data = new Customer();
             data.setHoTenLot(customer.getHoTenLot());
             data.setEmail(customer.getEmail());

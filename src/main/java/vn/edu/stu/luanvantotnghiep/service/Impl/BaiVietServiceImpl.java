@@ -58,7 +58,7 @@ public class BaiVietServiceImpl implements IBaiVietService{
 
     @Override
     public List<BaiViet> findAllActive() {
-        return baiVietRepository.findAllBaiVietActive();
+        return baiVietRepository.findByActive(1);
     }
 
 }

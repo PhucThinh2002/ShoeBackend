@@ -8,6 +8,9 @@ import javax.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name = "users")
 public class Customer{
@@ -44,6 +47,7 @@ public class Customer{
     @JoinColumn(name="role", nullable=false, insertable = true, updatable = true)
     private Role role;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<HoaDon> hoaDons;
     @OneToMany(mappedBy = "quanLy", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PhieuNhapHang> phieuNhapHangs;

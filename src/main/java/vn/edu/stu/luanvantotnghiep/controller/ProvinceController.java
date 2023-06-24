@@ -12,33 +12,33 @@ import org.springframework.web.bind.annotation.RestController;
 import vn.edu.stu.luanvantotnghiep.model.District;
 import vn.edu.stu.luanvantotnghiep.model.Province;
 import vn.edu.stu.luanvantotnghiep.model.Ward;
-import vn.edu.stu.luanvantotnghiep.repository.DistrictRepository;
-import vn.edu.stu.luanvantotnghiep.repository.ProvinceRepository;
-import vn.edu.stu.luanvantotnghiep.repository.WardRepository;
+import vn.edu.stu.luanvantotnghiep.service.IDistrictService;
+import vn.edu.stu.luanvantotnghiep.service.IProvinceService;
+import vn.edu.stu.luanvantotnghiep.service.IWardService;
 
 @RestController
 @CrossOrigin(maxAge = 3600)
 public class ProvinceController {
-    @Autowired ProvinceRepository provinceRepo;
-    @Autowired DistrictRepository districtRepo;
-    @Autowired WardRepository wardRepo;
+    @Autowired IProvinceService provinceService;
+    @Autowired IDistrictService districtService;
+    @Autowired IWardService wardService;
     @GetMapping("/province")
     public List<Province> getAllProvince(){
         List<Province> lstProvince = new ArrayList<Province>();
-        provinceRepo.findAll().forEach(lstProvince::add);
+        provinceService.findAll().forEach(lstProvince::add);
         return lstProvince;
     }
     @GetMapping("/district/{provinceid}")
     public List<District> getDistrictByProvince(@PathVariable("provinceid") Long province){
         List<District> lstDistrict = new ArrayList<District>();
-        districtRepo.findByProvince(province).forEach(lstDistrict::add);
+        districtService.findByProvinceID(province).forEach(lstDistrict::add);
         return lstDistrict;
     }
 
     @GetMapping("/ward/{district}")
     public List<Ward> getWardByDistrict(@PathVariable("district") Long district){
         List<Ward> lstWard = new ArrayList<Ward>();
-        wardRepo.findDistrictById(district).forEach(lstWard::add);
+        wardService.findByDistrictID(district).forEach(lstWard::add);
         return lstWard;
     }
 }

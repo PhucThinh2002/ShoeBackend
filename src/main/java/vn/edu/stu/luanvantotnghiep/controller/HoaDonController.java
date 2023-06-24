@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,7 +26,6 @@ import vn.edu.stu.luanvantotnghiep.model.SanPham;
 import vn.edu.stu.luanvantotnghiep.model.TraGop;
 import vn.edu.stu.luanvantotnghiep.repository.ChiTietHoaDonRepository;
 import vn.edu.stu.luanvantotnghiep.repository.CustomerRepository;
-import vn.edu.stu.luanvantotnghiep.repository.HoaDonRepository;
 import vn.edu.stu.luanvantotnghiep.repository.SanPhamRepository;
 import vn.edu.stu.luanvantotnghiep.repository.TraGopRepository;
 import vn.edu.stu.luanvantotnghiep.service.IHoaDonService;
@@ -37,8 +37,6 @@ public class HoaDonController {
     private IHoaDonService hoaDonService;
     @Autowired
     private SanPhamRepository sanPhamRepository;
-    @Autowired
-    private HoaDonRepository hoaDonRepository;
     @Autowired
     private CustomerRepository customerRepository;
     @Autowired
@@ -147,7 +145,7 @@ public class HoaDonController {
             FormatApi formatApi = new FormatApi(HttpStatus.OK, "Tạo hóa đơn thành công!", save);
             return formatApi;
         }else{
-            FormatApi formatApi = new FormatApi(HttpStatus.INTERNAL_SERVER_ERROR, "Tạo hóa đơn không thành công!", save);
+            FormatApi formatApi = new FormatApi(HttpStatus.NOT_FOUND, "Tạo hóa đơn không thành công!", save);
             return formatApi;
         }
     }
@@ -162,12 +160,97 @@ public class HoaDonController {
             return result;
         }
         Customer cusResult = customerRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
-        List<HoaDon> lstHoaDon = hoaDonRepository.findAllHoaDonByKhachHang(cusResult.getId());
+        List<HoaDon> lstHoaDon = hoaDonService.findAllHoaDonByKhachHang(cusResult.getId());
         if(!lstHoaDon.isEmpty()){
             FormatApi formatApi = new FormatApi(HttpStatus.OK, "Bạn có hóa đơn", lstHoaDon);
             return formatApi;
         }else{
             FormatApi formatApi = new FormatApi(HttpStatus.NO_CONTENT, "Bạn chưa có hóa đơn nào!", lstHoaDon);
+            return formatApi;
+        }
+    }
+    @PutMapping("/hoadon/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_CUSTOMER', 'ROLE_ADMIN')")
+    public FormatApi updateHoaDon(@PathVariable("id") Integer id, @RequestBody HoaDon hoaDon){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication == null || !authentication.isAuthenticated()){
+            FormatApi result = new FormatApi();
+            result.setMessage("No Authentication user not found!");
+            result.setStatus(HttpStatus.NOT_FOUND);
+            return result;
+        }
+        Customer cusResult = customerRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        if(cusResult.getRole().getId() == 1){
+            hoaDon.setQuanLy(cusResult);
+        }else{
+            hoaDon.setUser(cusResult);
+        }
+        HoaDon result = hoaDonService.update(id, hoaDon);
+        if(result == null){
+            FormatApi formatApi = new FormatApi(HttpStatus.NO_CONTENT, "Cập nhật không thành công", result);
+            return formatApi;
+        }else{
+            FormatApi formatApi = new FormatApi(HttpStatus.OK, "Cập nhật hóa đơn thành công!", result);
+            return formatApi;
+        }
+    }
+    @PutMapping("/hoadon/{id}/chuanbihang")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    public FormatApi updateHoaDonChuanBiHang(@PathVariable("id") Integer id){
+        HoaDon hoaDon = hoaDonService.updateChuanBiHang(id);
+        if(hoaDon == null){
+            FormatApi formatApi = new FormatApi(HttpStatus.NO_CONTENT, "Cập nhật trạng thái không thành công", hoaDon);
+            return formatApi;
+        }else{
+            FormatApi formatApi = new FormatApi(HttpStatus.OK, "Cập nhật trạng thái hóa đơn thành công!", hoaDon);
+            return formatApi;
+        }
+    }
+    @PutMapping("/hoadon/{id}/giaohang")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    public FormatApi updateHoaDonGiaoHang(@PathVariable("id") Integer id){
+        HoaDon hoaDon = hoaDonService.updateGiaoHang(id);
+        if(hoaDon == null){
+            FormatApi formatApi = new FormatApi(HttpStatus.NO_CONTENT, "Cập nhật trạng thái không thành công", hoaDon);
+            return formatApi;
+        }else{
+            FormatApi formatApi = new FormatApi(HttpStatus.OK, "Cập nhật trạng thái hóa đơn thành công!", hoaDon);
+            return formatApi;
+        }
+    }
+    @PutMapping("/hoadon/{id}/thanhcong")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    public FormatApi updateHoaDonThanhCong(@PathVariable("id") Integer id){
+        HoaDon hoaDon = hoaDonService.updateThanhCong(id);
+        if(hoaDon == null){
+            FormatApi formatApi = new FormatApi(HttpStatus.NO_CONTENT, "Cập nhật trạng tháikhông thành công", hoaDon);
+            return formatApi;
+        }else{
+            FormatApi formatApi = new FormatApi(HttpStatus.OK, "Cập nhật trạng thái hóa đơn thành công!", hoaDon);
+            return formatApi;
+        }
+    }
+    @PutMapping("/hoadon/{id}/xoa")
+    @PreAuthorize("hasAnyRole('ROLE_CUSTOMER', 'ROLE_ADMIN')")
+    public FormatApi updateHoaDonXoa(@PathVariable("id") Integer id){
+        HoaDon hoaDon = hoaDonService.updateXoaDonHang(id);
+        if(hoaDon == null){
+            FormatApi formatApi = new FormatApi(HttpStatus.NO_CONTENT, "Cập nhật trạng thái không thành công", hoaDon);
+            return formatApi;
+        }else{
+            FormatApi formatApi = new FormatApi(HttpStatus.OK, "Cập nhật trạng thái hóa đơn thành công!", hoaDon);
+            return formatApi;
+        }
+    }
+    @PutMapping("/hoadon/{id}/thanhtoan")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    public FormatApi updateHoaDonThanhToan(@PathVariable("id") Integer id){
+        HoaDon hoaDon = hoaDonService.updateDaThanhToan(id);
+        if(hoaDon == null){
+            FormatApi formatApi = new FormatApi(HttpStatus.NO_CONTENT, "Cập nhật trạng thái không thành công", hoaDon);
+            return formatApi;
+        }else{
+            FormatApi formatApi = new FormatApi(HttpStatus.OK, "Cập nhật trạng thái hóa đơn thành công!", hoaDon);
             return formatApi;
         }
     }

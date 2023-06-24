@@ -43,6 +43,9 @@ public class HoaDonServiceImpl implements IHoaDonService{
     @Override
     public HoaDon update(Integer id, HoaDon hoaDon) {
         Optional<HoaDon> find = hoaDonRepository.findById(id);
+        if(find.get().getTrangThai() <= 0 && find.get().getTrangThai() > 2){
+            return null;
+        }
         if(find.isPresent()){
             HoaDon save = find.get();
             save.setUpdateDate(Calendar.getInstance().getTime());
@@ -52,9 +55,62 @@ public class HoaDonServiceImpl implements IHoaDonService{
             save.setTongTien(hoaDon.getTongTien());
             save.setTenKhachHang(hoaDon.getTenKhachHang());
             save.setSoDienThoai(hoaDon.getSoDienThoai());
+            save.setQuanLy(hoaDon.getQuanLy());
+            save.setUser(hoaDon.getUser());
             save = hoaDonRepository.save(save);
             return save;
         }
         return null;
     }
+
+    @Override
+    public List<HoaDon> findAllHoaDonByKhachHang(Integer id) {
+        return hoaDonRepository.findAllHoaDonByKhachHang(id);
+    }
+
+    @Override
+    public HoaDon updateChuaThanhToan(Integer id) {
+        HoaDon hoaDon = hoaDonRepository.findById(id).get();
+        hoaDon.setTrangThaiThanhToan(0);
+        return hoaDonRepository.save(hoaDon);
+    }
+
+    @Override
+    public HoaDon updateChuanBiHang(Integer id) {
+        HoaDon hoaDon = hoaDonRepository.findById(id).get();
+        hoaDon.setTrangThai(2);
+        return hoaDonRepository.save(hoaDon);
+    }
+
+    @Override
+    public HoaDon updateDaThanhToan(Integer id) {
+        HoaDon hoaDon = hoaDonRepository.findById(id).get();
+        hoaDon.setTrangThaiThanhToan(1);
+        return hoaDonRepository.save(hoaDon);
+    }
+
+    @Override
+    public HoaDon updateGiaoHang(Integer id) {
+        HoaDon hoaDon = hoaDonRepository.findById(id).get();
+        hoaDon.setTrangThai(3);
+        return hoaDonRepository.save(hoaDon);
+    }
+
+    @Override
+    public HoaDon updateThanhCong(Integer id) {
+        HoaDon hoaDon = hoaDonRepository.findById(id).get();
+        hoaDon.setTrangThai(4);
+        return hoaDonRepository.save(hoaDon);
+    }
+
+    @Override
+    public HoaDon updateXoaDonHang(Integer id) {
+        HoaDon hoaDon = hoaDonRepository.findById(id).get();
+        if(hoaDon.getTrangThai() >=2){
+            return null;
+        }
+        hoaDon.setTrangThai(5);
+        return hoaDonRepository.save(hoaDon);
+    }
+    
 }

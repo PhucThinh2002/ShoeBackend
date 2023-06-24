@@ -19,11 +19,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import vn.edu.stu.luanvantotnghiep.model.BaiViet;
-import vn.edu.stu.luanvantotnghiep.model.Banner;
 import vn.edu.stu.luanvantotnghiep.model.Customer;
 import vn.edu.stu.luanvantotnghiep.model.FormatApi;
-import vn.edu.stu.luanvantotnghiep.repository.CustomerRepository;
 import vn.edu.stu.luanvantotnghiep.service.IBaiVietService;
+import vn.edu.stu.luanvantotnghiep.service.ICustomerService;
 
 @RestController
 @CrossOrigin(maxAge = 3600)
@@ -32,7 +31,7 @@ public class BaiVietController {
     private IBaiVietService baiVietService;
 
     @Autowired
-    private CustomerRepository customerRepository;
+    private ICustomerService customerService;
 
     @GetMapping("/baiviet")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
@@ -98,7 +97,7 @@ public class BaiVietController {
             result.setStatus(HttpStatus.NOT_FOUND);
             return result;
         }
-        Customer cusResult = customerRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        Customer cusResult = customerService.findCustomerByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         // Optional<Customer> quanLy = customerRepository.findCustomerByIdAndActivated(baiViet.getQuanLy().getId());
         BaiViet data = new BaiViet();
         data.setNoiDung(baiViet.getNoiDung());

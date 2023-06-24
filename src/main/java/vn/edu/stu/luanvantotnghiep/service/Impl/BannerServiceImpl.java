@@ -1,6 +1,7 @@
 package vn.edu.stu.luanvantotnghiep.service.Impl;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,6 +31,8 @@ public class BannerServiceImpl implements IBannerService{
 
     @Override
     public Banner create(Banner banner) {
+        banner.setCreateDate(Calendar.getInstance().getTime());
+        banner.setActive(1);
         return bannerRepository.save(banner);
     }
 
@@ -38,7 +41,8 @@ public class BannerServiceImpl implements IBannerService{
         Optional<Banner> save = bannerRepository.findById(id);
         if(save.isPresent()){
             save.get().setTen(banner.getTen());
-            return bannerRepository.save(banner);
+            save.get().setUpdateDate(Calendar.getInstance().getTime());
+            return bannerRepository.save(save.get());
         }else{
             return null;
         }

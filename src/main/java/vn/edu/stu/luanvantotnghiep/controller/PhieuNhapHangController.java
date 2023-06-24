@@ -22,10 +22,10 @@ import vn.edu.stu.luanvantotnghiep.model.ModelPhieuNhapHang;
 import vn.edu.stu.luanvantotnghiep.model.NhaCungCap;
 import vn.edu.stu.luanvantotnghiep.model.PhieuNhapHang;
 import vn.edu.stu.luanvantotnghiep.model.SanPham;
-import vn.edu.stu.luanvantotnghiep.repository.ChiTietPhieuNhapHangRepository;
-import vn.edu.stu.luanvantotnghiep.repository.SanPhamRepository;
+import vn.edu.stu.luanvantotnghiep.service.IChiTietPhieuNhapHangService;
 import vn.edu.stu.luanvantotnghiep.service.INhaCungCapService;
 import vn.edu.stu.luanvantotnghiep.service.IPhieuNhapHangService;
+import vn.edu.stu.luanvantotnghiep.service.ISanPhamService;
 
 @RestController
 @CrossOrigin(maxAge = 3600)
@@ -35,9 +35,9 @@ public class PhieuNhapHangController {
     @Autowired
     private INhaCungCapService nhaCungCapService;
     @Autowired
-    private SanPhamRepository sanPhamRepository;
+    private ISanPhamService sanPhamService;
     @Autowired
-    private ChiTietPhieuNhapHangRepository chiTietPhieuNhapHangRepository;;
+    private IChiTietPhieuNhapHangService chiTietPhieuNhapHangService;
     @GetMapping("/phieunhaphang")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public FormatApi findAllNhacungcap(){
@@ -86,11 +86,11 @@ public class PhieuNhapHangController {
         PhieuNhapHang save = phieuNhapHangService.create(result);
         for(ChiTietPhieuNhapHang c : phieuNhapHang.getChiTietPhieuNhapHang()){
             c.setPhieuNhapHang(save);
-            Optional<SanPham> sanPham = sanPhamRepository.findById(c.getSanPham().getId());
+            Optional<SanPham> sanPham = sanPhamService.findById(c.getSanPham().getId());
             c.setSanPham(sanPham.get());
-            c = chiTietPhieuNhapHangRepository.save(c);
+            c = chiTietPhieuNhapHangService.create(c);
             sanPham.get().setSoLuongTon(sanPham.get().getSoLuongTon() + c.getSoLuong());
-            sanPhamRepository.save(sanPham.get());
+            sanPhamService.update(sanPham.get());
         }
         if(save != null){
             FormatApi format = new FormatApi();

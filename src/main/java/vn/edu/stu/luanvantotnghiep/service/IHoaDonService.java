@@ -11,4 +11,11 @@ public interface IHoaDonService {
     HoaDon create(HoaDon hoaDon);
     HoaDon update(Integer id, HoaDon hoaDon);
     HoaDon delete(Integer id);
+    List<HoaDon> findAllHoaDonByKhachHang(Integer id);
+    HoaDon updateChuanBiHang(Integer id);
+    HoaDon updateGiaoHang(Integer id);
+    HoaDon updateThanhCong(Integer id);
+    HoaDon updateXoaDonHang(Integer id);
+    HoaDon updateChuaThanhToan(Integer id);
+    HoaDon updateDaThanhToan(Integer id);
 }

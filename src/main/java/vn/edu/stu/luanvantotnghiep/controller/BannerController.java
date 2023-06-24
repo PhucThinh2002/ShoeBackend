@@ -19,9 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 import vn.edu.stu.luanvantotnghiep.model.Banner;
 import vn.edu.stu.luanvantotnghiep.model.FormatApi;
 import vn.edu.stu.luanvantotnghiep.model.HinhAnh;
-import vn.edu.stu.luanvantotnghiep.repository.BannerRepository;
-import vn.edu.stu.luanvantotnghiep.repository.HinhAnhRepository;
 import vn.edu.stu.luanvantotnghiep.service.IBannerService;
+import vn.edu.stu.luanvantotnghiep.service.IHinhAnhService;
 
 @RestController
 @CrossOrigin(maxAge = 3600)
@@ -29,9 +28,7 @@ public class BannerController {
     @Autowired
     private IBannerService bannerService;
     @Autowired
-    private BannerRepository bannerRepository;
-    @Autowired
-    private HinhAnhRepository hinhAnhRepository;
+    private IHinhAnhService hinhAnhRepository;
     @GetMapping("/banner")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public FormatApi findAll(){
@@ -147,10 +144,10 @@ public class BannerController {
     @PostMapping("/setimagetobanner")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public FormatApi setImageToBanner(@RequestParam("hinhAnh") Integer hinhAnh, @RequestParam("banner") Integer banner){
-        Optional<Banner> dataB = bannerRepository.findById(banner);
+        Optional<Banner> dataB = bannerService.findById(banner);
         Optional<HinhAnh> dataH = hinhAnhRepository.findById(hinhAnh);
         dataH.get().setBanner(dataB.get());
-        HinhAnh save = hinhAnhRepository.save(dataH.get());
+        HinhAnh save = hinhAnhRepository.update(dataH.get());
         if(save != null){
             FormatApi format = new FormatApi();
             format.setData(save);

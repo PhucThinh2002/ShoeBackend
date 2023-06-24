@@ -17,6 +17,10 @@ import javax.persistence.Table;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name = "hoa_don")
 public class HoaDon {
@@ -46,6 +50,7 @@ public class HoaDon {
     @Column(name = "so_thang_tra_gop", length = 2)
     private Integer soThangTraGop;
     @OneToMany(mappedBy = "hoaDon", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<TraGop> traGops;
     @Column(name = "create_date")
     @CreatedDate
@@ -54,12 +59,15 @@ public class HoaDon {
     @LastModifiedDate
     private Date updateDate;
     @OneToMany(mappedBy = "hoaDon", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<ChiTietHoaDon> chiTietHoaDons;
     @JoinColumn(name = "khach_hang_id", referencedColumnName = "id")
     @ManyToOne
+    @JsonIgnore
     private Customer user;
     @JoinColumn(name = "quan_ly_id", referencedColumnName = "id")
     @ManyToOne
+    @JsonIgnore
     private Customer quanLy;
     public HoaDon() {
     }

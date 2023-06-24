@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import vn.edu.stu.luanvantotnghiep.model.PhieuNhapHang;
 import vn.edu.stu.luanvantotnghiep.model.SanPham;
 import vn.edu.stu.luanvantotnghiep.model.ThuocTinh;
 import vn.edu.stu.luanvantotnghiep.repository.SanPhamRepository;
@@ -43,14 +44,18 @@ public class SanPhamServicImpl implements ISanPhamService{
 
     @Override
     public SanPham update(SanPham sanPham) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+        sanPham.setUpdateDate(Calendar.getInstance().getTime());
+        return sanPhamRepository.saveAndFlush(sanPham);
     }
 
     @Override
     public SanPham delete(Integer id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
+        Optional<SanPham> sanPham = findById(id);
+        if(sanPham.isPresent()){
+            sanPham.get().setTrangThai(0);
+            return sanPhamRepository.save(sanPham.get());
+        }
+        return null;
     }
 
     @Override

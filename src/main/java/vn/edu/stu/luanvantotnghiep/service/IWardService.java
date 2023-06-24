@@ -7,8 +7,9 @@ import vn.edu.stu.luanvantotnghiep.model.Ward;
 
 public interface IWardService {
     List<Ward> findAll();
-    Optional<Ward> findById(Integer id);
+    Optional<Ward> findById(Long id);
     Ward create(Ward ward);
     Ward update(Ward ward);
-    Ward delete(Integer id);
+    Ward delete(Long id);
+    List<Ward> findByDistrictID(Long district);
 }
