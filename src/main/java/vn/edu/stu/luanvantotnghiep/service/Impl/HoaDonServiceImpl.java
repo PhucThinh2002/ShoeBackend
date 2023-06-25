@@ -112,5 +112,8 @@ public class HoaDonServiceImpl implements IHoaDonService{
         hoaDon.setTrangThai(5);
         return hoaDonRepository.save(hoaDon);
     }
+    public Integer countHoaDon(){
+        return hoaDonRepository.countByTrangThai(1);
+    }
     
 }

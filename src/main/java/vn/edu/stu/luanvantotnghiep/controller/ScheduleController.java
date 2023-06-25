@@ -9,43 +9,43 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
 import vn.edu.stu.luanvantotnghiep.model.DashBoard;
-import vn.edu.stu.luanvantotnghiep.repository.CustomerRepository;
 import vn.edu.stu.luanvantotnghiep.repository.DashBoardRepository;
-import vn.edu.stu.luanvantotnghiep.repository.HoaDonRepository;
-import vn.edu.stu.luanvantotnghiep.repository.KhuyenMaiRepository;
-import vn.edu.stu.luanvantotnghiep.repository.LoaiSanPhamRepository;
-import vn.edu.stu.luanvantotnghiep.repository.NhaCungCapRepository;
-import vn.edu.stu.luanvantotnghiep.repository.NhaSanXuatRepository;
-import vn.edu.stu.luanvantotnghiep.repository.SanPhamRepository;
+import vn.edu.stu.luanvantotnghiep.service.ICustomerService;
+import vn.edu.stu.luanvantotnghiep.service.IHoaDonService;
+import vn.edu.stu.luanvantotnghiep.service.IKhuyenMaiService;
+import vn.edu.stu.luanvantotnghiep.service.ILoaiSanPhamService;
+import vn.edu.stu.luanvantotnghiep.service.INhaCungCapService;
+import vn.edu.stu.luanvantotnghiep.service.INhaSanXuatService;
+import vn.edu.stu.luanvantotnghiep.service.ISanPhamService;
 
 @Configuration
 @EnableScheduling
 public class ScheduleController {
     @Autowired
-    private CustomerRepository customerRepository;
+    private ICustomerService customerService;
     @Autowired
-    private SanPhamRepository sanPhamRepository;
+    private ISanPhamService sanPhamService;
     @Autowired
-    private HoaDonRepository hoaDonRepository;
+    private IHoaDonService hoaDonService;
     @Autowired
-    private LoaiSanPhamRepository loaiSanPhamRepository;
+    private ILoaiSanPhamService loaiSanPhamService;
     @Autowired
-    private KhuyenMaiRepository khuyenMaiRepository;
+    private IKhuyenMaiService khuyenMaiService;
     @Autowired
-    private NhaCungCapRepository nhaCungCapRepository;
+    private INhaCungCapService nhaCungCapService;
     @Autowired
-    private NhaSanXuatRepository nhaSanXuatRepository;
+    private INhaSanXuatService nhaSanXuatService;
     @Autowired
     private DashBoardRepository dashBoardRepository;
     @Scheduled(cron = "59 23 * * * ?")
     public void scheduleFixedDelayTask() {
-        Integer countUser = customerRepository.countByActive(1);
-        Integer countDonHang = hoaDonRepository.countByTrangThai(1);
-        Integer countSanPham = sanPhamRepository.countByTrangThai(1);
-        Integer countLoaiSanPham = loaiSanPhamRepository.countByActive(1);
-        Integer countKhuyenMai = khuyenMaiRepository.countByActive(1);
-        Integer countNhaCungCap = nhaCungCapRepository.countByActive(1);
-        Integer countNhaSanXuat = nhaSanXuatRepository.countByActive(1);
+        Integer countUser = customerService.countCus();
+        Integer countDonHang = hoaDonService.countHoaDon();
+        Integer countSanPham = sanPhamService.countSanPham();
+        Integer countLoaiSanPham = loaiSanPhamService.countLoaiSanPham();
+        Integer countKhuyenMai = khuyenMaiService.countKhuyenMai();
+        Integer countNhaCungCap = nhaCungCapService.countNhaCungCap();
+        Integer countNhaSanXuat = nhaSanXuatService.countNhaSanXuat();
         Date dateCreate = Calendar.getInstance().getTime();
         String trangThai = "Complete";
         DashBoard dashBoard = new DashBoard(countUser, countDonHang, countSanPham, countLoaiSanPham, countKhuyenMai, countNhaCungCap, countNhaSanXuat, dateCreate, trangThai);

@@ -128,4 +128,7 @@ public class CustomerServiceImpl implements ICustomerService{
             return null;
         }
     }
+    public Integer countCus(){
+        return gCustomerRepository.countByActive(1);
+    }
 }

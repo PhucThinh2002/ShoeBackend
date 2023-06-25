@@ -11,4 +11,5 @@ public interface IKhuyenMaiService {
     KhuyenMai create(KhuyenMai khuyenMai);
     KhuyenMai update(Integer id, KhuyenMai khuyenMai);
     KhuyenMai delete(Integer id);
+    Integer countKhuyenMai();
 }

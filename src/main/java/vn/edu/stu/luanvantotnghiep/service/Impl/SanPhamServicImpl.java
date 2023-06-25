@@ -66,4 +66,10 @@ public class SanPhamServicImpl implements ISanPhamService{
          PageRequest pageable = PageRequest.of(currentpage, limit);
         return sanPhamRepository.findSanPhamActive(pageable);
     }
+
+    @Override
+    public Integer countSanPham() {
+        // TODO Auto-generated method stub
+        return sanPhamRepository.countByTrangThai(1);
+    }
 }

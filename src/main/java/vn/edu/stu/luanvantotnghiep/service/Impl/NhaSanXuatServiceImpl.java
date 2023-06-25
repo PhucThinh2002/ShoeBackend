@@ -57,4 +57,10 @@ public class NhaSanXuatServiceImpl implements INhaSanXuatService{
         return null;
     }
 
+    @Override
+    public Integer countNhaSanXuat() {
+        // TODO Auto-generated method stub
+        return nhaSanXuatRepository.countByActive(1);
+    }
+
 }

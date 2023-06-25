@@ -12,4 +12,5 @@ public interface ICustomerService {
     public Customer createAdmin(Customer customer);
     public Customer updateCusomer(Customer customer, int id);
     public Customer deleteCustomer(int id);
+    public Integer countCus();
 }

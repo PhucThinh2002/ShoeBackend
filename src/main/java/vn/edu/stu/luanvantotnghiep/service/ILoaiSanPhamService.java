@@ -11,4 +11,5 @@ public interface ILoaiSanPhamService {
     LoaiSanPham create(LoaiSanPham loaiSanPham);
     LoaiSanPham update(Integer id, LoaiSanPham loaiSanPham);
     LoaiSanPham delete(Integer id);
+    Integer countLoaiSanPham();
 }

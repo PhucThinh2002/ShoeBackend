@@ -11,4 +11,5 @@ public interface INhaCungCapService {
     NhaCungCap create(NhaCungCap nhaCungCap);
     NhaCungCap update(Integer id, NhaCungCap nhaCungCap);
     NhaCungCap delete(Integer id);
+    Integer countNhaCungCap();
 }

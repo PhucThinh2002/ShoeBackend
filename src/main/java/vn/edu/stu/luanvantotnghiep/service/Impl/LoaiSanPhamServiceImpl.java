@@ -56,4 +56,10 @@ public class LoaiSanPhamServiceImpl implements ILoaiSanPhamService{
         }
         return null;
     }
+
+    @Override
+    public Integer countLoaiSanPham() {
+        // TODO Auto-generated method stub
+        return loaiSanPhamRepository.countByActive(1);
+    }
 }

@@ -59,4 +59,10 @@ public class NhaCungCapServiceImpl  implements INhaCungCapService{
         }
         return null;
     }
+
+    @Override
+    public Integer countNhaCungCap() {
+        // TODO Auto-generated method stub
+        return nhaCungCapRepository.countByActive(1);
+    }
 }

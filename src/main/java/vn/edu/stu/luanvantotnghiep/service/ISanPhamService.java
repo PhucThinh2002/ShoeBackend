@@ -13,4 +13,5 @@ public interface ISanPhamService {
     SanPham create(SanPham sanPham);
     SanPham update(SanPham sanPham);
     SanPham delete(Integer id);
+    Integer countSanPham();
 }
