@@ -18,4 +18,5 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer>{
     @Query(value = "SELECT * FROM users WHERE id = :id and active = 1", nativeQuery = true)
     Optional<Customer> findCustomerByIdAndActivated(@Param("id") int id);
 
+    Integer countByActive(Integer active);
 }

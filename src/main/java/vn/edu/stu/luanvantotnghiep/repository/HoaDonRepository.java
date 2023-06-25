@@ -13,4 +13,5 @@ public interface HoaDonRepository extends JpaRepository<HoaDon, Integer>{
     List<HoaDon> findAllHoaDonActive();
     @Query(value = "select * from hoa_don where khach_hang_id = :khachhang and trang_thai = 1", nativeQuery = true)
     List<HoaDon> findAllHoaDonByKhachHang(@Param("khachhang") Integer khachHang);
+    Integer countByTrangThai(Integer active);
 }

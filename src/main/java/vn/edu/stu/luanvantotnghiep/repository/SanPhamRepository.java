@@ -17,4 +17,5 @@ public interface SanPhamRepository extends JpaRepository<SanPham, Integer>{
     List<SanPham> findSanPhamByNhaSanXuatActive(@Param("nhasanxuat") Integer nhaSanXuat);
     @Query(value = "select * from san_pham where trang_thai = 1", nativeQuery = true)
     Page<SanPham> findSanPhamActive(PageRequest pageRequest);
+    Integer countByTrangThai(Integer active);
 }
