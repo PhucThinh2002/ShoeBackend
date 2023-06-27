@@ -19,4 +19,5 @@ public interface IHoaDonService {
     HoaDon updateChuaThanhToan(Integer id);
     HoaDon updateDaThanhToan(Integer id);
     Integer countHoaDon();
+    List<HoaDon> find10HoaDons();
 }

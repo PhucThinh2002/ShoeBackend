@@ -37,6 +37,7 @@ public class SanPham {
     private String baoHanh;
     @Column(name = "create_date")
     @CreatedDate
+    @Temporal(TemporalType.DATE)
     private Date createDate;
     @Column(name = "update_date")
     @LastModifiedDate

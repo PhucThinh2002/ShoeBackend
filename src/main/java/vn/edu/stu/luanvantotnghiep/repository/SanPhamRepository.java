@@ -1,5 +1,6 @@
 package vn.edu.stu.luanvantotnghiep.repository;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -18,4 +19,5 @@ public interface SanPhamRepository extends JpaRepository<SanPham, Integer>{
     @Query(value = "select * from san_pham where trang_thai = 1", nativeQuery = true)
     Page<SanPham> findSanPhamActive(PageRequest pageRequest);
     Integer countByTrangThai(Integer active);
+    Integer countByTrangThaiAndCreateDate(Integer active, Date createDate);
 }

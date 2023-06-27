@@ -24,11 +24,11 @@ import vn.edu.stu.luanvantotnghiep.model.HoaDon;
 import vn.edu.stu.luanvantotnghiep.model.ModelHoaDon;
 import vn.edu.stu.luanvantotnghiep.model.SanPham;
 import vn.edu.stu.luanvantotnghiep.model.TraGop;
-import vn.edu.stu.luanvantotnghiep.repository.ChiTietHoaDonRepository;
-import vn.edu.stu.luanvantotnghiep.repository.CustomerRepository;
-import vn.edu.stu.luanvantotnghiep.repository.SanPhamRepository;
-import vn.edu.stu.luanvantotnghiep.repository.TraGopRepository;
+import vn.edu.stu.luanvantotnghiep.service.IChiTietHoaDonService;
+import vn.edu.stu.luanvantotnghiep.service.ICustomerService;
 import vn.edu.stu.luanvantotnghiep.service.IHoaDonService;
+import vn.edu.stu.luanvantotnghiep.service.ISanPhamService;
+import vn.edu.stu.luanvantotnghiep.service.ITraGopService;
 
 @RestController
 @CrossOrigin(maxAge = 3600)
@@ -36,13 +36,13 @@ public class HoaDonController {
     @Autowired
     private IHoaDonService hoaDonService;
     @Autowired
-    private SanPhamRepository sanPhamRepository;
+    private ISanPhamService sanPhamRepository;
     @Autowired
-    private CustomerRepository customerRepository;
+    private ICustomerService customerRepository;
     @Autowired
-    private ChiTietHoaDonRepository chiTietHoaDonRepository;
+    private IChiTietHoaDonService chiTietHoaDonService;
     @Autowired
-    private TraGopRepository traGopRepository;
+    private ITraGopService traGopRepository;
 
     @GetMapping("/hoadon")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CUSTOMER')")
@@ -130,16 +130,16 @@ public class HoaDonController {
                 traGop.setHoaDon(save);
                 traGop.setTrangThaiPhiPhat(0);
                 traGop.setSoTienHangThang(soTienHangThang);
-                traGop = traGopRepository.save(traGop);
+                traGop = traGopRepository.create(traGop);
             }
         }
         for(ChiTietHoaDon c : hoaDon.getChiTietHoaDons()){
             SanPham sanPham = sanPhamRepository.findById(c.getSanPham().getId()).get();
             c.setHoaDon(save);
             c.setSanPham(sanPham);
-            c = chiTietHoaDonRepository.save(c);
+            c = chiTietHoaDonService.create(c);
             sanPham.setSoLuongTon(sanPham.getSoLuongTon() - c.getSoLuong());
-            sanPhamRepository.save(sanPham);
+            sanPhamRepository.create(sanPham);
         }
         if(save != null){
             FormatApi formatApi = new FormatApi(HttpStatus.OK, "Tạo hóa đơn thành công!", save);
@@ -159,7 +159,7 @@ public class HoaDonController {
             result.setStatus(HttpStatus.NOT_FOUND);
             return result;
         }
-        Customer cusResult = customerRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        Customer cusResult = customerRepository.findCustomerByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         List<HoaDon> lstHoaDon = hoaDonService.findAllHoaDonByKhachHang(cusResult.getId());
         if(!lstHoaDon.isEmpty()){
             FormatApi formatApi = new FormatApi(HttpStatus.OK, "Bạn có hóa đơn", lstHoaDon);
@@ -179,7 +179,7 @@ public class HoaDonController {
             result.setStatus(HttpStatus.NOT_FOUND);
             return result;
         }
-        Customer cusResult = customerRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        Customer cusResult = customerRepository.findCustomerByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         if(cusResult.getRole().getId() == 1){
             hoaDon.setQuanLy(cusResult);
         }else{

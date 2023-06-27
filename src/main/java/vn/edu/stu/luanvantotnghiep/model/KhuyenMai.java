@@ -25,6 +25,7 @@ public class KhuyenMai {
     @Column(name = "create_date")
     @CreatedDate
     private Date createDate;
+    @Temporal(TemporalType.DATE)
     @Column(name = "update_date")
     @LastModifiedDate
     private Date updateDate;

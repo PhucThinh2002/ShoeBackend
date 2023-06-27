@@ -1,4 +1,5 @@
 package vn.edu.stu.luanvantotnghiep.repository;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,4 +20,5 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer>{
     Optional<Customer> findCustomerByIdAndActivated(@Param("id") int id);
 
     Integer countByActive(Integer active);
+    Integer countByCreatedAtAndActive(Date date, Integer active);
 }

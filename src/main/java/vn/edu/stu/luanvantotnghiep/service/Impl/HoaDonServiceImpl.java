@@ -115,5 +115,11 @@ public class HoaDonServiceImpl implements IHoaDonService{
     public Integer countHoaDon(){
         return hoaDonRepository.countByTrangThai(1);
     }
+
+    @Override
+    public List<HoaDon> find10HoaDons() {
+        // TODO Auto-generated method stub
+        return hoaDonRepository.findFirst10ByTrangThaiOrderByCreateDateDesc(1);
+    }
     
 }

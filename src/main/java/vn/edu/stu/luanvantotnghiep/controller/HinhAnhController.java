@@ -24,16 +24,16 @@ import org.springframework.web.multipart.MultipartFile;
 
 import vn.edu.stu.luanvantotnghiep.model.HinhAnh;
 import vn.edu.stu.luanvantotnghiep.model.SanPham;
-import vn.edu.stu.luanvantotnghiep.repository.HinhAnhRepository;
-import vn.edu.stu.luanvantotnghiep.repository.SanPhamRepository;
+import vn.edu.stu.luanvantotnghiep.service.IHinhAnhService;
+import vn.edu.stu.luanvantotnghiep.service.ISanPhamService;
 
 @RestController
 @CrossOrigin(maxAge = 33600)
 public class HinhAnhController {
     @Autowired
-    private HinhAnhRepository hinhAnhRepository;
+    private IHinhAnhService hinhAnhService;
     @Autowired
-    private SanPhamRepository sanPhamRepository;
+    private ISanPhamService sanPhamService;
 
     private static final Path CURRENT_FOLDER = Paths.get(System.getProperty("user.dir"));
 
@@ -53,7 +53,7 @@ public class HinhAnhController {
         save.setKichThuoc(hinhAnh.getSize());
         save.setPath(imagePath.resolve(hinhAnh.getOriginalFilename()).toString());
         save.setTenHinhAnh(hinhAnh.getOriginalFilename());
-        save = hinhAnhRepository.save(save);
+        save = hinhAnhService.create(save);
         return save;
     }
     @Autowired
@@ -74,7 +74,7 @@ public class HinhAnhController {
         save.setKichThuoc(hinhAnh.getSize());
         save.setTenHinhAnh(hinhAnh.getOriginalFilename());
         save.setPath(linkServer + hinhAnh.getOriginalFilename());
-        save = hinhAnhRepository.save(save);
+        save = hinhAnhService.create(save);
 
         return new ResponseEntity<>(save, HttpStatus.OK);
     }
@@ -107,9 +107,9 @@ public class HinhAnhController {
     @PostMapping("/setimagetoproduct")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public HinhAnh setImageToProduct(@RequestParam Integer hinhAnh, @RequestParam Integer sanPham) {
-        Optional<SanPham> find = sanPhamRepository.findById(sanPham);
-        Optional<HinhAnh> findAnh = hinhAnhRepository.findById(hinhAnh);
+        Optional<SanPham> find = sanPhamService.findById(sanPham);
+        Optional<HinhAnh> findAnh = hinhAnhService.findById(hinhAnh);
         findAnh.get().setSanPham(find.get());
-        return hinhAnhRepository.save(findAnh.get());
+        return hinhAnhService.create(findAnh.get());
     }
 }

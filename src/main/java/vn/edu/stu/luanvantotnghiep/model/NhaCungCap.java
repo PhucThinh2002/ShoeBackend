@@ -11,6 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.Email;
 
 import org.springframework.data.annotation.CreatedDate;
@@ -36,6 +38,7 @@ public class NhaCungCap {
     @Column(name = "create_date")
     @CreatedDate
     private Date createDate;
+    @Temporal(TemporalType.DATE)
     @Column(name = "update_date")
     @LastModifiedDate
     private Date updateDate;

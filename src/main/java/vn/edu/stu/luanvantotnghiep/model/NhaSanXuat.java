@@ -11,6 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -29,6 +31,7 @@ public class NhaSanXuat {
     private String moTa;
     @Column(name = "create_date")
     @CreatedDate
+    @Temporal(TemporalType.DATE)
     private Date createDate;
     @Column(name = "update_date")
     @LastModifiedDate
