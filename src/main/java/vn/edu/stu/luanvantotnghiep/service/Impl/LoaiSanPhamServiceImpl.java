@@ -18,7 +18,7 @@ public class LoaiSanPhamServiceImpl implements ILoaiSanPhamService{
 
     @Override
     public List<LoaiSanPham> findAll() {
-        return loaiSanPhamRepository.findAll();
+        return loaiSanPhamRepository.findByActive(1);
     }
 
     @Override

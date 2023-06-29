@@ -30,7 +30,7 @@ public class ScheduleController {
     @Autowired
     private IHoaDonService hoaDonService;
 
-    @Scheduled(cron = "59 23 * * * ?")
+    @Scheduled(cron = "00 59 23 * * ?")
     public void scheduleFixedDelayTask() {
         dashBoardService.scheduleEveryDay();
     }
