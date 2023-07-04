@@ -64,6 +64,6 @@ public class LoaiSanPhamServiceImpl implements ILoaiSanPhamService{
     }
     @Override
     public LoaiSanPham findByName(String name){
-        return loaiSanPhamRepository.findBytenDanhMuc(name);
+        return loaiSanPhamRepository.findByTenDanhMucAndActive(name, 1);
     }
 }

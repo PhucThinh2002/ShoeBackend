@@ -18,4 +18,5 @@ public interface ISanPhamService {
     Integer countSanPham();
     List<SanPham> findSanPhamByNhaSanXuatActive(Integer id);
     List<SanPham> findByLoaiSanPhamAndTrangThai(LoaiSanPham loaiSanPham, Integer id);
+    List<SanPham> search(String keyword);
 }

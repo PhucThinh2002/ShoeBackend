@@ -281,6 +281,25 @@ public class SanPhamController {
             return result;
         }
     }
+    @GetMapping("/sanphamsearch")
+    public FormatApi search(@RequestParam("keyword") String keyword){
+        List<SanPham> lstSanPham = sanPhamService.search(keyword);
+        System.out.println("số lượng sản phẩm search = " + lstSanPham.size());
+        if (!lstSanPham.isEmpty()) {
+            FormatApi result = new FormatApi();
+            result.setData(lstSanPham);
+            result.setMessage("Thành công!");
+            result.setStatus(HttpStatus.OK);
+            return result;
+        } else {
+            FormatApi result = new FormatApi();
+            result.setData(lstSanPham);
+            result.setMessage("Không thành công!");
+            result.setStatus(HttpStatus.NO_CONTENT);
+            return result;
+        }
+        
+    }
     
     
 }

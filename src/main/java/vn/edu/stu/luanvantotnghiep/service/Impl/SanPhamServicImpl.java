@@ -82,4 +82,8 @@ public class SanPhamServicImpl implements ISanPhamService{
     public List<SanPham> findByLoaiSanPhamAndTrangThai(LoaiSanPham loaiSanPham, Integer id){
         return sanPhamRepository.findByDanhMucAndTrangThai(loaiSanPham, id);
     }
+    @Override
+    public List<SanPham> search(String keyword){
+        return sanPhamRepository.search(keyword);
+    }
 }

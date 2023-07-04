@@ -11,5 +11,5 @@ public interface LoaiSanPhamRepository extends JpaRepository<LoaiSanPham, Intege
     List<LoaiSanPham>findByActive(Integer active);
     Integer countByActive(Integer active);
     Integer countByActiveAndCreateDate(Integer active,Date createDate);
-    LoaiSanPham findBytenDanhMuc(String name);
+    LoaiSanPham findByTenDanhMucAndActive(String name, Integer active);
 }
