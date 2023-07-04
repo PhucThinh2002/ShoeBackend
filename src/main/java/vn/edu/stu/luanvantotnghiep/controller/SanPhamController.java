@@ -8,9 +8,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -217,5 +219,68 @@ public class SanPhamController {
         khuyenMaiService.update(dataKhuyenMai.get().getId(), dataKhuyenMai.get());
         return sanPhamService.update(dataSanPham.get());
     }
+    @PutMapping("/sanpham/{id}")
+    public FormatApi updateSanPham(@PathVariable("id") Integer id, @RequestBody SanPham sanPham){
+        SanPham find = sanPhamService.findById(id).get();
+        find.setBaoHanh(sanPham.getBaoHanh());
+        find.setDanhMuc(sanPham.getDanhMuc());
+        find.setGia(sanPham.getGia());
+        find.setMoTa(sanPham.getMoTa());
+        find.setNamRaMat(sanPham.getNamRaMat());
+        find.setTenSanPham(sanPham.getTenSanPham());
+        SanPham save = sanPhamService.update(find);
+        if (save != null) {
+            FormatApi result = new FormatApi();
+            result.setData(save);
+            result.setMessage("Thành công!");
+            result.setStatus(HttpStatus.OK);
+            return result;
+        } else {
+            FormatApi result = new FormatApi();
+            result.setData(save);
+            result.setMessage("Sửa sản phẩm không thành công!");
+            result.setStatus(HttpStatus.NO_CONTENT);
+            return result;
+        }
+    }
+    @DeleteMapping("/sanpham/delete/{id}")
+    public FormatApi deleteSanPham(@PathVariable("id") Integer id){
+        SanPham sanPham = sanPhamService.findById(id).get();
+        if (sanPham != null) {
+            sanPham.setTrangThai(0);
+            sanPham = sanPhamService.update(sanPham);
+            FormatApi result = new FormatApi();
+            result.setData(sanPham);
+            result.setMessage("Xóa sản phẩm có id = " + id +" thành công!");
+            result.setStatus(HttpStatus.OK);
+            return result;
+        } else {
+            FormatApi result = new FormatApi();
+            result.setData(sanPham);
+            result.setMessage("Xóa sản phẩm có id = " + id +" không thành công!");
+            result.setStatus(HttpStatus.NO_CONTENT);
+            return result;
+        }
+    }
+    @PutMapping("/sanpham/active/{id}")
+    public FormatApi activeSanPham(@PathVariable("id") Integer id){
+        SanPham sanPham = sanPhamService.findById(id).get();
+        sanPham.setTrangThai(1);
+        sanPham = sanPhamService.update(sanPham);
+        if (sanPham != null) {
+            FormatApi result = new FormatApi();
+            result.setData(sanPham);
+            result.setMessage("Thành công!");
+            result.setStatus(HttpStatus.OK);
+            return result;
+        } else {
+            FormatApi result = new FormatApi();
+            result.setData(sanPham);
+            result.setMessage("Không thành công!");
+            result.setStatus(HttpStatus.NO_CONTENT);
+            return result;
+        }
+    }
+    
     
 }

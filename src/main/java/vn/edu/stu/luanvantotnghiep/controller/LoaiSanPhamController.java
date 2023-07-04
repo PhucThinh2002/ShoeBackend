@@ -105,6 +105,30 @@ public class LoaiSanPhamController {
             return format;
         }
     }
+    @PutMapping("/loaisanpham/active/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    public FormatApi updateLoaiSanPham(@PathVariable("id") Integer id){
+        LoaiSanPham loaiSanPham = loaiSanPhamService.findById(id).get();
+        loaiSanPham.setActive(1);
+        LoaiSanPham save = loaiSanPhamService.update(id, loaiSanPham);
+        // Optional<LoaiSanPham> data = loaiSanPhamService.findById(id);
+        if(save != null){
+            // data.get().setMoTa(loaiSanPham.getMoTa());
+            // data.get().setTenDanhMuc(loaiSanPham.getTenDanhMuc());
+            
+            FormatApi format = new FormatApi();
+            format.setData(save);
+            format.setMessage("Sửa loại sản phẩm có id ="+ loaiSanPham.getId() +" thành công!");
+            format.setStatus(HttpStatus.OK);
+            return format;
+        } else{
+            FormatApi format = new FormatApi();
+            format.setData(save);
+            format.setMessage("Sửa loại sản phẩm có id ="+ loaiSanPham.getId() +" không thành công!");
+            format.setStatus(HttpStatus.OK);
+            return format;
+        }
+    }
     @DeleteMapping("/loaisanpham/{id}")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public FormatApi deleteLoaiSanPham(@PathVariable("id") Integer id){

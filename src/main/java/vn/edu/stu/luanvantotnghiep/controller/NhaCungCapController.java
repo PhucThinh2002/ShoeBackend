@@ -101,6 +101,26 @@ public class NhaCungCapController {
             return format;
         }
     }
+    @PutMapping("/nhacungcap/active/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    public FormatApi activeNhaCungCap(@PathVariable("id") Integer id){
+        NhaCungCap nhaCungCap = nhacungcapService.findById(id).get();
+        nhaCungCap.setActive(1);
+        NhaCungCap save = nhacungcapService.update(id, nhaCungCap);
+        if(save != null){
+            FormatApi format = new FormatApi();
+            format.setData(save);
+            format.setMessage("Sửa nhà cung cấp có id = "+ nhaCungCap.getId() +" thành công!");
+            format.setStatus(HttpStatus.OK);
+            return format;
+        } else{
+            FormatApi format = new FormatApi();
+            format.setData(save);
+            format.setMessage("Sửa nhà cung cấp có id =" + nhaCungCap.getId() +" không thành công!");
+            format.setStatus(HttpStatus.OK);
+            return format;
+        }
+    }
     @DeleteMapping("/nhacungcap/{id}")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public FormatApi deleteNhacungcap(@PathVariable("id") Integer id){

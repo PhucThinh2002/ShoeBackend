@@ -123,6 +123,27 @@ public class BannerController {
         }
         
     }
+    @PutMapping("/banner/active/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    public FormatApi activeBanner(@PathVariable("id") Integer id) {
+        Banner banner = bannerService.findById(id).get();
+        banner.setActive(1);
+        Banner save = bannerService.update(id,banner);
+        if(save != null){
+            FormatApi result = new FormatApi();
+            result.setData(save);
+            result.setMessage("Thành công!");
+            result.setStatus(HttpStatus.OK);
+            return result;
+        }else{
+            FormatApi result = new FormatApi();
+            result.setData(save);
+            result.setMessage("Sửa banner không thành công!");
+            result.setStatus(HttpStatus.OK);
+            return result;
+        }
+        
+    }
     @DeleteMapping("/banner/{id}")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public FormatApi deleteLoaiSanPham(@PathVariable("id") Integer id){

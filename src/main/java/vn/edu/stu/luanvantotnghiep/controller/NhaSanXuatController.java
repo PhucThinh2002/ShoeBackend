@@ -93,6 +93,26 @@ public class NhaSanXuatController {
             return format;
         }
     }
+    @PutMapping("/nhasanxuat/active/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    public FormatApi updateNhacungcap(@PathVariable("id") Integer id){
+        NhaSanXuat nhaSanXuat = nhaSanXuatService.findById(id).get();
+        nhaSanXuat.setActive(1);
+        NhaSanXuat save = nhaSanXuatService.update(id, nhaSanXuat);
+        if(save != null){
+            FormatApi format = new FormatApi();
+            format.setData(save);
+            format.setMessage("Sửa nhà sản xuất có id = "+ nhaSanXuat.getId() +" thành công!");
+            format.setStatus(HttpStatus.OK);
+            return format;
+        } else{
+            FormatApi format = new FormatApi();
+            format.setData(save);
+            format.setMessage("Sửa nhà sản xuất có id =" + nhaSanXuat.getId() +" không thành công!");
+            format.setStatus(HttpStatus.OK);
+            return format;
+        }
+    }
     @DeleteMapping("/nhasanxuat/{id}")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public FormatApi deleteNhacungcap(@PathVariable("id") Integer id){

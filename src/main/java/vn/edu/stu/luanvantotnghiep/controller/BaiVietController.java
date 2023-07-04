@@ -139,6 +139,26 @@ public class BaiVietController {
         }
         
     }
+    @PutMapping("/baiviet/active/{id}")
+    public FormatApi activeBaiViet(@PathVariable("id") Integer id) {
+        BaiViet baiViet = baiVietService.findById(id).get();
+        baiViet.setActive(1);
+        BaiViet crtBaiViet = baiVietService.update(id, baiViet);
+        if(crtBaiViet != null){
+            FormatApi result = new FormatApi();
+            result.setData(crtBaiViet);
+            result.setMessage("Thành công!");
+            result.setStatus(HttpStatus.OK);
+            return result;
+        }else{
+            FormatApi result = new FormatApi();
+            result.setData(crtBaiViet);
+            result.setMessage("Sửa bài viết không thành công!");
+            result.setStatus(HttpStatus.OK);
+            return result;
+        }
+        
+    }
     @DeleteMapping("/baiviet/delete/{id}")
     public FormatApi deleteLBaiViet(@PathVariable("id") Integer id){
         BaiViet delete = baiVietService.delete(id);
