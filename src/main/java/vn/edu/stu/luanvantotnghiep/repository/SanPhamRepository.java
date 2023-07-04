@@ -9,6 +9,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import vn.edu.stu.luanvantotnghiep.model.LoaiSanPham;
+import vn.edu.stu.luanvantotnghiep.model.NhaSanXuat;
 import vn.edu.stu.luanvantotnghiep.model.SanPham;
 
 public interface SanPhamRepository extends JpaRepository<SanPham, Integer>{
@@ -20,4 +22,6 @@ public interface SanPhamRepository extends JpaRepository<SanPham, Integer>{
     Page<SanPham> findSanPhamActive(PageRequest pageRequest);
     Integer countByTrangThai(Integer active);
     Integer countByTrangThaiAndCreateDate(Integer active, Date createDate);
+    List<SanPham> findByNhaSanXuat(NhaSanXuat nhaSanXuat);
+    List<SanPham> findByDanhMucAndTrangThai(LoaiSanPham loaiSanPham, Integer trangThai);
 }

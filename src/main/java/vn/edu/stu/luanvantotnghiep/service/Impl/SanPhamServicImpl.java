@@ -1,6 +1,7 @@
 package vn.edu.stu.luanvantotnghiep.service.Impl;
 
 import java.util.Calendar;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import vn.edu.stu.luanvantotnghiep.model.LoaiSanPham;
 import vn.edu.stu.luanvantotnghiep.model.SanPham;
 import vn.edu.stu.luanvantotnghiep.model.ThuocTinh;
 import vn.edu.stu.luanvantotnghiep.repository.SanPhamRepository;
@@ -71,5 +73,13 @@ public class SanPhamServicImpl implements ISanPhamService{
     public Integer countSanPham() {
         // TODO Auto-generated method stub
         return sanPhamRepository.countByTrangThai(1);
+    }
+    @Override
+    public List<SanPham> findSanPhamByNhaSanXuatActive(Integer id){
+        return sanPhamRepository.findSanPhamByNhaSanXuatActive(id);
+    }
+    @Override
+    public List<SanPham> findByLoaiSanPhamAndTrangThai(LoaiSanPham loaiSanPham, Integer id){
+        return sanPhamRepository.findByDanhMucAndTrangThai(loaiSanPham, id);
     }
 }

@@ -63,4 +63,9 @@ public class NhaSanXuatServiceImpl implements INhaSanXuatService{
         return nhaSanXuatRepository.countByActive(1);
     }
 
+    @Override
+    public NhaSanXuat findByTenNhaSanXuat(String name) {
+        return nhaSanXuatRepository.findByTenNhaSanXuat(name);
+    }
+
 }

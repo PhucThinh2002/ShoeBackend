@@ -22,10 +22,9 @@ import vn.edu.stu.luanvantotnghiep.model.LoaiSanPham;
 import vn.edu.stu.luanvantotnghiep.model.ModelSanPham;
 import vn.edu.stu.luanvantotnghiep.model.NhaSanXuat;
 import vn.edu.stu.luanvantotnghiep.model.SanPham;
-import vn.edu.stu.luanvantotnghiep.repository.KhuyenMaiRepository;
-import vn.edu.stu.luanvantotnghiep.repository.LoaiSanPhamRepository;
-import vn.edu.stu.luanvantotnghiep.repository.NhaSanXuatRepository;
-import vn.edu.stu.luanvantotnghiep.repository.SanPhamRepository;
+import vn.edu.stu.luanvantotnghiep.service.IKhuyenMaiService;
+import vn.edu.stu.luanvantotnghiep.service.ILoaiSanPhamService;
+import vn.edu.stu.luanvantotnghiep.service.INhaSanXuatService;
 import vn.edu.stu.luanvantotnghiep.service.ISanPhamService;
 
 @RestController
@@ -34,24 +33,24 @@ public class SanPhamController {
     @Autowired
     private ISanPhamService sanPhamService;
     @Autowired
-    private SanPhamRepository sanPhamRepository;
+    private ILoaiSanPhamService loaiSanPhamService;
     @Autowired
-    private LoaiSanPhamRepository loaiSanPhamRepository;
+    private INhaSanXuatService nhaSanXuatService;
     @Autowired
-    private NhaSanXuatRepository nhaSanXuatRepository;
-    @Autowired
-    private KhuyenMaiRepository khuyenMaiRepository;
+    private IKhuyenMaiService khuyenMaiService;
+
     @GetMapping("/sanpham")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    public FormatApi findAllSanPham(@RequestParam(defaultValue = "10") Integer limit, @RequestParam(defaultValue = "10") Integer currentpage){
+    public FormatApi findAllSanPham(@RequestParam(defaultValue = "10") Integer limit,
+            @RequestParam(defaultValue = "10") Integer currentpage) {
         Page<SanPham> lstSanPham = sanPhamService.findAll(limit, currentpage);
-        if(lstSanPham.getSize() > 0){
+        if (lstSanPham.getSize() > 0) {
             FormatApi result = new FormatApi();
             result.setData(lstSanPham);
             result.setMessage("Thành công!");
             result.setStatus(HttpStatus.OK);
             return result;
-        }else{
+        } else {
             FormatApi result = new FormatApi();
             result.setData(lstSanPham);
             result.setMessage("Không có dữ liệu sản phẩm!");
@@ -59,24 +58,25 @@ public class SanPhamController {
             return result;
         }
     }
+
     @GetMapping("/sanpham/{id}")
-    public FormatApi findSanPhamByID(@PathVariable("id") Integer id){
+    public FormatApi findSanPhamByID(@PathVariable("id") Integer id) {
         Optional<SanPham> sanPham = sanPhamService.findById(id);
-        if(sanPham.isPresent()){
-            if(sanPham.get().getTrangThai() == 1){
+        if (sanPham.isPresent()) {
+            if (sanPham.get().getTrangThai() == 1) {
                 FormatApi result = new FormatApi();
                 result.setData(sanPham);
                 result.setMessage("Thành công!");
                 result.setStatus(HttpStatus.OK);
                 return result;
-            }else{
+            } else {
                 FormatApi result = new FormatApi();
                 result.setData(null);
                 result.setMessage("Không có dữ liệu sản phẩm có id = " + id);
                 result.setStatus(HttpStatus.NO_CONTENT);
                 return result;
-            }   
-        }else{
+            }
+        } else {
             FormatApi result = new FormatApi();
             result.setData(null);
             result.setMessage("Không có dữ liệu sản phẩm có id = " + id);
@@ -84,44 +84,59 @@ public class SanPhamController {
             return result;
         }
     }
-    @GetMapping("/sanpham/danhmuc/{id}")
-    public FormatApi findSanPhamByDanhMuc(@PathVariable("id") Integer id){
-        List<SanPham> lstSanPham = sanPhamRepository.findSanPhamByDanhMucActive(id);
-        if(!lstSanPham.isEmpty()){
+
+    @GetMapping("/sanpham/nhasanxuat/{tenHangSanXuat}")
+    public FormatApi findSanPhamByNhaSanXuat(@PathVariable("tenHangSanXuat") String tenHangSanXuat) {
+        NhaSanXuat nhaSanXuat = nhaSanXuatService.findByTenNhaSanXuat(tenHangSanXuat);
+        if (nhaSanXuat == null) {
+            FormatApi result = new FormatApi();
+            result.setData(nhaSanXuat);
+            result.setMessage("Không có dữ liệu sản phẩm của nhà sản xuất có tên = " + tenHangSanXuat);
+            result.setStatus(HttpStatus.NO_CONTENT);
+            return result;
+        } else {
+            List<SanPham> lstSanPham = sanPhamService.findSanPhamByNhaSanXuatActive(nhaSanXuat.getId());
+            if (!lstSanPham.isEmpty()) {
+                FormatApi result = new FormatApi();
+                result.setData(lstSanPham);
+                result.setMessage("Thành công!");
+                result.setStatus(HttpStatus.OK);
+                return result;
+            } else {
+                FormatApi result = new FormatApi();
+                result.setData(lstSanPham);
+                result.setMessage("Không có dữ liệu sản phẩm của nhà sản xuất có tên = " + tenHangSanXuat);
+                result.setStatus(HttpStatus.NO_CONTENT);
+                return result;
+            }
+        }
+
+    }
+
+    @GetMapping("/sanpham/loaisanpham/{tenLoaiSanPham}")
+    public FormatApi findSanPhamByLoaiSanPham(@PathVariable("tenLoaiSanPham") String tenLoaiSanPham) {
+        LoaiSanPham loaiSanPham = loaiSanPhamService.findByName(tenLoaiSanPham);
+        List<SanPham> lstSanPham = sanPhamService.findByLoaiSanPhamAndTrangThai(loaiSanPham, 1);
+        if (!lstSanPham.isEmpty()) {
             FormatApi result = new FormatApi();
             result.setData(lstSanPham);
             result.setMessage("Thành công!");
             result.setStatus(HttpStatus.OK);
             return result;
-        }else{
+        } else {
             FormatApi result = new FormatApi();
             result.setData(lstSanPham);
-            result.setMessage("Không có dữ liệu sản phẩm có danh mục này");
+            result.setMessage("Không có dữ liệu sản phẩm của loại sản phẩm có tên = " + tenLoaiSanPham);
             result.setStatus(HttpStatus.NO_CONTENT);
             return result;
         }
     }
-    @GetMapping("/sanpham/nhasanxuat/{id}")
-    public FormatApi findSanPhamByNhaSanXuat(@PathVariable("id") Integer id){
-        List<SanPham> lstSanPham = sanPhamRepository.findSanPhamByNhaSanXuatActive(id);
-        if(!lstSanPham.isEmpty()){
-            FormatApi result = new FormatApi();
-            result.setData(lstSanPham);
-            result.setMessage("Thành công!");
-            result.setStatus(HttpStatus.OK);
-            return result;
-        }else{
-            FormatApi result = new FormatApi();
-            result.setData(lstSanPham);
-            result.setMessage("Không có dữ liệu sản phẩm có id = " + id);
-            result.setStatus(HttpStatus.NO_CONTENT);
-            return result;
-        }
-    }
+
     @GetMapping("/sanphamactive")
-    public FormatApiSanPham findSanPhamActive(@RequestParam(defaultValue = "10") Integer currentpage, @RequestParam(defaultValue = "10") Integer limit){
+    public FormatApiSanPham findSanPhamActive(@RequestParam(defaultValue = "10") Integer currentpage,
+            @RequestParam(defaultValue = "10") Integer limit) {
         Page<SanPham> lstSanPham = sanPhamService.findSanPhamActive(limit, currentpage);
-        if(lstSanPham.getSize() > 0){
+        if (lstSanPham.getSize() > 0) {
             FormatApiSanPham result = new FormatApiSanPham();
             result.setData(lstSanPham.getContent());
             result.setMessage("Thành công!");
@@ -129,7 +144,7 @@ public class SanPhamController {
             result.setCurrentpage(currentpage);
             result.setTotalPage(lstSanPham.getTotalPages());
             return result;
-        }else{
+        } else {
             FormatApiSanPham result = new FormatApiSanPham();
             result.setData(lstSanPham.getContent());
             result.setMessage("Không có dữ liệu sản phẩm");
@@ -137,9 +152,10 @@ public class SanPhamController {
             return result;
         }
     }
+
     @PostMapping("/sanpham")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    public FormatApi createSanPham(@RequestBody ModelSanPham sanPham){
+    public FormatApi createSanPham(@RequestBody ModelSanPham sanPham) {
         SanPham data = new SanPham();
         data.setTenSanPham(sanPham.getTenSanPham());
         data.setGia(sanPham.getGia());
@@ -151,14 +167,13 @@ public class SanPhamController {
         SanPham save = sanPhamService.create(data);
         save = setDanhMucToSanPham(save.getId(), sanPham.getDanhMuc().getId());
         save = setNhaSanXuatToSanPham(save.getId(), sanPham.getNhaSanXuat().getId());
-        if(save != null){
+        if (save != null) {
             FormatApi result = new FormatApi();
             result.setData(save);
             result.setMessage("Thành công!");
             result.setStatus(HttpStatus.OK);
             return result;
-        }
-        else{
+        } else {
             FormatApi result = new FormatApi();
             result.setData(save);
             result.setMessage("Tạo sản phẩm không thành công!");
@@ -166,34 +181,41 @@ public class SanPhamController {
             return result;
         }
     }
+
     @PostMapping("/setdanhmuctosanpham")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    public SanPham setDanhMucToSanPham(@RequestParam("sanPham") Integer sanPham, @RequestParam("danhMuc") Integer danhMuc){
-        Optional<SanPham> dataSanPham = sanPhamRepository.findById(sanPham);
-        Optional<LoaiSanPham> dataLoaiSanPham = loaiSanPhamRepository.findById(danhMuc);
+    public SanPham setDanhMucToSanPham(@RequestParam("sanPham") Integer sanPham,
+            @RequestParam("danhMuc") Integer danhMuc) {
+        Optional<SanPham> dataSanPham = sanPhamService.findById(sanPham);
+        Optional<LoaiSanPham> dataLoaiSanPham = loaiSanPhamService.findById(danhMuc);
         dataSanPham.get().setDanhMuc(dataLoaiSanPham.get());
-        return sanPhamRepository.save(dataSanPham.get());
+        return sanPhamService.update(dataSanPham.get());
     }
+
     @PostMapping("/setnhasanxuattosanpham")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    public SanPham setNhaSanXuatToSanPham(@RequestParam("sanPham") Integer sanPham, @RequestParam("nhaSanXuat") Integer nhaSanXuat){
-        Optional<SanPham> dataSanPham = sanPhamRepository.findById(sanPham);
-        Optional<NhaSanXuat> dataNhaSanXuat = nhaSanXuatRepository.findById(nhaSanXuat);
+    public SanPham setNhaSanXuatToSanPham(@RequestParam("sanPham") Integer sanPham,
+            @RequestParam("nhaSanXuat") Integer nhaSanXuat) {
+        Optional<SanPham> dataSanPham = sanPhamService.findById(sanPham);
+        Optional<NhaSanXuat> dataNhaSanXuat = nhaSanXuatService.findById(nhaSanXuat);
         dataSanPham.get().setNhaSanXuat(dataNhaSanXuat.get());
-        return sanPhamRepository.save(dataSanPham.get());
+        return sanPhamService.update(dataSanPham.get());
     }
+
     @PostMapping("/setkhuyenmaitosanpham")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    public SanPham setKhuyenMaiToSanPham(@RequestParam("sanPham") Integer sanPham, @RequestParam("khuyenMai") Integer khuyenMai){
-        Optional<SanPham> dataSanPham = sanPhamRepository.findById(sanPham);
-        Optional<KhuyenMai> dataKhuyenMai = khuyenMaiRepository.findById(khuyenMai);
+    public SanPham setKhuyenMaiToSanPham(@RequestParam("sanPham") Integer sanPham,
+            @RequestParam("khuyenMai") Integer khuyenMai) {
+        Optional<SanPham> dataSanPham = sanPhamService.findById(sanPham);
+        Optional<KhuyenMai> dataKhuyenMai = khuyenMaiService.findById(khuyenMai);
         List<SanPham> lstS = dataKhuyenMai.get().getSanPham();
         List<KhuyenMai> lstK = dataSanPham.get().getKhuyenMais();
         lstS.add(dataSanPham.get());
         lstK.add(dataKhuyenMai.get());
         dataSanPham.get().setKhuyenMais(lstK);
         dataKhuyenMai.get().setSanPham(lstS);
-        khuyenMaiRepository.save(dataKhuyenMai.get());
-        return sanPhamRepository.save(dataSanPham.get());
+        khuyenMaiService.update(dataKhuyenMai.get().getId(), dataKhuyenMai.get());
+        return sanPhamService.update(dataSanPham.get());
     }
+    
 }

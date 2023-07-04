@@ -12,4 +12,5 @@ public interface ILoaiSanPhamService {
     LoaiSanPham update(Integer id, LoaiSanPham loaiSanPham);
     LoaiSanPham delete(Integer id);
     Integer countLoaiSanPham();
+    LoaiSanPham findByName(String name);
 }

@@ -1,5 +1,6 @@
 package vn.edu.stu.luanvantotnghiep.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
@@ -45,7 +46,7 @@ public class PhieuNhapHangController {
         if (lst.isEmpty()) {
             FormatApi result = new FormatApi();
             result.setData(lst);
-            result.setMessage("Không có dữ liệu cho bài viết");
+            result.setMessage("Không có dữ liệu cho phiếu nhập hàng");
             result.setStatus(HttpStatus.OK);
             return result;
         } else {
@@ -86,6 +87,9 @@ public class PhieuNhapHangController {
         PhieuNhapHang save = phieuNhapHangService.create(result);
         for(ChiTietPhieuNhapHang c : phieuNhapHang.getChiTietPhieuNhapHang()){
             c.setPhieuNhapHang(save);
+            String pattern = "yyyyMMddHHmmss";
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+            c.setSeri(save.getNhaCungCap().getTenNhaCungCap().substring(0, 5) + "_" + simpleDateFormat.format(Calendar.getInstance().getTime()));
             Optional<SanPham> sanPham = sanPhamService.findById(c.getSanPham().getId());
             c.setSanPham(sanPham.get());
             c = chiTietPhieuNhapHangService.create(c);
@@ -106,10 +110,10 @@ public class PhieuNhapHangController {
             return format;
         }
     }
-    @PutMapping("/phieunhaphang")
+    @PutMapping("/phieunhaphang/{id}")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    public FormatApi updateNhacungcap(@RequestBody PhieuNhapHang phieuNhapHang){
-        Optional<PhieuNhapHang> data = phieuNhapHangService.findById(phieuNhapHang.getId());
+    public FormatApi updateNhacungcap(@PathVariable("id") Integer id, @RequestBody PhieuNhapHang phieuNhapHang){
+        Optional<PhieuNhapHang> data = phieuNhapHangService.findById(id);
         if(data.isPresent()){
             Optional<NhaCungCap> nhaCungCap = nhaCungCapService.findById(phieuNhapHang.getNhaCungCap().getId());
             data.get().setNhaCungCap(nhaCungCap.get());

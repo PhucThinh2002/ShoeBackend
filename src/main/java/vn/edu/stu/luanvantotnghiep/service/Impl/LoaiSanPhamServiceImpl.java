@@ -62,4 +62,8 @@ public class LoaiSanPhamServiceImpl implements ILoaiSanPhamService{
         // TODO Auto-generated method stub
         return loaiSanPhamRepository.countByActive(1);
     }
+    @Override
+    public LoaiSanPham findByName(String name){
+        return loaiSanPhamRepository.findBytenDanhMuc(name);
+    }
 }

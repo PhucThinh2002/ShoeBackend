@@ -12,4 +12,5 @@ public interface INhaSanXuatService {
     NhaSanXuat update(Integer id, NhaSanXuat nhaSanXuat);
     NhaSanXuat delete(Integer id);
     Integer countNhaSanXuat();
+    NhaSanXuat findByTenNhaSanXuat(String name);
 }
