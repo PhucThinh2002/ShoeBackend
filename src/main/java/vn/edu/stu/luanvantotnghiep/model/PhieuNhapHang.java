@@ -41,7 +41,7 @@ public class PhieuNhapHang {
     private NhaCungCap nhaCungCap;
     @JoinColumn(name = "quan_ly_id", referencedColumnName = "id")
     @ManyToOne
-    @JsonBackReference
+    @JsonManagedReference
     private Customer quanLy;
     @OneToMany(mappedBy = "phieuNhapHang", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
