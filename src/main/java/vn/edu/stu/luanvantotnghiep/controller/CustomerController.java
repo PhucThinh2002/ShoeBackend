@@ -154,16 +154,15 @@ public class CustomerController {
         }
     }
 
-    @PutMapping("customer/{id}/delete")
+    @DeleteMapping("customer/{id}/delete")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    public ResponseEntity<Object> deleteCustomer(@PathVariable("id") int id){
+    public ResponseEntity<FormatApi> deleteCustomer(@PathVariable("id") int id){
         try {
             Customer saveCustomer = gCustomerService.deleteCustomer(id);
-            if(saveCustomer != null) return new ResponseEntity<>(saveCustomer, HttpStatus.ACCEPTED);
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            if(saveCustomer != null) return new ResponseEntity<>(new FormatApi(HttpStatus.ACCEPTED, "Thành công", saveCustomer), HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(new FormatApi(HttpStatus.NOT_FOUND, "Không thành công", saveCustomer), HttpStatus.NOT_FOUND);
         } catch (Exception e) {
-            return ResponseEntity.unprocessableEntity()
-                    .body("Failed to Delete specified Employee: " + e.getCause().getCause().getMessage());
+            return new ResponseEntity<>(new FormatApi(HttpStatus.NOT_FOUND, "Failed to Delete specified Employee: " + e.getCause().getCause().getMessage(), e), HttpStatus.NOT_FOUND); 
         }
     }
 }
