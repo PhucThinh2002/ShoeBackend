@@ -19,6 +19,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "nha_cung_cap")
@@ -43,7 +44,7 @@ public class NhaCungCap {
     @LastModifiedDate
     private Date updateDate;
     @OneToMany(mappedBy = "nhaCungCap", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
+    @JsonManagedReference
     private List<PhieuNhapHang> phieuNhapHangs;
     @Column(name = "active", length = 1)
     private Integer active;
