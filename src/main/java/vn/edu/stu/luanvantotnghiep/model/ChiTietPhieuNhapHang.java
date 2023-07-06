@@ -11,6 +11,7 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "chi_tiet_phieu_nhap_hang")
@@ -26,7 +27,7 @@ public class ChiTietPhieuNhapHang {
     private Integer soLuong;
     @JoinColumn(name = "phieu_nhap_hang_id", referencedColumnName = "id")
     @ManyToOne
-    @JsonIgnore
+    @JsonManagedReference
     private PhieuNhapHang phieuNhapHang;
     @JoinColumn(name = "san_pham_id", referencedColumnName = "id")
     @ManyToOne

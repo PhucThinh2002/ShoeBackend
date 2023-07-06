@@ -17,7 +17,9 @@ import javax.persistence.Table;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "phieu_nhap_hang")
@@ -35,13 +37,14 @@ public class PhieuNhapHang {
     private Date updateDate;
     @JoinColumn(name = "nha_cung_cap", referencedColumnName = "id")
     @ManyToOne
-    @JsonIgnore
+    @JsonBackReference
     private NhaCungCap nhaCungCap;
     @JoinColumn(name = "quan_ly_id", referencedColumnName = "id")
     @ManyToOne
+    @JsonBackReference
     private Customer quanLy;
     @OneToMany(mappedBy = "phieuNhapHang", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
+    @JsonBackReference
     private List<ChiTietPhieuNhapHang> ChiTietPhieuNhapHang;
     @Column(name = "active", length = 1)
     private Integer active;

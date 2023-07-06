@@ -8,6 +8,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,12 +20,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import vn.edu.stu.luanvantotnghiep.model.ChiTietPhieuNhapHang;
+import vn.edu.stu.luanvantotnghiep.model.Customer;
 import vn.edu.stu.luanvantotnghiep.model.FormatApi;
 import vn.edu.stu.luanvantotnghiep.model.ModelPhieuNhapHang;
 import vn.edu.stu.luanvantotnghiep.model.NhaCungCap;
 import vn.edu.stu.luanvantotnghiep.model.PhieuNhapHang;
 import vn.edu.stu.luanvantotnghiep.model.SanPham;
 import vn.edu.stu.luanvantotnghiep.service.IChiTietPhieuNhapHangService;
+import vn.edu.stu.luanvantotnghiep.service.ICustomerService;
 import vn.edu.stu.luanvantotnghiep.service.INhaCungCapService;
 import vn.edu.stu.luanvantotnghiep.service.IPhieuNhapHangService;
 import vn.edu.stu.luanvantotnghiep.service.ISanPhamService;
@@ -39,6 +43,8 @@ public class PhieuNhapHangController {
     private ISanPhamService sanPhamService;
     @Autowired
     private IChiTietPhieuNhapHangService chiTietPhieuNhapHangService;
+    @Autowired
+    private ICustomerService customerService;
     @GetMapping("/phieunhaphang")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public FormatApi findAllNhacungcap(){
@@ -78,12 +84,21 @@ public class PhieuNhapHangController {
     @PostMapping("/phieunhaphang")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public FormatApi createNhacungcap(@RequestBody ModelPhieuNhapHang phieuNhapHang){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication == null || !authentication.isAuthenticated()){
+            FormatApi result = new FormatApi();
+            result.setMessage("No Authentication user not found!");
+            result.setStatus(HttpStatus.NOT_FOUND);
+            return result;
+        }
+        Customer cusResult = customerService.findCustomerByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         PhieuNhapHang result = new PhieuNhapHang();
         Optional<NhaCungCap> nhaCungCap = nhaCungCapService.findById(phieuNhapHang.getNhaCungCap());
         result.setNhaCungCap(nhaCungCap.get());
         result.setTongTien(phieuNhapHang.getTongTien());
         result.setCreateDate(Calendar.getInstance().getTime());
         result.setActive(1);
+        result.setQuanLy(cusResult);
         PhieuNhapHang save = phieuNhapHangService.create(result);
         for(ChiTietPhieuNhapHang c : phieuNhapHang.getChiTietPhieuNhapHang()){
             c.setPhieuNhapHang(save);
