@@ -44,7 +44,7 @@ public class PhieuNhapHang {
     @JsonBackReference
     private Customer quanLy;
     @OneToMany(mappedBy = "phieuNhapHang", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonBackReference
+    @JsonManagedReference
     private List<ChiTietPhieuNhapHang> ChiTietPhieuNhapHang;
     @Column(name = "active", length = 1)
     private Integer active;

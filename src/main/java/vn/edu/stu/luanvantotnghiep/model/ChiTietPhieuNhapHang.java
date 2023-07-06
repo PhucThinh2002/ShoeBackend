@@ -27,7 +27,7 @@ public class ChiTietPhieuNhapHang {
     private Integer soLuong;
     @JoinColumn(name = "phieu_nhap_hang_id", referencedColumnName = "id")
     @ManyToOne
-    @JsonManagedReference
+    @JsonBackReference
     private PhieuNhapHang phieuNhapHang;
     @JoinColumn(name = "san_pham_id", referencedColumnName = "id")
     @ManyToOne
