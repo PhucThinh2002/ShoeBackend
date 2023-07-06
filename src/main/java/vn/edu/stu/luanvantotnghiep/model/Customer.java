@@ -52,7 +52,8 @@ public class Customer{
     @JsonIgnore
     private List<HoaDon> hoaDons;
     @OneToMany(mappedBy = "quanLy", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
+    // @JsonManagedReference
+    @JsonBackReference
     private List<PhieuNhapHang> phieuNhapHangs;
     @OneToMany(mappedBy = "quanLy", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BaiViet> baiViets;

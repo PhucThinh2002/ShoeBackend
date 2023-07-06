@@ -27,12 +27,11 @@ public class ChiTietPhieuNhapHang {
     private Integer soLuong;
     @JoinColumn(name = "phieu_nhap_hang_id", referencedColumnName = "id")
     @ManyToOne
-    @JsonBackReference
     private PhieuNhapHang phieuNhapHang;
     @JoinColumn(name = "san_pham_id", referencedColumnName = "id")
     @ManyToOne
-    @JsonBackReference
     private SanPham sanPham;
+
     public ChiTietPhieuNhapHang() {
     }
     public ChiTietPhieuNhapHang(Integer id, Double giaNhap, Integer soLuong) {
@@ -63,9 +62,6 @@ public class ChiTietPhieuNhapHang {
     }
     public void setSeri(String seri) {
         this.seri = seri;
-    }
-    public PhieuNhapHang getPhieuNhapHang() {
-        return phieuNhapHang;
     }
     public void setPhieuNhapHang(PhieuNhapHang phieuNhapHang) {
         this.phieuNhapHang = phieuNhapHang;

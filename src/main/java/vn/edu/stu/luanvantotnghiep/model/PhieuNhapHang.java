@@ -18,7 +18,6 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -37,15 +36,12 @@ public class PhieuNhapHang {
     private Date updateDate;
     @JoinColumn(name = "nha_cung_cap", referencedColumnName = "id")
     @ManyToOne
-    @JsonBackReference
     private NhaCungCap nhaCungCap;
     @JoinColumn(name = "quan_ly_id", referencedColumnName = "id")
     @ManyToOne
-    @JsonBackReference
     private Customer quanLy;
     @OneToMany(mappedBy = "phieuNhapHang", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
-    private List<ChiTietPhieuNhapHang> ChiTietPhieuNhapHang;
+    private List<ChiTietPhieuNhapHang> chiTietPhieuNhapHang;
     @Column(name = "active", length = 1)
     private Integer active;
     public PhieuNhapHang() {
@@ -93,10 +89,10 @@ public class PhieuNhapHang {
         this.quanLy = quanLy;
     }
     public List<ChiTietPhieuNhapHang> getChiTietPhieuNhapHang() {
-        return ChiTietPhieuNhapHang;
+        return chiTietPhieuNhapHang;
     }
     public void setChiTietPhieuNhapHang(List<ChiTietPhieuNhapHang> chiTietPhieuNhapHang) {
-        ChiTietPhieuNhapHang = chiTietPhieuNhapHang;
+        chiTietPhieuNhapHang = chiTietPhieuNhapHang;
     }
     public Integer getActive() {
         return active;

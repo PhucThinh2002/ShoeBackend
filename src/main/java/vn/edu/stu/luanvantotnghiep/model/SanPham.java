@@ -51,7 +51,6 @@ public class SanPham {
     @JsonIgnore
     private NhaSanXuat nhaSanXuat;
     @OneToMany(mappedBy = "sanPham", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
     private List<ChiTietPhieuNhapHang> chiTietPhieuNhapHang;
     @OneToMany(mappedBy = "sanPham", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
@@ -141,9 +140,6 @@ public class SanPham {
     }
     public void setNhaSanXuat(NhaSanXuat nhaSanXuat) {
         this.nhaSanXuat = nhaSanXuat;
-    }
-    public List<ChiTietPhieuNhapHang> getChiTietPhieuNhapHang() {
-        return chiTietPhieuNhapHang;
     }
     public void setChiTietPhieuNhapHang(List<ChiTietPhieuNhapHang> chiTietPhieuNhapHang) {
         this.chiTietPhieuNhapHang = chiTietPhieuNhapHang;

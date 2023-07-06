@@ -18,6 +18,7 @@ import javax.validation.constraints.Email;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -44,7 +45,6 @@ public class NhaCungCap {
     @LastModifiedDate
     private Date updateDate;
     @OneToMany(mappedBy = "nhaCungCap", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
     private List<PhieuNhapHang> phieuNhapHangs;
     @Column(name = "active", length = 1)
     private Integer active;
@@ -101,9 +101,6 @@ public class NhaCungCap {
     }
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
-    }
-    public List<PhieuNhapHang> getPhieuNhapHangs() {
-        return phieuNhapHangs;
     }
     public void setPhieuNhapHangs(List<PhieuNhapHang> phieuNhapHangs) {
         this.phieuNhapHangs = phieuNhapHangs;
