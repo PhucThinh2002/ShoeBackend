@@ -17,6 +17,7 @@ import javax.persistence.TemporalType;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -38,7 +39,7 @@ public class NhaSanXuat {
     @LastModifiedDate
     private Date updateDate;
     @OneToMany(mappedBy = "nhaSanXuat", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
+    @JsonBackReference
     private List<SanPham> sanPhams;
     @Column(name = "trang_thai", length = 1)
     private Integer active;

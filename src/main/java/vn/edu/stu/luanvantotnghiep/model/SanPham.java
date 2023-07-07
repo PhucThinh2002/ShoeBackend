@@ -54,7 +54,7 @@ public class SanPham {
     private LoaiSanPham danhMuc;
     @JoinColumn(name = "nha_san_xuat", referencedColumnName = "id")
     @ManyToOne
-    @JsonBackReference
+    @JsonManagedReference
     private NhaSanXuat nhaSanXuat;
     @OneToMany(mappedBy = "sanPham", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ChiTietPhieuNhapHang> chiTietPhieuNhapHang;
