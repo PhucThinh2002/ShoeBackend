@@ -70,6 +70,9 @@ public class HoaDon {
     @ManyToOne
     @JsonIgnore
     private Customer quanLy;
+    @OneToMany(mappedBy = "hoaDon", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<PhieuBaoHanh> phieuBaoHanhs;
     public HoaDon() {
     }
     public Integer getId() {
@@ -179,6 +182,12 @@ public class HoaDon {
     }
     public void setSoTienTraTruoc(Double soTienTraTruoc) {
         this.soTienTraTruoc = soTienTraTruoc;
+    }
+    public List<PhieuBaoHanh> getPhieuBaoHanhs() {
+        return phieuBaoHanhs;
+    }
+    public void setPhieuBaoHanhs(List<PhieuBaoHanh> phieuBaoHanhs) {
+        this.phieuBaoHanhs = phieuBaoHanhs;
     }
     
     

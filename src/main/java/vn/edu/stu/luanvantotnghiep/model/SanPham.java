@@ -14,6 +14,12 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "san_pham")
+@NamedQueries(
+    {
+        @NamedQuery(name="SanPham.findSanPham", query="SELECT s FROM SanPham s where (s.nhaSanXuat.tenNhaSanXuat LIKE :keyword) OR (s.danhMuc.tenDanhMuc LIKE :keyword) OR (s.tenSanPham LIKE :keyword) AND s.trangThai = 1"),
+        @NamedQuery(name="SanPham.findSanPhamFilter", query="SELECT s FROM SanPham s where (:nhasanxuat IS NULL OR s.nhaSanXuat.id = :nhasanxuat) AND (:danhmuc IS NULL OR s.danhMuc.id = :danhmuc) AND s.gia >= :tugia AND s.gia <= :dengia AND s.trangThai = 1"),
+}
+)
 public class SanPham {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

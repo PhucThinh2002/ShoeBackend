@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import vn.edu.stu.luanvantotnghiep.model.LoaiSanPham;
+import vn.edu.stu.luanvantotnghiep.model.NhaSanXuat;
 import vn.edu.stu.luanvantotnghiep.model.SanPham;
 import vn.edu.stu.luanvantotnghiep.model.ThuocTinh;
 import vn.edu.stu.luanvantotnghiep.repository.SanPhamRepository;
@@ -85,5 +86,10 @@ public class SanPhamServicImpl implements ISanPhamService{
     @Override
     public List<SanPham> search(String keyword){
         return sanPhamRepository.search(keyword);
+    }
+
+    @Override
+    public List<SanPham> filter(NhaSanXuat nhasanxuat, LoaiSanPham loaisanpham, Double tugia, Double dengia) {
+        return sanPhamRepository.findByNhaSanXuatAndDanhMucAndTrangThaiAndGiaBetween(nhasanxuat, loaisanpham, 1, tugia, dengia);
     }
 }

@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 
 import vn.edu.stu.luanvantotnghiep.model.LoaiSanPham;
+import vn.edu.stu.luanvantotnghiep.model.NhaSanXuat;
 import vn.edu.stu.luanvantotnghiep.model.SanPham;
 
 public interface ISanPhamService {
@@ -19,4 +20,5 @@ public interface ISanPhamService {
     List<SanPham> findSanPhamByNhaSanXuatActive(Integer id);
     List<SanPham> findByLoaiSanPhamAndTrangThai(LoaiSanPham loaiSanPham, Integer id);
     List<SanPham> search(String keyword);
+    List<SanPham> filter(NhaSanXuat nhasanxuat, LoaiSanPham loaisanpham, Double tugia, Double dengia);
 }

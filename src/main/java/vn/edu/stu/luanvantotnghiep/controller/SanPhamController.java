@@ -3,6 +3,13 @@ package vn.edu.stu.luanvantotnghiep.controller;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
+import javax.persistence.PersistenceException;
+import javax.persistence.Query;
+
+import org.hibernate.QueryException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -24,6 +31,7 @@ import vn.edu.stu.luanvantotnghiep.model.LoaiSanPham;
 import vn.edu.stu.luanvantotnghiep.model.ModelSanPham;
 import vn.edu.stu.luanvantotnghiep.model.NhaSanXuat;
 import vn.edu.stu.luanvantotnghiep.model.SanPham;
+import vn.edu.stu.luanvantotnghiep.repository.SanPhamCRUDRepository;
 import vn.edu.stu.luanvantotnghiep.service.IKhuyenMaiService;
 import vn.edu.stu.luanvantotnghiep.service.ILoaiSanPhamService;
 import vn.edu.stu.luanvantotnghiep.service.INhaSanXuatService;
@@ -40,6 +48,8 @@ public class SanPhamController {
     private INhaSanXuatService nhaSanXuatService;
     @Autowired
     private IKhuyenMaiService khuyenMaiService;
+    @PersistenceContext(type = PersistenceContextType.EXTENDED)
+    private EntityManager entityManager;
 
     @GetMapping("/sanpham")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
@@ -282,8 +292,44 @@ public class SanPhamController {
         }
     }
     @GetMapping("/sanphamsearch")
-    public FormatApi search(@RequestParam("keyword") String keyword){
-        List<SanPham> lstSanPham = sanPhamService.search(keyword);
+    public FormatApi search(@RequestParam("keyword") String keyword) throws PersistenceException, QueryException{
+        Query query = entityManager.createNamedQuery("SanPham.findSanPham").setParameter("keyword","%" + keyword + "%");
+        List<SanPham> lstSanPham = query.getResultList();
+        System.out.println("số lượng sản phẩm search = " + lstSanPham.size());
+        if (!lstSanPham.isEmpty()) {
+            FormatApi result = new FormatApi();
+            result.setData(lstSanPham);
+            result.setMessage("Thành công!");
+            result.setStatus(HttpStatus.OK);
+            return result;
+        } else {
+            FormatApi result = new FormatApi();
+            result.setData(lstSanPham);
+            result.setMessage("Không thành công!");
+            result.setStatus(HttpStatus.NO_CONTENT);
+            return result;
+        }
+        
+    }
+    @GetMapping("/sanphamfilter")
+    public FormatApi filter(@RequestParam("nhasanxuat") String nhaSanXuat,
+                            @RequestParam("loaisanpham") String loaisanpham,
+                            @RequestParam("tugia") Double tugia,
+                            @RequestParam("dengia") Double dengia ){
+        Query query = entityManager.createNamedQuery("SanPham.findSanPhamFilter");
+        if(nhaSanXuat.isEmpty()){
+            query.setParameter("nhasanxuat", null);
+        }else{
+            query.setParameter("nhasanxuat", Integer.parseInt(nhaSanXuat));
+        }
+        if(loaisanpham.isEmpty()){
+            query.setParameter("danhmuc", null);
+        }else{
+            query.setParameter("danhmuc", Integer.parseInt(loaisanpham));
+        }
+        query.setParameter("tugia", tugia);
+        query.setParameter("dengia", dengia);
+        List<SanPham> lstSanPham = query.getResultList();
         System.out.println("số lượng sản phẩm search = " + lstSanPham.size());
         if (!lstSanPham.isEmpty()) {
             FormatApi result = new FormatApi();

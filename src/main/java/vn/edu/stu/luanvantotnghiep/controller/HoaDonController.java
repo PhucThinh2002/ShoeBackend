@@ -22,11 +22,13 @@ import vn.edu.stu.luanvantotnghiep.model.Customer;
 import vn.edu.stu.luanvantotnghiep.model.FormatApi;
 import vn.edu.stu.luanvantotnghiep.model.HoaDon;
 import vn.edu.stu.luanvantotnghiep.model.ModelHoaDon;
+import vn.edu.stu.luanvantotnghiep.model.PhieuBaoHanh;
 import vn.edu.stu.luanvantotnghiep.model.SanPham;
 import vn.edu.stu.luanvantotnghiep.model.TraGop;
 import vn.edu.stu.luanvantotnghiep.service.IChiTietHoaDonService;
 import vn.edu.stu.luanvantotnghiep.service.ICustomerService;
 import vn.edu.stu.luanvantotnghiep.service.IHoaDonService;
+import vn.edu.stu.luanvantotnghiep.service.IPhieuBaoHanhService;
 import vn.edu.stu.luanvantotnghiep.service.ISanPhamService;
 import vn.edu.stu.luanvantotnghiep.service.ITraGopService;
 
@@ -43,7 +45,8 @@ public class HoaDonController {
     private IChiTietHoaDonService chiTietHoaDonService;
     @Autowired
     private ITraGopService traGopRepository;
-
+    @Autowired
+    private IPhieuBaoHanhService phieuBaoHanhService;
     @GetMapping("/hoadon")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CUSTOMER')")
     public FormatApi findAllHoaDon(){
@@ -77,6 +80,14 @@ public class HoaDonController {
     @PostMapping("/hoadon")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CUSTOMER')")
     public FormatApi createHoaDon(@RequestBody ModelHoaDon hoaDon){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication == null || !authentication.isAuthenticated()){
+            FormatApi result = new FormatApi();
+            result.setMessage("No Authentication user not found!");
+            result.setStatus(HttpStatus.NOT_FOUND);
+            return result;
+        }
+        Customer cusResult = customerRepository.findCustomerByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         for(ChiTietHoaDon c : hoaDon.getChiTietHoaDons()){
             SanPham sanPham = sanPhamRepository.findById(c.getSanPham().getId()).get();
             if(sanPham.getSoLuongTon() == 0){
@@ -132,6 +143,11 @@ public class HoaDonController {
                 traGop.setSoTienHangThang(soTienHangThang);
                 traGop = traGopRepository.create(traGop);
             }
+        }
+        if(cusResult.getRole().getId() == 1){
+            save.setQuanLy(cusResult);
+        }else{
+            save.setUser(cusResult);
         }
         for(ChiTietHoaDon c : hoaDon.getChiTietHoaDons()){
             SanPham sanPham = sanPhamRepository.findById(c.getSanPham().getId()).get();
@@ -222,8 +238,18 @@ public class HoaDonController {
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public FormatApi updateHoaDonThanhCong(@PathVariable("id") Integer id){
         HoaDon hoaDon = hoaDonService.updateThanhCong(id);
+        PhieuBaoHanh phieuBaoHanh = new PhieuBaoHanh();
+        phieuBaoHanh.setHoaDon(hoaDon);
+        Calendar cal = Calendar.getInstance();
+        phieuBaoHanh.setNgayBatDauBaoHanh(cal.getTime());
+        int year = cal.get(Calendar.YEAR) + 1;
+        int day = cal.get(Calendar.DATE);
+        int month = cal.get(Calendar.MONTH);
+        cal.set(year, month, day);
+        phieuBaoHanh.setNgayHetBaoHanh(cal.getTime());
+        phieuBaoHanh = phieuBaoHanhService.create(phieuBaoHanh);
         if(hoaDon == null){
-            FormatApi formatApi = new FormatApi(HttpStatus.NO_CONTENT, "Cập nhật trạng tháikhông thành công", hoaDon);
+            FormatApi formatApi = new FormatApi(HttpStatus.NO_CONTENT, "Cập nhật trạng thái không thành công", hoaDon);
             return formatApi;
         }else{
             FormatApi formatApi = new FormatApi(HttpStatus.OK, "Cập nhật trạng thái hóa đơn thành công!", hoaDon);
