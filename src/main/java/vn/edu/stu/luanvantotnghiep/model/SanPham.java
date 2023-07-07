@@ -27,7 +27,6 @@ public class SanPham {
     @Column(name = "ten_san_pham", length = 100)
     private String tenSanPham;
     @OneToMany(mappedBy = "sanPham", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
     private List<HinhAnh> hinhAnhs;
     @Column(name = "gia")
     private double gia;

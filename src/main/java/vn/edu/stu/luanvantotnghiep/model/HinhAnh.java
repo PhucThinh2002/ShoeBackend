@@ -30,7 +30,7 @@ public class HinhAnh {
     private Banner banner;
     @JoinColumn(name = "san_pham_id", referencedColumnName = "id")
     @ManyToOne
-    @JsonBackReference
+    @JsonIgnore
     private SanPham sanPham;
     public HinhAnh() {
     }
@@ -58,14 +58,8 @@ public class HinhAnh {
     public void setPath(String path) {
         this.path = path;
     }
-    public Banner getBanner() {
-        return banner;
-    }
     public void setBanner(Banner banner) {
         this.banner = banner;
-    }
-    public SanPham getSanPham() {
-        return sanPham;
     }
     public void setSanPham(SanPham sanPham) {
         this.sanPham = sanPham;
