@@ -10,6 +10,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "users")
@@ -50,11 +51,14 @@ public class Customer{
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<HoaDon> hoaDons;
+
     @OneToMany(mappedBy = "quanLy", cascade = CascadeType.ALL, orphanRemoval = true)
     // @JsonManagedReference
     @JsonBackReference
     private List<PhieuNhapHang> phieuNhapHangs;
+
     @OneToMany(mappedBy = "quanLy", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<BaiViet> baiViets;
 
     public Customer() {
@@ -200,5 +204,10 @@ public class Customer{
     public void setActive(Integer active) {
         this.active = active;
     }
+
+    public void setBaiViets(List<BaiViet> baiViets) {
+        this.baiViets = baiViets;
+    }
+    
     
 }

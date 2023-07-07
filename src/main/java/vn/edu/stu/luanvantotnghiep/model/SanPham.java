@@ -57,6 +57,7 @@ public class SanPham {
     @JsonManagedReference
     private NhaSanXuat nhaSanXuat;
     @OneToMany(mappedBy = "sanPham", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<ChiTietPhieuNhapHang> chiTietPhieuNhapHang;
     @OneToMany(mappedBy = "sanPham", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore

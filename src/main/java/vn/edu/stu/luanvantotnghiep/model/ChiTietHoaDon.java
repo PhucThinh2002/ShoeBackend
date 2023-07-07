@@ -10,6 +10,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "chi_tiet_hoa_don")
@@ -23,6 +25,7 @@ public class ChiTietHoaDon {
     private Double gia;
     @JoinColumn(name = "san_pham_id", referencedColumnName = "id")
     @ManyToOne
+    @JsonIgnore
     private SanPham sanPham;
     @JoinColumn(name = "hoa_don_id", referencedColumnName = "id")
     @ManyToOne
@@ -60,9 +63,6 @@ public class ChiTietHoaDon {
     }
     public void setSanPham(SanPham sanPham) {
         this.sanPham = sanPham;
-    }
-    public HoaDon getHoaDon() {
-        return hoaDon;
     }
     public void setHoaDon(HoaDon hoaDon) {
         this.hoaDon = hoaDon;
