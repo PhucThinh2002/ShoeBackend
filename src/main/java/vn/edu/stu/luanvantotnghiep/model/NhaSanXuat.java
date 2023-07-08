@@ -39,7 +39,7 @@ public class NhaSanXuat {
     @LastModifiedDate
     private Date updateDate;
     @OneToMany(mappedBy = "nhaSanXuat", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonBackReference
+    @JsonIgnore
     private List<SanPham> sanPhams;
     @Column(name = "trang_thai", length = 1)
     private Integer active;

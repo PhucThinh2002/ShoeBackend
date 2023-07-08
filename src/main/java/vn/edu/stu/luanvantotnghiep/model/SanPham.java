@@ -49,11 +49,10 @@ public class SanPham {
     private Date updateDate;
     @JoinColumn(name = "danh_muc", referencedColumnName = "id")
     @ManyToOne
-    @JsonBackReference
+    @JsonIgnore
     private LoaiSanPham danhMuc;
     @JoinColumn(name = "nha_san_xuat", referencedColumnName = "id")
     @ManyToOne
-    @JsonManagedReference
     private NhaSanXuat nhaSanXuat;
     @OneToMany(mappedBy = "sanPham", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
@@ -146,6 +145,10 @@ public class SanPham {
     }
     public void setNhaSanXuat(NhaSanXuat nhaSanXuat) {
         this.nhaSanXuat = nhaSanXuat;
+    }
+    
+    public List<ChiTietPhieuNhapHang> getChiTietPhieuNhapHang() {
+        return chiTietPhieuNhapHang;
     }
     public void setChiTietPhieuNhapHang(List<ChiTietPhieuNhapHang> chiTietPhieuNhapHang) {
         this.chiTietPhieuNhapHang = chiTietPhieuNhapHang;

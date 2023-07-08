@@ -30,7 +30,6 @@ public class ChiTietPhieuNhapHang {
     private PhieuNhapHang phieuNhapHang;
     @JoinColumn(name = "san_pham_id", referencedColumnName = "id")
     @ManyToOne
-    @JsonIgnore
     private SanPham sanPham;
 
     public ChiTietPhieuNhapHang() {
