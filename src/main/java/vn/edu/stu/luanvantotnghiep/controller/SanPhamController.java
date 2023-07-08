@@ -31,7 +31,6 @@ import vn.edu.stu.luanvantotnghiep.model.LoaiSanPham;
 import vn.edu.stu.luanvantotnghiep.model.ModelSanPham;
 import vn.edu.stu.luanvantotnghiep.model.NhaSanXuat;
 import vn.edu.stu.luanvantotnghiep.model.SanPham;
-import vn.edu.stu.luanvantotnghiep.repository.SanPhamCRUDRepository;
 import vn.edu.stu.luanvantotnghiep.service.IKhuyenMaiService;
 import vn.edu.stu.luanvantotnghiep.service.ILoaiSanPhamService;
 import vn.edu.stu.luanvantotnghiep.service.INhaSanXuatService;

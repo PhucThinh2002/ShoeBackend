@@ -89,7 +89,7 @@ public class PhieuNhapHang {
         return chiTietPhieuNhapHang;
     }
     public void setChiTietPhieuNhapHang(List<ChiTietPhieuNhapHang> chiTietPhieuNhapHang) {
-        chiTietPhieuNhapHang = chiTietPhieuNhapHang;
+        this.chiTietPhieuNhapHang = chiTietPhieuNhapHang;
     }
     public Integer getActive() {
         return active;
