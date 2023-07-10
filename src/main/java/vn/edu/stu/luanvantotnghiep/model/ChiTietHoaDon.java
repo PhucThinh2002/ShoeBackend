@@ -24,7 +24,6 @@ public class ChiTietHoaDon {
     private Double gia;
     @JoinColumn(name = "san_pham_id", referencedColumnName = "id")
     @ManyToOne
-    @JsonIgnore
     private SanPham sanPham;
     @JoinColumn(name = "hoa_don_id", referencedColumnName = "id")
     @ManyToOne
