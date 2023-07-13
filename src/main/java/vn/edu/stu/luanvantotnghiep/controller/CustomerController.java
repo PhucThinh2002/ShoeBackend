@@ -111,9 +111,22 @@ public class CustomerController {
     }
     @PostMapping("/admin/register")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    public ResponseEntity<?> createAdmin( @RequestBody Customer customer){
+    public ResponseEntity<?> createAdmin( @RequestBody ModelUser customer){
         try {
-            Customer saveCus = gCustomerService.createAdmin(customer);
+            Province thanhPho = provinceService.findById(customer.getProvince()).get();
+            District huyen = districtService.findById(customer.getDistrict()).get();
+            Ward xa = wardService.findById(customer.getWard()).get();
+            Customer data = new Customer();
+            data.setHoTenLot(customer.getHoTenLot());
+            data.setEmail(customer.getEmail());
+            data.setTen(customer.getTen());
+            data.setUsername(customer.getUsername());
+            data.setPassword(customer.getPassword());
+            data.setDiaChi(customer.getDiaChi() + "," + xa.getName() + "," + huyen.getName() + "," + thanhPho.getName());
+            data.setNgaySinh(customer.getNgaySinh());
+            data.setSoDienThoai(customer.getSoDienThoai());
+            data.setProvince(thanhPho);
+            Customer saveCus = gCustomerService.createAdmin(data);
             if(saveCus == null) return new ResponseEntity<>("Username của bạn đã tồn tại!", HttpStatus.PARTIAL_CONTENT);
             return new ResponseEntity<>(saveCus, HttpStatus.CREATED);
         } catch (Exception e) {
