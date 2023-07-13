@@ -107,8 +107,6 @@ public class CustomerServiceImpl implements ICustomerService{
             newCus.setSoDienThoai(customer.getSoDienThoai());
             newCus.setEmail(customer.getEmail());
             newCus.setDiaChi(customer.getDiaChi());
-            newCus.setUsername(customer.getUsername());
-            newCus.setPassword(new BCryptPasswordEncoder().encode(customer.getPassword()));
             newCus.setProvince(customer.getProvince());
             newCus.setCreatedAt(new Date());
             newCus.setActive(1);
