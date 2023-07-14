@@ -345,6 +345,22 @@ public class SanPhamController {
         }
         
     }
-    
+    @GetMapping("/get10sanpham")
+    public FormatApi find10SanPhamGiaCaoNhat(){
+        List<SanPham> lstSanPham = sanPhamService.findSanPham10GiaCaoNhat();
+        if (!lstSanPham.isEmpty()) {
+            FormatApi result = new FormatApi();
+            result.setData(lstSanPham);
+            result.setMessage("Thành công!");
+            result.setStatus(HttpStatus.OK);
+            return result;
+        } else {
+            FormatApi result = new FormatApi();
+            result.setData(lstSanPham);
+            result.setMessage("Không thành công!");
+            result.setStatus(HttpStatus.NO_CONTENT);
+            return result;
+        }
+    }
     
 }

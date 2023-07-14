@@ -21,4 +21,5 @@ public interface ISanPhamService {
     List<SanPham> findByLoaiSanPhamAndTrangThai(LoaiSanPham loaiSanPham, Integer id);
     List<SanPham> search(String keyword);
     List<SanPham> filter(NhaSanXuat nhasanxuat, LoaiSanPham loaisanpham, Double tugia, Double dengia);
+    List<SanPham> findSanPham10GiaCaoNhat();
 }

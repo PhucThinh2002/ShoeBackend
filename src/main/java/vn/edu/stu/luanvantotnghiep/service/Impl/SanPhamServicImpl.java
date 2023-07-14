@@ -92,4 +92,9 @@ public class SanPhamServicImpl implements ISanPhamService{
     public List<SanPham> filter(NhaSanXuat nhasanxuat, LoaiSanPham loaisanpham, Double tugia, Double dengia) {
         return sanPhamRepository.findByNhaSanXuatAndDanhMucAndTrangThaiAndGiaBetween(nhasanxuat, loaisanpham, 1, tugia, dengia);
     }
+
+    @Override
+    public List<SanPham> findSanPham10GiaCaoNhat() {
+        return sanPhamRepository.findSanPhamByGiaCaoNhat();
+    }
 }
