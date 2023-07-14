@@ -29,4 +29,6 @@ public interface SanPhamRepository extends JpaRepository<SanPham, Integer>{
     List<SanPham> findByNhaSanXuatAndDanhMucAndTrangThaiAndGiaBetween(NhaSanXuat nhasanxuat, LoaiSanPham loaisanpham,Integer trangThai, Double tugia, Double dengia);
     @Query(value="SELECT * FROM san_pham where trang_thai = 1 order by gia desc limit 10", nativeQuery = true)
     List<SanPham>  findSanPhamByGiaCaoNhat();
+    public List<SanPham>findByTrangThai(Integer active);
+    public List<SanPham> findBySoLuongTonAndTrangThai(Integer soLuongTon, Integer trangThai);
 }

@@ -1,5 +1,6 @@
 package vn.edu.stu.luanvantotnghiep.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,6 +30,7 @@ import vn.edu.stu.luanvantotnghiep.model.FormatApiSanPham;
 import vn.edu.stu.luanvantotnghiep.model.KhuyenMai;
 import vn.edu.stu.luanvantotnghiep.model.LoaiSanPham;
 import vn.edu.stu.luanvantotnghiep.model.ModelSanPham;
+import vn.edu.stu.luanvantotnghiep.model.ModelSanPhamTonKho;
 import vn.edu.stu.luanvantotnghiep.model.NhaSanXuat;
 import vn.edu.stu.luanvantotnghiep.model.SanPham;
 import vn.edu.stu.luanvantotnghiep.service.IKhuyenMaiService;
@@ -362,5 +364,37 @@ public class SanPhamController {
             return result;
         }
     }
-    
+    @GetMapping("/sanphamtonkho")
+    public FormatApi SanPhamTonKho(){
+        List<SanPham> lstSanPham = sanPhamService.findByTrangThai(1);
+        List<ModelSanPhamTonKho> lstSanPhamTonKho = new ArrayList<>();
+        for(SanPham d : lstSanPham){
+            ModelSanPhamTonKho sptk = new ModelSanPhamTonKho();
+            sptk.setSanPham(d.getTenSanPham());
+            sptk.setSanLuongTonKho(d.getSoLuongTon());
+            lstSanPhamTonKho.add(sptk);
+        }
+            FormatApi result = new FormatApi();
+            result.setData(lstSanPhamTonKho);
+            result.setMessage("Thành công!");
+            result.setStatus(HttpStatus.NO_CONTENT);
+            return result;
+    }
+
+    @GetMapping("/sanphamhettonkho")
+    public FormatApi SanPhamHetTonKho(){
+        List<SanPham> lstSanPham = sanPhamService.findBySoLuongTon(0, 1);
+        // List<ModelSanPhamTonKho> lstSanPhamTonKho = new ArrayList<>();
+        // for(SanPham d : lstSanPham){
+        //     ModelSanPhamTonKho sptk = new ModelSanPhamTonKho();
+        //     sptk.setSanPham(d.getTenSanPham());
+        //     sptk.setSanLuongTonKho(d.getSoLuongTon());
+        //     lstSanPhamTonKho.add(sptk);
+        // }
+            FormatApi result = new FormatApi();
+            result.setData(lstSanPham);
+            result.setMessage("Có " + lstSanPham.size() + " sản phẩm đã hết hàng trong kho!");
+            result.setStatus(HttpStatus.NO_CONTENT);
+            return result;
+    }
 }

@@ -97,4 +97,15 @@ public class SanPhamServicImpl implements ISanPhamService{
     public List<SanPham> findSanPham10GiaCaoNhat() {
         return sanPhamRepository.findSanPhamByGiaCaoNhat();
     }
+
+    @Override
+    public List<SanPham> findByTrangThai(Integer active) {
+        return sanPhamRepository.findByTrangThai(active);
+    }
+
+    @Override
+    public List<SanPham> findBySoLuongTon(Integer soLuongTon, Integer trangThai) {
+        // TODO Auto-generated method stub
+        return sanPhamRepository.findBySoLuongTonAndTrangThai(soLuongTon, trangThai);
+    }
 }
