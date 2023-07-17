@@ -7,5 +7,5 @@ import java.util.Date;
 
 
 public interface DashBoardRepository extends JpaRepository<DashBoard, Integer>{
-    DashBoard findByDateCreateBefore(Date dateCreate);
+    DashBoard findByDateCreateBetween(Date dateCreate, Date dateFuture);
 }

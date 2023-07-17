@@ -40,7 +40,7 @@ public class HoaDonController {
     @Autowired
     private ISanPhamService sanPhamRepository;
     @Autowired
-    private ICustomerService customerRepository;
+    private ICustomerService customerService;
     @Autowired
     private IChiTietHoaDonService chiTietHoaDonService;
     @Autowired
@@ -62,20 +62,37 @@ public class HoaDonController {
     @GetMapping("/hoadon/{id}")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CUSTOMER')")
     public FormatApi findHoaDonByID(@PathVariable("id") Integer id) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication == null || !authentication.isAuthenticated()){
+            FormatApi result = new FormatApi();
+            result.setMessage("No Authentication user not found!");
+            result.setStatus(HttpStatus.NOT_FOUND);
+            return result;
+        }
+        Customer cusResult = customerService.findCustomerByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         Optional<HoaDon> data = hoaDonService.findById(id);
-        if (data.isPresent()) {
+        if(data.get().getUser().getId() != cusResult.getId()){
+            FormatApi result = new FormatApi();
+            result.setData(null);
+            result.setMessage("Không có dữ liệu cho hóa đơn có id = " + id);
+            result.setStatus(HttpStatus.NO_CONTENT);
+            return result;
+        }else {
+            if (data.isPresent()) {
             FormatApi result = new FormatApi();
             result.setData(data);
             result.setMessage("Thành công!");
             result.setStatus(HttpStatus.OK);
             return result;
-        } else {
-            FormatApi result = new FormatApi();
-            result.setData(data);
-            result.setMessage("Không có dữ liệu cho bài viết có id = " + id);
-            result.setStatus(HttpStatus.NO_CONTENT);
-            return result;
+            } else {
+                FormatApi result = new FormatApi();
+                result.setData(data);
+                result.setMessage("Không có dữ liệu cho hóa đơn có id = " + id);
+                result.setStatus(HttpStatus.NO_CONTENT);
+                return result;
+            }
         }
+        
     }
     @PostMapping("/hoadon")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CUSTOMER')")
@@ -87,7 +104,7 @@ public class HoaDonController {
             result.setStatus(HttpStatus.NOT_FOUND);
             return result;
         }
-        Customer cusResult = customerRepository.findCustomerByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        Customer cusResult = customerService.findCustomerByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         for(ChiTietHoaDon c : hoaDon.getChiTietHoaDons()){
             SanPham sanPham = sanPhamRepository.findById(c.getSanPham().getId()).get();
             if(sanPham.getSoLuongTon() == 0){
@@ -175,7 +192,7 @@ public class HoaDonController {
             result.setStatus(HttpStatus.NOT_FOUND);
             return result;
         }
-        Customer cusResult = customerRepository.findCustomerByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        Customer cusResult = customerService.findCustomerByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         List<HoaDon> lstHoaDon = hoaDonService.findAllHoaDonByKhachHang(cusResult.getId());
         if(!lstHoaDon.isEmpty()){
             FormatApi formatApi = new FormatApi(HttpStatus.OK, "Bạn có hóa đơn", lstHoaDon);
@@ -195,7 +212,7 @@ public class HoaDonController {
             result.setStatus(HttpStatus.NOT_FOUND);
             return result;
         }
-        Customer cusResult = customerRepository.findCustomerByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        Customer cusResult = customerService.findCustomerByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         if(cusResult.getRole().getId() == 1){
             hoaDon.setQuanLy(cusResult);
         }else{

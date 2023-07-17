@@ -69,13 +69,16 @@ public class DashBoardServiceImpl implements IDashBoardService{
         int month = cal.get(Calendar.MONTH);
         int year = cal.get(Calendar.YEAR);
         cal.set(year, month, date);
-        return dashBoardRepository.findByDateCreateBefore(cal.getTime());
+        return dashBoardRepository.findByDateCreateBetween(cal.getTime(), Calendar.getInstance().getTime());
     }
     @Override
     public DashBoard getValueInDateNow(){
         // TODO Auto-generated method stub
         Integer active = 1;
-        Date createDate = Calendar.getInstance().getTime();
+        Calendar cal = Calendar.getInstance();
+        // int date = cal.get(Calendar.DATE) -1;
+        // cal.set(Calendar.YEAR, Calendar.MONTH + 1, date);
+        Date createDate = cal.getTime();
         Integer cus = customerRepository.countByCreatedAtAndActive(createDate, active);
         Integer sp = sanPhamRepository.countByTrangThaiAndCreateDate(active, createDate);
         Integer loaiSP = loaiSanPhamRepository.countByActiveAndCreateDate(active, createDate);
