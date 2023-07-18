@@ -13,4 +13,6 @@ public interface ICustomerService {
     public Customer updateCusomer(Customer customer, int id);
     public Customer deleteCustomer(int id);
     public Integer countCus();
+    public Customer findByUsernameAndEmail(String username, String email);
+    public Customer updatePassword(Customer customer);
 }

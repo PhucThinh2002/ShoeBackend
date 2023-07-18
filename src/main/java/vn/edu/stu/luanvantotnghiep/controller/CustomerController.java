@@ -1,5 +1,6 @@
 package vn.edu.stu.luanvantotnghiep.controller;
 
+import java.security.SecureRandom;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import vn.edu.stu.luanvantotnghiep.model.Customer;
 import vn.edu.stu.luanvantotnghiep.model.District;
 import vn.edu.stu.luanvantotnghiep.model.FormatApi;
+import vn.edu.stu.luanvantotnghiep.model.ModelSendMail;
 import vn.edu.stu.luanvantotnghiep.model.ModelUser;
 import vn.edu.stu.luanvantotnghiep.model.Province;
 
@@ -20,6 +22,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import vn.edu.stu.luanvantotnghiep.service.ICustomerService;
 import vn.edu.stu.luanvantotnghiep.service.IDistrictService;
 import vn.edu.stu.luanvantotnghiep.service.IProvinceService;
+import vn.edu.stu.luanvantotnghiep.service.ISendMailService;
 import vn.edu.stu.luanvantotnghiep.service.IWardService;
 import vn.edu.stu.luanvantotnghiep.service.CustomerLogin;
 import vn.edu.stu.luanvantotnghiep.service.TokenService;
@@ -32,6 +35,8 @@ import vn.edu.stu.luanvantotnghiep.security.JwtUtil;
 @CrossOrigin(maxAge = 3600)
 @RequestMapping("/")
 public class CustomerController {
+    private static final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    private static final int PASSWORD_LENGTH = 20;
     @Autowired
     private ICustomerService gCustomerService;
     @Autowired
@@ -44,6 +49,8 @@ public class CustomerController {
     private IDistrictService districtService;
     @Autowired
     private IWardService wardService;
+    @Autowired
+    private ISendMailService sendMailService;
 
     @GetMapping("/customer")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
@@ -177,5 +184,37 @@ public class CustomerController {
         } catch (Exception e) {
             return new ResponseEntity<>(new FormatApi(HttpStatus.NOT_FOUND, "Failed to Delete specified Employee: " + e.getCause().getCause().getMessage(), e), HttpStatus.NOT_FOUND); 
         }
+    }
+    @PostMapping("/forgotpassword")
+    public FormatApi forgotPassword(@RequestBody ModelSendMail sendMail){
+        Customer customer = gCustomerService.findByUsernameAndEmail(sendMail.getUsername(), sendMail.getMail());
+        if(customer == null){
+            return new FormatApi(HttpStatus.NOT_FOUND, "Không tìm thấy username hoặc email của bạn", null);
+        }else{
+            String newPassword = generateRandomPassword();
+            customer.setPassword(new BCryptPasswordEncoder().encode(newPassword));
+            gCustomerService.updatePassword(customer);
+            String body = "Mật khẩu mới của bạn là: " + newPassword + "<br><br>"
+            + "Vui lòng nhấp vào nút bên dưới để đặt lại mật khẩu:<br>"
+            + "<a href=\"" + sendMail.getDiachi() + "\">"
+            + "<button style=\"background-color:#008CBA; color:white; padding: 10px 20px; border:none; border-radius: 5px;\">Đặt lại mật khẩu</button>"
+            + "</a>";
+            String subject = "Đây là mail cấp mật khẩu mới cho bạn!";
+            sendMailService.sendMail(sendMail.getMail(), subject, body);
+            return new FormatApi(HttpStatus.OK, "Hãy kiểm tra email của bạn nhé!", null);
+        }
+        
+    }
+    public static String generateRandomPassword() {
+        SecureRandom random = new SecureRandom();
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for (int i = 0; i < PASSWORD_LENGTH; i++) {
+            int randomIndex = random.nextInt(CHARACTERS.length());
+            char randomChar = CHARACTERS.charAt(randomIndex);
+            stringBuilder.append(randomChar);
+        }
+
+        return stringBuilder.toString();
     }
 }

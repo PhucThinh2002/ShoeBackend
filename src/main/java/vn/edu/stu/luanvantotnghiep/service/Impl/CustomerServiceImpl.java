@@ -129,4 +129,16 @@ public class CustomerServiceImpl implements ICustomerService{
     public Integer countCus(){
         return gCustomerRepository.countByActive(1);
     }
+
+    @Override
+    public Customer findByUsernameAndEmail(String username, String email) {
+        // TODO Auto-generated method stub
+        return gCustomerRepository.findByUsernameAndEmail(username, email);
+    }
+
+    @Override
+    public Customer updatePassword(Customer customer) {
+        // TODO Auto-generated method stub
+        return gCustomerRepository.save(customer);
+    }
 }

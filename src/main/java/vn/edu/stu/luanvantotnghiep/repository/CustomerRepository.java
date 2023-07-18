@@ -21,4 +21,5 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer>{
 
     Integer countByActive(Integer active);
     Integer countByCreatedAtAndActive(Date date, Integer active);
+    Customer findByUsernameAndEmail(String username, String email);
 }
