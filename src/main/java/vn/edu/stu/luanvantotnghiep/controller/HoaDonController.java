@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.commons.math3.stat.descriptive.summary.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -30,6 +31,7 @@ import vn.edu.stu.luanvantotnghiep.service.ICustomerService;
 import vn.edu.stu.luanvantotnghiep.service.IHoaDonService;
 import vn.edu.stu.luanvantotnghiep.service.IPhieuBaoHanhService;
 import vn.edu.stu.luanvantotnghiep.service.ISanPhamService;
+import vn.edu.stu.luanvantotnghiep.service.ISendMailService;
 import vn.edu.stu.luanvantotnghiep.service.ITraGopService;
 
 @RestController
@@ -47,6 +49,8 @@ public class HoaDonController {
     private ITraGopService traGopRepository;
     @Autowired
     private IPhieuBaoHanhService phieuBaoHanhService;
+    @Autowired 
+    private ISendMailService sendMailService;
     @GetMapping("/hoadon")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CUSTOMER')")
     public FormatApi findAllHoaDon(){
@@ -269,6 +273,7 @@ public class HoaDonController {
             FormatApi formatApi = new FormatApi(HttpStatus.NO_CONTENT, "Cập nhật trạng thái không thành công", hoaDon);
             return formatApi;
         }else{
+            sendMailService.sendMail(hoaDon.getUser().getEmail(), "HOÀN TẤT ĐƠN HÀNG", generateOrderConfirmationContent(hoaDon, phieuBaoHanh));
             FormatApi formatApi = new FormatApi(HttpStatus.OK, "Cập nhật trạng thái hóa đơn thành công!", hoaDon);
             return formatApi;
         }
@@ -296,5 +301,35 @@ public class HoaDonController {
             FormatApi formatApi = new FormatApi(HttpStatus.OK, "Cập nhật trạng thái hóa đơn thành công!", hoaDon);
             return formatApi;
         }
+    }
+    private String generateOrderConfirmationContent(HoaDon order, PhieuBaoHanh phieuBaoHanh) {
+        StringBuilder contentBuilder = new StringBuilder();
+        contentBuilder.append("<h2>Đơn hàng hoàn tất</h2>");
+        // contentBuilder.append("<p>Chào mừng bạn đã đặt hàng thành công. Đây là xác nhận đơn hàng #" + order.getId() + " của bạn.</p>");
+        contentBuilder.append("<h3>Thông tin đơn hàng:</h3>");
+        contentBuilder.append("<table>");
+        contentBuilder.append("<tr><th>Tên sản phẩm</th><th>Giá tiền</th><th>Số lượng</th></tr>");
+
+        List<ChiTietHoaDon> products = order.getChiTietHoaDons();
+        for (ChiTietHoaDon product : products) {
+            contentBuilder.append("<tr>");
+            contentBuilder.append("<td>").append(product.getSanPham().getTenSanPham()).append("</td>");
+            contentBuilder.append("<td>").append(product.getGia()).append("</td>");
+            contentBuilder.append("<td>").append(product.getSoLuong()).append("</td>");
+            contentBuilder.append("</tr>");
+        }
+
+        contentBuilder.append("</table>");
+        contentBuilder.append("<p>Cảm ơn bạn đã tin tưởng và ủng hộ!</p>");
+        contentBuilder.append("<p>Đây là phiếu bảo hành của bạn</p>");
+        contentBuilder.append("<table>");
+        contentBuilder.append("<tr><td>Bảo hành từ</td><td>").append(phieuBaoHanh.getNgayBatDauBaoHanh()).append("</td></tr>");
+        contentBuilder.append("<tr><td>Bảo hành đến</td><td>").append(phieuBaoHanh.getNgayBatDauBaoHanh()).append("</td></tr>");
+        contentBuilder.append("<tr><td>Tên khách hàng</td><td>").append(order.getUser().getHoTenLot() + order.getUser().getTen()).append("</td></tr>");
+        contentBuilder.append("<tr><td>Số điện thoại</td><td>").append(order.getUser().getSoDienThoai()).append("</td></tr>");
+        contentBuilder.append("</table>");
+        contentBuilder.append("<p>Cần bảo hành hãy mang sản phẩm đến và đọc số điện thoại để được bảo hành.</p>");
+        contentBuilder.append("<p>Shop xin chân thành cảm ơn bạn!</p>");
+        return contentBuilder.toString();
     }
 }
