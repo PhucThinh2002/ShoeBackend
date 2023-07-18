@@ -217,4 +217,21 @@ public class CustomerController {
 
         return stringBuilder.toString();
     }
+    @PostMapping("/resetpassword")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CUSTOMER')")
+    public FormatApi resetPassword(@RequestParam String newPassword){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication == null || !authentication.isAuthenticated()){
+            FormatApi result = new FormatApi();
+            result.setMessage("No Authentication user not found!");
+            result.setStatus(HttpStatus.NOT_FOUND);
+            return result;
+        }
+        Customer cusResult = gCustomerService.findCustomerByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        cusResult.setPassword(new BCryptPasswordEncoder().encode(newPassword));
+        cusResult = gCustomerService.updatePassword(cusResult);
+        return new FormatApi(HttpStatus.OK, "Cập nhật password thành công", cusResult);
+        
+        
+    }
 }
