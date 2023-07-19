@@ -182,7 +182,10 @@ public class HoaDonController {
             FormatApi formatApi = new FormatApi(HttpStatus.OK, "Tạo hóa đơn thành công!", save);
             return formatApi;
         }else{
-            FormatApi formatApi = new FormatApi(HttpStatus.NOT_FOUND, "Tạo hóa đơn không thành công!", save);
+            FormatApi formatApi = new FormatApi();
+            formatApi.setData(save);
+            formatApi.setMessage("Tạo hóa đơn không thành công!");
+            formatApi.setStatus(HttpStatus.NOT_FOUND);
             return formatApi;
         }
     }

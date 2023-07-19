@@ -108,4 +108,10 @@ public class SanPhamServicImpl implements ISanPhamService{
         // TODO Auto-generated method stub
         return sanPhamRepository.findBySoLuongTonAndTrangThai(soLuongTon, trangThai);
     }
+
+    @Override
+    public Integer countSPByNhaSanXuat(NhaSanXuat nhaSanXuat) {
+        // TODO Auto-generated method stub
+        return sanPhamRepository.countByNhaSanXuat(nhaSanXuat);
+    }
 }

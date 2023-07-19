@@ -16,8 +16,12 @@ import vn.edu.stu.luanvantotnghiep.model.DashBoard;
 import vn.edu.stu.luanvantotnghiep.model.FormatApi;
 import vn.edu.stu.luanvantotnghiep.model.FormatApiDashBoard;
 import vn.edu.stu.luanvantotnghiep.model.HoaDon;
+import vn.edu.stu.luanvantotnghiep.model.ModelDataChartPie;
+import vn.edu.stu.luanvantotnghiep.model.NhaSanXuat;
 import vn.edu.stu.luanvantotnghiep.service.IDashBoardService;
 import vn.edu.stu.luanvantotnghiep.service.IHoaDonService;
+import vn.edu.stu.luanvantotnghiep.service.INhaSanXuatService;
+import vn.edu.stu.luanvantotnghiep.service.ISanPhamService;
 
 @Configuration
 @EnableScheduling
@@ -29,6 +33,10 @@ public class ScheduleController {
     private IDashBoardService dashBoardService;
     @Autowired
     private IHoaDonService hoaDonService;
+    @Autowired
+    private ISanPhamService sanPhamService;
+    @Autowired
+    private INhaSanXuatService nhaSanXuatService;
 
     @Scheduled(cron = "00 59 23 * * ?")
     public void scheduleFixedDelayTask() {
@@ -46,6 +54,16 @@ public class ScheduleController {
         DashBoard dashBoard = dashBoardService.getValueInDateNow();
         List<HoaDon> hoaDon = new ArrayList<>();
         hoaDon = hoaDonService.find10HoaDons();
-        return new FormatApiDashBoard(HttpStatus.OK, "Lấy dữ liệu dashboard thành công!", dashBoard, hoaDon);
+        List<ModelDataChartPie> chartPie = new ArrayList<>();
+        List<NhaSanXuat> nhaSanXuats = nhaSanXuatService.findAll();
+        for(NhaSanXuat nsx : nhaSanXuats){
+            ModelDataChartPie cP = new ModelDataChartPie();
+            cP.setLabel(nsx.getTenNhaSanXuat());
+            Integer soSanPham = sanPhamService.countSPByNhaSanXuat(nsx);
+            Integer value = soSanPham == null ? 0 : soSanPham;
+            cP.setValue(value);
+            chartPie.add(cP);
+        }
+        return new FormatApiDashBoard(HttpStatus.OK, "Lấy dữ liệu dashboard thành công!", dashBoard, hoaDon, chartPie);
     }
 }

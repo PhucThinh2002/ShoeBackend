@@ -24,4 +24,5 @@ public interface ISanPhamService {
     List<SanPham> findSanPham10GiaCaoNhat();
     List<SanPham> findByTrangThai(Integer active);
     List<SanPham> findBySoLuongTon(Integer soLuongTon, Integer trangThai);
+    Integer countSPByNhaSanXuat(NhaSanXuat nhaSanXuat);
 }

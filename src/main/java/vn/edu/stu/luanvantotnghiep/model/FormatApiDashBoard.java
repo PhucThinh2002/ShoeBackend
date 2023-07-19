@@ -9,11 +9,13 @@ public class FormatApiDashBoard {
     private String message;
     private Object data;
     private List<HoaDon> hoaDon;
-    public FormatApiDashBoard(HttpStatus status, String message, Object data, List<HoaDon> hoaDon) {
+    private List<ModelDataChartPie> chartPies;
+    public FormatApiDashBoard(HttpStatus status, String message, Object data, List<HoaDon> hoaDon, List<ModelDataChartPie> chartPies) {
         this.status = status;
         this.message = message;
         this.data = data;
         this.hoaDon = hoaDon;
+        this.chartPies = chartPies;
     }
     public FormatApiDashBoard() {
     }
@@ -40,6 +42,12 @@ public class FormatApiDashBoard {
     }
     public void setHoaDon(List<HoaDon> hoaDon) {
         this.hoaDon = hoaDon;
+    }
+    public List<ModelDataChartPie> getChartPies() {
+        return chartPies;
+    }
+    public void setChartPies(List<ModelDataChartPie> chartPies) {
+        this.chartPies = chartPies;
     }
     
 
