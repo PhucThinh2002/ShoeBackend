@@ -32,4 +32,5 @@ public interface SanPhamRepository extends JpaRepository<SanPham, Integer>{
     public List<SanPham>findByTrangThai(Integer active);
     public List<SanPham> findBySoLuongTonAndTrangThai(Integer soLuongTon, Integer trangThai);
     public Integer countByNhaSanXuat(NhaSanXuat nhaSanXuat);
+    public Integer countByDanhMuc(LoaiSanPham loaiSanPham);
 }

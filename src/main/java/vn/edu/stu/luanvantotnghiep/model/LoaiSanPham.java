@@ -13,6 +13,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -41,6 +42,8 @@ public class LoaiSanPham {
     private List<SanPham> sanPhams;
     @Column(name = "active", length = 1)
     private Integer active;
+    @Transient
+    private Integer countSP;
     public LoaiSanPham() {
     }
     public LoaiSanPham(Integer id, String tenDanhMuc, String moTa, Date createDate, Date updateDate,
@@ -93,6 +96,12 @@ public class LoaiSanPham {
     }
     public void setActive(Integer active) {
         this.active = active;
+    }
+    public Integer getCountSP() {
+        return countSP;
+    }
+    public void setCountSP(Integer countSP) {
+        this.countSP = countSP;
     }
     
     

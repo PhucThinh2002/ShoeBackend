@@ -1,5 +1,6 @@
 package vn.edu.stu.luanvantotnghiep.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,26 +19,37 @@ import org.springframework.web.bind.annotation.RestController;
 import vn.edu.stu.luanvantotnghiep.model.FormatApi;
 import vn.edu.stu.luanvantotnghiep.model.LoaiSanPham;
 import vn.edu.stu.luanvantotnghiep.service.ILoaiSanPhamService;
+import vn.edu.stu.luanvantotnghiep.service.ISanPhamService;
 
 @RestController
 @CrossOrigin(maxAge = 3600)
 public class LoaiSanPhamController {
     @Autowired
     private ILoaiSanPhamService loaiSanPhamService;
+    @Autowired
+    private ISanPhamService sanPhamService;
 
     @GetMapping("/loaisanpham")
     // @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public FormatApi findAllLoaiSanPham(){
         List<LoaiSanPham> lst = loaiSanPhamService.findAll();
-        if (lst.isEmpty()) {
+        List<LoaiSanPham> resultLst = new ArrayList<>();
+        for(LoaiSanPham loaiSanPham : lst){
+            Integer countSP = sanPhamService.countSPByLoaiSanPham(loaiSanPham);
+            Integer seq = lst.indexOf(loaiSanPham);
+            LoaiSanPham loaiSP = lst.get(seq);
+            loaiSP.setCountSP(countSP);
+            resultLst.add(loaiSP);
+        }
+        if (resultLst.isEmpty()) {
             FormatApi result = new FormatApi();
-            result.setData(lst);
+            result.setData(resultLst);
             result.setMessage("Không có dữ liệu cho loại sản phẩm");
             result.setStatus(HttpStatus.NO_CONTENT);
             return result;
         } else {
             FormatApi result = new FormatApi();
-            result.setData(lst);
+            result.setData(resultLst);
             result.setMessage("Thành công!");
             result.setStatus(HttpStatus.OK);
             return result;
