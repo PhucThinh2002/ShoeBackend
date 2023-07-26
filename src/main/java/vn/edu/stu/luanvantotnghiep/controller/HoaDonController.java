@@ -310,14 +310,14 @@ public class HoaDonController {
         contentBuilder.append("<h2>Đơn hàng hoàn tất</h2>");
         // contentBuilder.append("<p>Chào mừng bạn đã đặt hàng thành công. Đây là xác nhận đơn hàng #" + order.getId() + " của bạn.</p>");
         contentBuilder.append("<h3>Thông tin đơn hàng:</h3>");
-        contentBuilder.append("<table>");
+        contentBuilder.append("<table style='border: 1px solid black'>");
         contentBuilder.append("<tr><th>Tên sản phẩm</th><th>Giá tiền</th><th>Số lượng</th></tr>");
 
         List<ChiTietHoaDon> products = order.getChiTietHoaDons();
         for (ChiTietHoaDon product : products) {
             contentBuilder.append("<tr>");
             contentBuilder.append("<td>").append(product.getSanPham().getTenSanPham()).append("</td>");
-            contentBuilder.append("<td>").append(product.getGia()).append("</td>");
+            contentBuilder.append("<td>").append(Double.doubleToLongBits(product.getGia())).append("</td>");
             contentBuilder.append("<td>").append(product.getSoLuong()).append("</td>");
             contentBuilder.append("</tr>");
         }

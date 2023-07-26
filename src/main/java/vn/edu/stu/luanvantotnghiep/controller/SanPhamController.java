@@ -186,6 +186,8 @@ public class SanPhamController {
         data.setNamRaMat(sanPham.getNamRaMat());
         data.setHinhAnhs(hinhAnhs);
         SanPham save = sanPhamService.create(data);
+        hinhAnh.setSanPham(save);
+        hinhAnhService.update(hinhAnh);
         save = setDanhMucToSanPham(save.getId(), sanPham.getDanhMuc().getId());
         save = setNhaSanXuatToSanPham(save.getId(), sanPham.getNhaSanXuat().getId());
         if (save != null) {
