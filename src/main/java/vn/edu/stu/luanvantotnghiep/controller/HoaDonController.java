@@ -1,5 +1,8 @@
 package vn.edu.stu.luanvantotnghiep.controller;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
@@ -311,14 +314,15 @@ public class HoaDonController {
         // contentBuilder.append("<p>Chào mừng bạn đã đặt hàng thành công. Đây là xác nhận đơn hàng #" + order.getId() + " của bạn.</p>");
         contentBuilder.append("<h3>Thông tin đơn hàng:</h3>");
         contentBuilder.append("<table style='border: 1px solid black'>");
-        contentBuilder.append("<tr><th>Tên sản phẩm</th><th>Giá tiền</th><th>Số lượng</th></tr>");
+        contentBuilder.append("<tr style='border: 1px solid black'><th>Tên sản phẩm</th><th>Giá tiền</th><th>Số lượng</th></tr>");
 
         List<ChiTietHoaDon> products = order.getChiTietHoaDons();
         for (ChiTietHoaDon product : products) {
-            contentBuilder.append("<tr>");
+            contentBuilder.append("<tr style='border: 1px solid black'>");
             contentBuilder.append("<td>").append(product.getSanPham().getTenSanPham()).append("</td>");
-            contentBuilder.append("<td>").append(Double.doubleToLongBits(product.getGia())).append("</td>");
-            contentBuilder.append("<td>").append(product.getSoLuong()).append("</td>");
+            DecimalFormat formatter = new DecimalFormat("###,###,###");
+            contentBuilder.append("<td>").append(formatter.format(product.getGia())+" VNĐ").append("</td>");
+            contentBuilder.append("<td style='text-align:left'>").append(product.getSoLuong()).append("</td>");
             contentBuilder.append("</tr>");
         }
 
@@ -326,13 +330,15 @@ public class HoaDonController {
         contentBuilder.append("<p>Cảm ơn bạn đã tin tưởng và ủng hộ!</p>");
         contentBuilder.append("<p>Đây là phiếu bảo hành của bạn</p>");
         contentBuilder.append("<table>");
-        contentBuilder.append("<tr><td>Bảo hành từ</td><td>").append(phieuBaoHanh.getNgayBatDauBaoHanh()).append("</td></tr>");
-        contentBuilder.append("<tr><td>Bảo hành đến</td><td>").append(phieuBaoHanh.getNgayBatDauBaoHanh()).append("</td></tr>");
-        contentBuilder.append("<tr><td>Tên khách hàng</td><td>").append(order.getUser().getHoTenLot() + order.getUser().getTen()).append("</td></tr>");
+        String DATE_FORMAT_NOW = "dd-MM-yyyy";
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+        contentBuilder.append("<tr><td>Bảo hành từ</td><td>").append(sdf.format(phieuBaoHanh.getNgayBatDauBaoHanh())).append("</td></tr>");
+        contentBuilder.append("<tr><td>Bảo hành đến</td><td>").append(sdf.format(phieuBaoHanh.getNgayHetBaoHanh())).append("</td></tr>");
+        contentBuilder.append("<tr><td>Tên khách hàng</td><td>").append(order.getUser().getHoTenLot() + " " + order.getUser().getTen()).append("</td></tr>");
         contentBuilder.append("<tr><td>Số điện thoại</td><td>").append(order.getUser().getSoDienThoai()).append("</td></tr>");
         contentBuilder.append("</table>");
         contentBuilder.append("<p>Cần bảo hành hãy mang sản phẩm đến và đọc số điện thoại để được bảo hành.</p>");
-        contentBuilder.append("<p>Shop xin chân thành cảm ơn bạn!</p>");
+        contentBuilder.append("<p>Xin chân thành cảm ơn bạn đã tin tưởng và ủng hộ!</p>");
         return contentBuilder.toString();
     }
 }
