@@ -17,7 +17,7 @@ public class HinhAnhServiecImpl implements IHinhAnhService{
     @Override
     public HinhAnh create(HinhAnh hinhAnh) {
         // TODO Auto-generated method stub
-        return null;
+        return hinhAnhRepository.save(hinhAnh);
     }
 
     @Override

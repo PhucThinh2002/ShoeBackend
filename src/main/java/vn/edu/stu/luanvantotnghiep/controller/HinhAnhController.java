@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import vn.edu.stu.luanvantotnghiep.model.FormatApi;
 import vn.edu.stu.luanvantotnghiep.model.HinhAnh;
 import vn.edu.stu.luanvantotnghiep.model.SanPham;
 import vn.edu.stu.luanvantotnghiep.service.IHinhAnhService;
@@ -60,7 +61,7 @@ public class HinhAnhController {
     private FileStorageConfig fileStorageConfig;
 
     @PostMapping("/image")
-    public ResponseEntity<HinhAnh> uploadImage(@RequestParam("hinhAnh") MultipartFile hinhAnh) throws IOException {
+    public FormatApi uploadImage(@RequestParam("hinhAnh") MultipartFile hinhAnh) {
         String linkServer = "https://luanvantotnghiep-production.up.railway.app/getimage/";
         String uploadDir = fileStorageConfig.getUploadDir();
         File directory = new File(uploadDir);
@@ -69,14 +70,19 @@ public class HinhAnhController {
             directory.mkdir();
         }
         Path filePath = Path.of(uploadDir, hinhAnh.getOriginalFilename());
-        Files.copy(hinhAnh.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+        try {
+            Files.copy(hinhAnh.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         HinhAnh save = new HinhAnh();
         save.setKichThuoc(hinhAnh.getSize());
         save.setTenHinhAnh(hinhAnh.getOriginalFilename());
         save.setPath(linkServer + hinhAnh.getOriginalFilename());
         save = hinhAnhService.create(save);
 
-        return new ResponseEntity<>(save, HttpStatus.OK);
+        return new FormatApi(HttpStatus.OK, "Thêm hình ảnh thành công", save);
     }
 
     @GetMapping("/getimage/{filename}")
