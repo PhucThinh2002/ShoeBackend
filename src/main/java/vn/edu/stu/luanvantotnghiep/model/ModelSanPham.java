@@ -11,6 +11,7 @@ public class ModelSanPham {
     private String baoHanh;
     private LoaiSanPham danhMuc;
     private NhaSanXuat nhaSanXuat;
+    private Integer hinhAnh;
     private List<ThuocTinh> thuocTinhs;
     public ModelSanPham() {
     }
@@ -67,6 +68,12 @@ public class ModelSanPham {
     }
     public void setThuocTinhs(List<ThuocTinh> thuocTinhs) {
         this.thuocTinhs = thuocTinhs;
+    }
+    public Integer getHinhAnh() {
+        return hinhAnh;
+    }
+    public void setHinhAnh(Integer hinhAnh) {
+        this.hinhAnh = hinhAnh;
     }
     
 }

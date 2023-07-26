@@ -27,12 +27,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import vn.edu.stu.luanvantotnghiep.model.FormatApi;
 import vn.edu.stu.luanvantotnghiep.model.FormatApiSanPham;
+import vn.edu.stu.luanvantotnghiep.model.HinhAnh;
 import vn.edu.stu.luanvantotnghiep.model.KhuyenMai;
 import vn.edu.stu.luanvantotnghiep.model.LoaiSanPham;
 import vn.edu.stu.luanvantotnghiep.model.ModelSanPham;
 import vn.edu.stu.luanvantotnghiep.model.ModelSanPhamTonKho;
 import vn.edu.stu.luanvantotnghiep.model.NhaSanXuat;
 import vn.edu.stu.luanvantotnghiep.model.SanPham;
+import vn.edu.stu.luanvantotnghiep.service.IHinhAnhService;
 import vn.edu.stu.luanvantotnghiep.service.IKhuyenMaiService;
 import vn.edu.stu.luanvantotnghiep.service.ILoaiSanPhamService;
 import vn.edu.stu.luanvantotnghiep.service.INhaSanXuatService;
@@ -47,6 +49,8 @@ public class SanPhamController {
     private ILoaiSanPhamService loaiSanPhamService;
     @Autowired
     private INhaSanXuatService nhaSanXuatService;
+    @Autowired
+    private IHinhAnhService hinhAnhService;
     @Autowired
     private IKhuyenMaiService khuyenMaiService;
     @PersistenceContext(type = PersistenceContextType.EXTENDED)
@@ -170,6 +174,9 @@ public class SanPhamController {
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public FormatApi createSanPham(@RequestBody ModelSanPham sanPham) {
         SanPham data = new SanPham();
+        HinhAnh hinhAnh = hinhAnhService.findById(sanPham.getHinhAnh()).get();
+        List<HinhAnh> hinhAnhs = new ArrayList<>();
+        hinhAnhs.add(hinhAnh);
         data.setTenSanPham(sanPham.getTenSanPham());
         data.setGia(sanPham.getGia());
         data.setMoTa(sanPham.getMoTa());
@@ -177,6 +184,7 @@ public class SanPhamController {
         data.setBaoHanh(sanPham.getBaoHanh());
         data.setThuocTinhs(sanPham.getThuocTinhs());
         data.setNamRaMat(sanPham.getNamRaMat());
+        data.setHinhAnhs(hinhAnhs);
         SanPham save = sanPhamService.create(data);
         save = setDanhMucToSanPham(save.getId(), sanPham.getDanhMuc().getId());
         save = setNhaSanXuatToSanPham(save.getId(), sanPham.getNhaSanXuat().getId());
