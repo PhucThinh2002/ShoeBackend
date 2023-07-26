@@ -319,10 +319,10 @@ public class HoaDonController {
         List<ChiTietHoaDon> products = order.getChiTietHoaDons();
         for (ChiTietHoaDon product : products) {
             contentBuilder.append("<tr style='border: 1px solid black'>");
-            contentBuilder.append("<td>").append(product.getSanPham().getTenSanPham()).append("</td>");
+            contentBuilder.append("<td style='border: 1px solid black'>").append(product.getSanPham().getTenSanPham()).append("</td>");
             DecimalFormat formatter = new DecimalFormat("###,###,###");
-            contentBuilder.append("<td>").append(formatter.format(product.getGia())+" VNĐ").append("</td>");
-            contentBuilder.append("<td style='text-align:left'>").append(product.getSoLuong()).append("</td>");
+            contentBuilder.append("<td style='border: 1px solid black'>").append(formatter.format(product.getGia())+" VNĐ").append("</td>");
+            contentBuilder.append("<td style='border: 1px solid black; text-align:right'>").append(product.getSoLuong()).append("</td>");
             contentBuilder.append("</tr>");
         }
 
