@@ -56,12 +56,30 @@ public class SanPhamController {
     @PersistenceContext(type = PersistenceContextType.EXTENDED)
     private EntityManager entityManager;
 
-    @GetMapping("/sanpham")
+    @GetMapping("/sanphampage")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public FormatApi findAllSanPham(@RequestParam(defaultValue = "10") Integer limit,
             @RequestParam(defaultValue = "10") Integer currentpage) {
         Page<SanPham> lstSanPham = sanPhamService.findAll(limit, currentpage);
         if (lstSanPham.getSize() > 0) {
+            FormatApi result = new FormatApi();
+            result.setData(lstSanPham);
+            result.setMessage("Thành công!");
+            result.setStatus(HttpStatus.OK);
+            return result;
+        } else {
+            FormatApi result = new FormatApi();
+            result.setData(lstSanPham);
+            result.setMessage("Không có dữ liệu sản phẩm!");
+            result.setStatus(HttpStatus.NO_CONTENT);
+            return result;
+        }
+    }
+    @GetMapping("/sanpham")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    public FormatApi findAllSanPham() {
+        List<SanPham> lstSanPham = sanPhamService.findAll();
+        if (lstSanPham.size() > 0) {
             FormatApi result = new FormatApi();
             result.setData(lstSanPham);
             result.setMessage("Thành công!");

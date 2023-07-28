@@ -120,4 +120,10 @@ public class SanPhamServicImpl implements ISanPhamService{
         // TODO Auto-generated method stub
         return sanPhamRepository.countByDanhMuc(loaiSanPham);
     }
+
+    @Override
+    public List<SanPham> findAll() {
+        // TODO Auto-generated method stub
+        return sanPhamRepository.findAll();
+    }
 }

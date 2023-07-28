@@ -11,6 +11,7 @@ import vn.edu.stu.luanvantotnghiep.model.SanPham;
 
 public interface ISanPhamService {
     Page<SanPham> findAll(Integer limit, Integer currentpage);
+    List<SanPham> findAll();
     Page<SanPham> findSanPhamActive(Integer limit, Integer currentpage);
     Optional<SanPham> findById(Integer id);
     SanPham create(SanPham sanPham);
