@@ -11,7 +11,7 @@
 	<groupId>vn.edu.stu</groupId>
 	<artifactId>shoplaptop</artifactId>
 	<packaging>war</packaging>
-	<!-- <version>0.0.1-SNAPSHOT</version> -->
+	<version>0.0.1-SNAPSHOT</version>
 	<name>shoplaptop</name>
 	<description>Shop LapTop</description>
 	<properties>
