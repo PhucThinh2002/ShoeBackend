@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>vn.edu.stu</groupId>
 	<artifactId>shoplaptop</artifactId>
-	<!-- <packaging>war</packaging> -->
+	<packaging>war</packaging>
 	<!-- <version>0.0.1-SNAPSHOT</version> -->
 	<name>shoplaptop</name>
 	<description>Shop LapTop</description>
