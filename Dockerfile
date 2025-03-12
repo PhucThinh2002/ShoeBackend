@@ -1,16 +1,15 @@
-FROM maven:3-openjdk-17 AS build
-WORKDIR /app
-
-COPY . .
-RUN mvn clean package -DskipTests
-
-
-# Run stage
-
+# Sử dụng image Java chính thức
 FROM openjdk:17-jdk-slim
-WORKDIR /app
 
-COPY --from=build /target/DrComputer-0.0.1-SNAPSHOT.war drcomputer.war
-EXPOSE 8080 
+# Đặt biến môi trường cho ứng dụng
+ENV APP_HOME=/app
+WORKDIR $APP_HOME
 
-ENTRYPOINT ["java","-jar","drcomputer.war"]
+# Sao chép file WAR vào container
+COPY target/shoplaptop.war shoplaptop.war
+
+# Chạy ứng dụng Spring Boot với lệnh java -jar
+CMD ["java", "-jar", "shoplaptop.war"]
+
+# lệnh build bằng Maven Wrapper
+#mvnw.cmd clean package -DskipTests
