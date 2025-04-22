@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
-import javax.persistence.PersistenceException;
-import javax.persistence.Query;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.PersistenceContextType;
+import jakarta.persistence.PersistenceException;
+import jakarta.persistence.Query;
 
 import org.hibernate.QueryException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -392,6 +392,7 @@ public class SanPhamController {
     public FormatApi search(@RequestParam("keyword") String keyword) throws PersistenceException, QueryException {
         Query query = entityManager.createNamedQuery("SanPham.findSanPham").setParameter("keyword",
                 "%" + keyword + "%");
+        @SuppressWarnings("unchecked")
         List<SanPham> lstSanPham = query.getResultList();
         System.out.println("số lượng sản phẩm search = " + lstSanPham.size());
         if (!lstSanPham.isEmpty()) {
@@ -410,6 +411,7 @@ public class SanPhamController {
 
     }
 
+    @SuppressWarnings("unchecked")
     @GetMapping("/sanphamfilter")
     public FormatApi filter(@RequestParam("nhasanxuat") String nhaSanXuat,
             @RequestParam("loaisanpham") String loaisanpham,

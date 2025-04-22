@@ -73,7 +73,6 @@ public class HinhAnhController {
         try {
             Files.copy(hinhAnh.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         HinhAnh save = new HinhAnh();

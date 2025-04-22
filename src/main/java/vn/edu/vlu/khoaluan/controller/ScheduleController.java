@@ -38,7 +38,7 @@ public class ScheduleController {
     @Autowired
     private INhaSanXuatService nhaSanXuatService;
 
-    @Scheduled(cron = "00 40 1 * * ?")
+    @Scheduled(cron = "00 00 7 * * ?")
     public void scheduleFixedDelayTask() {
         dashBoardService.scheduleEveryDay();
     }

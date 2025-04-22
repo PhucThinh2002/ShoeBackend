@@ -72,7 +72,7 @@ public class SanPhamServicImpl implements ISanPhamService{
 
     @Override
     public Integer countSanPham() {
-        // TODO Auto-generated method stub
+        
         return sanPhamRepository.countByTrangThai(1);
     }
     @Override
@@ -105,25 +105,23 @@ public class SanPhamServicImpl implements ISanPhamService{
 
     @Override
     public List<SanPham> findBySoLuongTon(Integer soLuongTon, Integer trangThai) {
-        // TODO Auto-generated method stub
+        
         return sanPhamRepository.findBySoLuongTonAndTrangThai(soLuongTon, trangThai);
     }
 
     @Override
     public Integer countSPByNhaSanXuat(NhaSanXuat nhaSanXuat) {
-        // TODO Auto-generated method stub
+        
         return sanPhamRepository.countByNhaSanXuat(nhaSanXuat);
     }
 
     @Override
     public Integer countSPByLoaiSanPham(LoaiSanPham loaiSanPham) {
-        // TODO Auto-generated method stub
         return sanPhamRepository.countByDanhMuc(loaiSanPham);
     }
 
     @Override
     public List<SanPham> findAll() {
-        // TODO Auto-generated method stub
         return sanPhamRepository.findAll();
     }
 }

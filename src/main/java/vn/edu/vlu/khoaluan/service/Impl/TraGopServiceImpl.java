@@ -17,31 +17,26 @@ public class TraGopServiceImpl implements ITraGopService{
 
     @Override
     public TraGop create(TraGop traGop) {
-        // TODO Auto-generated method stub
         return traGopRepository.save(traGop);
     }
 
     @Override
     public TraGop delete(Integer id) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public List<TraGop> findAll() {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public Optional<TraGop> findById(Integer id) {
-        // TODO Auto-generated method stub
         return Optional.empty();
     }
 
     @Override
     public TraGop update(TraGop traGop) {
-        // TODO Auto-generated method stub
         return null;
     }
     

@@ -1,6 +1,7 @@
 package vn.edu.vlu.khoaluan.security;
 
 import org.springframework.data.domain.AuditorAware;
+import org.springframework.lang.NonNull;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -11,15 +12,21 @@ import java.util.Optional;
 public class SpringSecurityAuditorAware implements AuditorAware<Integer> {
 
     @Override
+    @NonNull
     public Optional<Integer> getCurrentAuditor() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null || !authentication.isAuthenticated()) {
-            return null;
-        }
-        if (authentication.getPrincipal() == "anonymousUser") {
-            return Optional.of(1);
-        }
-        return Optional.of(((UserPrincipal) authentication.getPrincipal()).getUserId());
-    }
 
+        if (authentication == null || !authentication.isAuthenticated() || 
+            "anonymousUser".equals(authentication.getPrincipal())) {
+            return Optional.empty();
+        }
+
+        Object principal = authentication.getPrincipal();
+        if (principal instanceof UserPrincipal) {
+            Integer userId = ((UserPrincipal) principal).getUserId();
+            return Optional.ofNullable(userId);
+        }
+        
+        return Optional.empty();
+    }
 }

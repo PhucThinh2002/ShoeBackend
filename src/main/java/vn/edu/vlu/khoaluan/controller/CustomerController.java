@@ -57,14 +57,14 @@ public class CustomerController {
     public ResponseEntity<List<Customer>> getAllCustomer(){
         List<Customer> lstCus = gCustomerService.findAllCustmer();
         if(lstCus != null) return new ResponseEntity<>(lstCus, HttpStatus.OK);
-        return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
     @GetMapping("/customer/{id}")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CUSTOMER')")
     public ResponseEntity<Customer> getCustomerById(@PathVariable("id") int id){
         Customer cus = gCustomerService.findCustomerById(id);
         if(cus != null) return new ResponseEntity<>(cus, HttpStatus.OK);
-        return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
     @PostMapping("/customer/register")
     public ResponseEntity<?> createCustomer( @RequestBody ModelUser customer){
@@ -167,7 +167,7 @@ public class CustomerController {
         try {
             Customer resultCus = gCustomerService.updateCusomer(customer, id);
             if(resultCus != null) return new ResponseEntity<>(resultCus, HttpStatus.OK);
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return ResponseEntity.unprocessableEntity()
                     .body("Failed to Update specified Customer: " + e.getCause().getCause().getMessage());

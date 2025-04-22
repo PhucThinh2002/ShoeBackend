@@ -13,10 +13,10 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import vn.edu.vlu.khoaluan.model.Token;
 import vn.edu.vlu.khoaluan.service.TokenService;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashSet;
@@ -31,6 +31,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     @Autowired
     private TokenService verificationTokenService;
 
+    @SuppressWarnings({ "unchecked", "null" })
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {

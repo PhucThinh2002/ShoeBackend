@@ -37,7 +37,7 @@ public class DistrictServiceImpl implements IDistrictService{
 
     @Override
     public District delete(Long id) {
-        // TODO Auto-generated method stub
+        
         throw new UnsupportedOperationException("Unimplemented method 'delete'");
     }
 

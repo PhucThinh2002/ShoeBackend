@@ -2,7 +2,7 @@ package vn.edu.vlu.khoaluan.model;
 
 import java.util.Set;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name ="province")

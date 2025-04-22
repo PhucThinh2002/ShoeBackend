@@ -12,7 +12,8 @@ public class UserPrincipal implements UserDetails {
     private int userId;
     private String username;
     private String password;
-    private Collection authorities;
+    @SuppressWarnings("rawtypes")
+	private Collection authorities;
 
     @Override
     public boolean isAccountNonExpired() {
@@ -79,6 +80,7 @@ public class UserPrincipal implements UserDetails {
 	/**
 	 * @return the authorities
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Collection getAuthorities() {
 		return authorities;
 	}
@@ -86,7 +88,7 @@ public class UserPrincipal implements UserDetails {
 	/**
 	 * @param authorities the authorities to set
 	 */
-	public void setAuthorities(Collection authorities) {
+	public void setAuthorities(@SuppressWarnings("rawtypes") Collection authorities) {
 		this.authorities = authorities;
 	}
 }

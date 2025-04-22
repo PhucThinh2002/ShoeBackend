@@ -16,19 +16,19 @@ public class HinhAnhServiecImpl implements IHinhAnhService{
     private HinhAnhRepository hinhAnhRepository;
     @Override
     public HinhAnh create(HinhAnh hinhAnh) {
-        // TODO Auto-generated method stub
+        
         return hinhAnhRepository.save(hinhAnh);
     }
 
     @Override
     public HinhAnh delete(Integer id) {
-        // TODO Auto-generated method stub
+        
         return null;
     }
 
     @Override
     public List<HinhAnh> findAll() {
-        // TODO Auto-generated method stub
+        
         return null;
     }
 

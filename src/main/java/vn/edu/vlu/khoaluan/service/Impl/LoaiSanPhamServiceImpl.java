@@ -59,7 +59,7 @@ public class LoaiSanPhamServiceImpl implements ILoaiSanPhamService{
 
     @Override
     public Integer countLoaiSanPham() {
-        // TODO Auto-generated method stub
+        
         return loaiSanPhamRepository.countByActive(1);
     }
     @Override

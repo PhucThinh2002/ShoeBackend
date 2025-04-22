@@ -3,7 +3,7 @@ package vn.edu.vlu.khoaluan.model;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;

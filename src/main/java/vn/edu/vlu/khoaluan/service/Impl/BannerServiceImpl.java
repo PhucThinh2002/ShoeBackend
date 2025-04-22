@@ -62,7 +62,7 @@ public class BannerServiceImpl implements IBannerService{
 
     @Override
     public List<Banner> findAllByActive() {
-        // TODO Auto-generated method stub
+        
         return bannerRepository.findAllBannerActive();
     }
     

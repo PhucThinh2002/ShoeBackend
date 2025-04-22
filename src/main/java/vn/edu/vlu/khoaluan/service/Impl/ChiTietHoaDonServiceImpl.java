@@ -18,31 +18,31 @@ public class ChiTietHoaDonServiceImpl implements IChiTietHoaDonService{
 
     @Override
     public ChiTietHoaDon create(ChiTietHoaDon chiTietHoaDon) {
-        // TODO Auto-generated method stub
+        
         return chiTietHoaDonRepository.save(chiTietHoaDon);
     }
 
     @Override
     public ChiTietHoaDon delete(Integer id) {
-        // TODO Auto-generated method stub
+        
         return null;
     }
 
     @Override
     public List<ChiTietHoaDon> findAll() {
-        // TODO Auto-generated method stub
+        
         return null;
     }
 
     @Override
     public Optional<ChiTietHoaDon> findById(Integer id) {
-        // TODO Auto-generated method stub
+        
         return Optional.empty();
     }
 
     @Override
     public ChiTietHoaDon update(ChiTietHoaDon chiTietHoaDon) {
-        // TODO Auto-generated method stub
+        
         return null;
     }
     

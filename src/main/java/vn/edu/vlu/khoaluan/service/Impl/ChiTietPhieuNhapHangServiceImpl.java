@@ -21,25 +21,25 @@ public class ChiTietPhieuNhapHangServiceImpl  implements IChiTietPhieuNhapHangSe
 
     @Override
     public ChiTietPhieuNhapHang delete(Integer id) {
-        // TODO Auto-generated method stub
+        
         return null;
     }
 
     @Override
     public List<ChiTietPhieuNhapHang> findAll() {
-        // TODO Auto-generated method stub
+        
         return null;
     }
 
     @Override
     public Optional<ChiTietPhieuNhapHang> findById(Integer id) {
-        // TODO Auto-generated method stub
+        
         return Optional.empty();
     }
 
     @Override
     public ChiTietPhieuNhapHang update(ChiTietPhieuNhapHang chiTietPhieuNhapHang) {
-        // TODO Auto-generated method stub
+        
         return null;
     }
     

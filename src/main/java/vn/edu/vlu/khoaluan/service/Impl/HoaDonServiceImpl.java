@@ -18,25 +18,25 @@ public class HoaDonServiceImpl implements IHoaDonService{
 
     @Override
     public HoaDon create(HoaDon hoaDon) {
-        // TODO Auto-generated method stub
+        
         return hoaDonRepository.save(hoaDon);
     }
 
     @Override
     public HoaDon delete(Integer id) {
-        // TODO Auto-generated method stub
+        
         return null;
     }
 
     @Override
     public List<HoaDon> findAll() {
-        // TODO Auto-generated method stub
+        
         return hoaDonRepository.findAll();
     }
 
     @Override
     public Optional<HoaDon> findById(Integer id) {
-        // TODO Auto-generated method stub
+        
         return hoaDonRepository.findById(id);
     }
 
@@ -118,7 +118,7 @@ public class HoaDonServiceImpl implements IHoaDonService{
 
     @Override
     public List<HoaDon> find10HoaDons() {
-        // TODO Auto-generated method stub
+        
         return hoaDonRepository.findFirst10ByTrangThaiOrderByCreateDateDesc(1);
     }
     

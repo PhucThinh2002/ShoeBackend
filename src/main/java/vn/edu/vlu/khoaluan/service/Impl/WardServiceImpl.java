@@ -17,13 +17,11 @@ public class WardServiceImpl implements IWardService{
     private WardRepository wardRepository;
     @Override
     public Ward create(Ward ward) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public Ward delete(Long id) {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -39,7 +37,6 @@ public class WardServiceImpl implements IWardService{
 
     @Override
     public Ward update(Ward ward) {
-        // TODO Auto-generated method stub
         return null;
     }
 

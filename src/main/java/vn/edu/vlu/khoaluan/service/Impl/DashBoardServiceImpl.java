@@ -58,12 +58,12 @@ public class DashBoardServiceImpl implements IDashBoardService{
     private INhaSanXuatService nhaSanXuatService;
     @Override
     public DashBoard create(DashBoard dashBoard) {
-        // TODO Auto-generated method stub
+        
         return dashBoardRepository.save(dashBoard);
     }
     @Override
     public DashBoard findByDateBefore() {
-        // TODO Auto-generated method stub
+        
         Calendar cal = Calendar.getInstance();
         int date = cal.get(Calendar.DATE) - 1;
         int month = cal.get(Calendar.MONTH);
@@ -73,7 +73,7 @@ public class DashBoardServiceImpl implements IDashBoardService{
     }
     @Override
     public DashBoard getValueInDateNow(){
-        // TODO Auto-generated method stub
+        
         Integer active = 1;
         Calendar cal = Calendar.getInstance();
         // int date = cal.get(Calendar.DATE) -1;

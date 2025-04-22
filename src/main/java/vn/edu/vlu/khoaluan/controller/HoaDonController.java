@@ -1,13 +1,11 @@
 package vn.edu.vlu.khoaluan.controller;
 
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
-import org.apache.commons.math3.stat.descriptive.summary.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -101,6 +99,7 @@ public class HoaDonController {
         }
         
     }
+    @SuppressWarnings("unused")
     @PostMapping("/hoadon")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CUSTOMER')")
     public FormatApi createHoaDon(@RequestBody ModelHoaDon hoaDon){

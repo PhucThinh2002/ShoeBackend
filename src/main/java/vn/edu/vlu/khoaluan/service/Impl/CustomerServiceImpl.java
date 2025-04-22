@@ -10,7 +10,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import vn.edu.vlu.khoaluan.model.Customer;
-import vn.edu.vlu.khoaluan.model.Province;
 import vn.edu.vlu.khoaluan.model.Role;
 import vn.edu.vlu.khoaluan.repository.CustomerRepository;
 import vn.edu.vlu.khoaluan.repository.ProvinceRepository;
@@ -23,6 +22,7 @@ public class CustomerServiceImpl implements ICustomerService{
     private CustomerRepository gCustomerRepository;
     @Autowired
     private RoleRepository gRoleRepository;
+    @SuppressWarnings("unused")
     @Autowired
     private ProvinceRepository gProvinceRepository;
 
@@ -132,13 +132,13 @@ public class CustomerServiceImpl implements ICustomerService{
 
     @Override
     public Customer findByUsernameAndEmail(String username, String email) {
-        // TODO Auto-generated method stub
+        
         return gCustomerRepository.findByUsernameAndEmail(username, email);
     }
 
     @Override
     public Customer updatePassword(Customer customer) {
-        // TODO Auto-generated method stub
+        
         return gCustomerRepository.save(customer);
     }
 }
