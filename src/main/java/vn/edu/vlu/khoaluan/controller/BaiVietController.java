@@ -130,7 +130,7 @@ public class BaiVietController {
             result.setMessage("Thành công!");
             result.setStatus(HttpStatus.OK);
             return result;
-        }else{
+        }else{  
             FormatApi result = new FormatApi();
             result.setData(crtBaiViet);
             result.setMessage("Sửa bài viết không thành công!");

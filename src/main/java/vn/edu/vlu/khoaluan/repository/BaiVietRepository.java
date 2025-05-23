@@ -9,3 +9,4 @@ import vn.edu.vlu.khoaluan.model.BaiViet;
 public interface BaiVietRepository extends JpaRepository<BaiViet, Integer>{
     List<BaiViet> findByActive(Integer active);
 }
+    

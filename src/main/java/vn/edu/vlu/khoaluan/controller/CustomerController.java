@@ -69,10 +69,10 @@ public class CustomerController {
     @PostMapping("/customer/register")
     public ResponseEntity<?> createCustomer( @RequestBody ModelUser customer){
         try {
-            // Province thanhPho = provinceService.findById(customer.getProvince()).get();
-            // District huyen = districtService.findById(customer.getDistrict()).get();
-            // Ward xa = wardService.findById(customer.getWard()).get();
-            Customer data = new Customer();
+                // Province thanhPho = provinceService.findById(customer.getProvince()).get();
+                // District huyen = districtService.findById(customer.getDistrict()).get();
+                // Ward xa = wardService.findById(customer.getWard()).get();
+            Customer data = new Customer(); 
             data.setHoTenLot(customer.getHoTenLot());
             data.setEmail(customer.getEmail());
             data.setTen(customer.getTen());
